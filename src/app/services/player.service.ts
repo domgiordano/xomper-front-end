@@ -46,7 +46,7 @@ export class PlayerService {
     if (this.player) return;
 
     this.player = new (window as any).Spotify.Player({
-      name: 'Xomify Player',
+      name: 'Xomper Player',
       getOAuthToken: (cb: (token: string) => void) => cb(this.accessToken),
       volume: 0.5,
     });
@@ -128,7 +128,7 @@ export class PlayerService {
       )
       .subscribe({
         next: () => {
-          console.log('Playback transferred to Xomify app');
+          console.log('Playback transferred to Xomper app');
           this.playerTransfered = true;
         },
         error: (err) => console.error('Error transferring playback', err),

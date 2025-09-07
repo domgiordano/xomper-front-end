@@ -81,7 +81,7 @@ export class MyProfileComponent implements OnInit {
     console.log('Updating User Table ...'); 
     this.UserService.updateUserTableRefreshToken().pipe(take(1)).subscribe({
       next: xomUser => {
-        console.log("Updated Xomify USER Table------", xomUser);
+        console.log("Updated Xomper USER Table------", xomUser);
         this.wrappedEnrolled = xomUser.activeWrapped;
         this.releaseRadarEnrolled = xomUser.activeReleaseRadar;
         this.loading = false;
@@ -126,7 +126,7 @@ export class MyProfileComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: xomUser => {
-          console.log("Updated Xomify USER Table------", xomUser);
+          console.log("Updated Xomper USER Table------", xomUser);
           this.UserService.setReleaseRadarEnrollment(this.releaseRadarEnrolled);
           this.UserService.setWrappedEnrollment(this.wrappedEnrolled);
         },

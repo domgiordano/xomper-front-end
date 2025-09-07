@@ -9,7 +9,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
-  title = 'XOMIFY';
+  title = 'XOMPER';
 
   constructor(
     private AuthService: AuthService

@@ -1,8 +1,8 @@
-# Xomify
+# Xomper
 
 Spotify API app Angular FE
 
-https://xomify.com - email dominickj.giordano@gmail.com to get whitelisted (dev mode)
+https://xomper.com - email dominickj.giordano@gmail.com to get whitelisted (dev mode)
 
 * FE Repo: https://github.com/domgiordano/angular-spotify
 * BE Repo: https://github.com/domgiordano/python-spotify

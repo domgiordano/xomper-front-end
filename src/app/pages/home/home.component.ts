@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    title = 'XOMIFY';
+    title = 'XOMPER';
 
     constructor(
       private AuthService: AuthService,

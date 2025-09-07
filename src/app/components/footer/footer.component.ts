@@ -76,7 +76,7 @@ export class FooterComponent implements OnInit {
       const formattedDate = today.toISOString().split('T')[0];
       let currentTopSongs = [];
       let playlistName = '';
-      let playlistDesc = 'Top songs created by https://xomify.com';
+      let playlistDesc = 'Top songs created by https://xomper.com';
 
       if (currentTerm == 'short_term') {
         currentTopSongs = this.SongService.getShortTermTopTracks();

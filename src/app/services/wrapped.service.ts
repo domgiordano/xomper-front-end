@@ -8,13 +8,13 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class WrappedService {
-  private xomifyApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
+  private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
   private readonly apiAuthToken = environment.apiAuthToken;
   constructor(private http: HttpClient) {}
 
   // Method to get user wrapped data based on the selected term (short, medium, long)
   getUserWrappedData(email: string): Observable<any> {
-    const url = `${this.xomifyApiUrl}/wrapped/data?email=${email}`;
+    const url = `${this.xomperApiUrl}/wrapped/data?email=${email}`;
     const headers = {
         Authorization: `Bearer ${this.apiAuthToken}`,
         'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export class WrappedService {
     topArtistIdsTwoMonthsAgo: any = {'short_term': [], 'med_term': [], 'long_term': []},
     topGenresTwoMonthsAgo: any = {'short_term': [], 'med_term': [], 'long_term': []}): Observable<any> {
 
-    const url = `${this.xomifyApiUrl}/wrapped/data`;
+    const url = `${this.xomperApiUrl}/wrapped/data`;
     const body =  {
           email: email,
           userId: id,

@@ -18,7 +18,7 @@ export class UserService implements OnInit {
   activeWrapped: boolean = false;
   activeReleaseRadar: boolean = false;
   private baseUrl = 'https://api.spotify.com/v1';
-  private xomifyApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
+  private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
   private readonly apiAuthToken = environment.apiAuthToken;
 
   constructor(
@@ -42,7 +42,7 @@ export class UserService implements OnInit {
 
   updateUserTableRefreshToken(): Observable<any> {
         this.refreshToken = this.AuthService.getRefreshToken();
-        const url = `${this.xomifyApiUrl}/user/user-table`;
+        const url = `${this.xomperApiUrl}/user/user-table`;
         const body =  {
           email: this.user.email,
           refreshToken: this.refreshToken
@@ -56,7 +56,7 @@ export class UserService implements OnInit {
 
   updateUserTableEnrollments(wrappedEnrolled: boolean, releaseRadarEnrolled: boolean): Observable<any> {
         this.refreshToken = this.AuthService.getRefreshToken();
-        const url = `${this.xomifyApiUrl}/user/user-table`;
+        const url = `${this.xomperApiUrl}/user/user-table`;
         const body =  {
           email:  this.user.email,
           wrappedEnrolled: wrappedEnrolled,
