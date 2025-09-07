@@ -1,0 +1,61 @@
+<div class="top-songs-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="switch-container">
+    <div class="term-buttons">
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'short_term'}"
+        (click)="selectedTerm = 'short_term'; onTermChange()">
+        Last Month
+      </button>
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'medium_term'}"
+        (click)="selectedTerm = 'medium_term'; onTermChange()">
+        Last 6 Months
+      </button>
+      <button
+        class="term-button"
+        [ngClass]="{'selected': selectedTerm === 'long_term'}"
+        (click)="selectedTerm = 'long_term'; onTermChange()">
+        Last Year
+      </button>
+    </div>
+  </div>
+
+  <div class="songs-grid">
+    <div class="song-card" *ngFor="let song of displayedSongs; let i = index"
+      [ngClass]="{ 'flipped': song.flipped }" (mouseenter)="playSong(song.id)"
+      (mouseleave)="stopSong()"
+    >
+      <div class="card-content">
+        <!-- Front of the card -->
+        <div class="card-front">
+          <span class="song-ranking">#{{ i + 1 }}</span>
+          <img [src]="song.album.images[0].url" alt="{{ song.name }}" class="song-image">
+          <h2 class="song-title">{{ song.name }}</h2>
+          <p class="song-artists">{{ formatArtists(song.artists) }}</p>
+          <button class="see-more-button" (click)="flipCard(song)">See More</button>
+        </div>
+
+        <!-- Back of the card -->
+        <div class="card-back">
+          <span class="song-ranking">#{{ i + 1 }}</span>
+          <h3 class="song-title">{{ selectedSong.name }}</h3>
+          <p class="song-stats">Duration: {{ selectedSong.duration }}</p>
+          <p class="song-stats">Acousticness: {{ selectedSong.acousticness }}</p>
+          <p class="song-stats">Danceability: {{ selectedSong.danceability }}</p>
+          <p class="song-stats">Energy: {{ selectedSong.energy }}</p>
+          <p class="song-stats">Instrumentalness: {{ selectedSong.instrumentalness }}</p>
+          <p class="song-stats">Liveness: {{ selectedSong.liveness }}</p>
+          <p class="song-stats">Loudness: {{ selectedSong.loudness }}</p>
+          <p class="song-stats">Speechiness: {{ selectedSong.speechiness }}</p>
+          <p class="song-stats">Tempo: {{ selectedSong.tempo }}</p>
+          <p class="song-stats">Valence: {{ selectedSong.valence }}</p>
+          <button class="see-more-button" (click)="flipCardBack(song)">Go Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <audio #audioPlayer></audio>
+</div>

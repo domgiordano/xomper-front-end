@@ -1,0 +1,97 @@
+.toolbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px; // You can adjust this to reduce space
+  width: 100%;
+  display: flex;
+  align-items: center; // Center items vertically
+  position: relative; // Positioning context for dropdown
+}
+
+.app-title {
+  margin-right: auto; // Keep logo on the left
+}
+
+// Centering the tabs for the full web version
+.tabs {
+  display: flex; // Make tabs a flex container
+  justify-content: left; // Center tabs within the toolbar
+  flex-grow: 1; // Allow tabs to take available space
+}
+
+.dropdown-button {
+  display: none; // Hide by default
+  cursor: pointer;
+  margin-left: 10px; // Space from tabs
+}
+
+// Show dropdown button only on mobile
+@media (max-width: 768px) {
+  .dropdown-button {
+    display: block; // Show on mobile
+    margin-left: auto; // Push it to the right
+    margin-right: 10px; // Add some spacing from the right
+    font-size: 24px; // Adjust font size for better visibility
+  }
+
+  .tabs {
+    display: none; // Hide tabs when dropdown is visible
+  }
+
+  .hidden {
+    display: none; // Hide tabs when dropdown is visible
+  }
+
+  .dropdown {
+    position: absolute; // Position dropdown correctly
+    top: 100%; // Position below the toolbar
+    left: 0; // Align left
+    right: 0; // Full width
+    background-color: #333; // Match toolbar background
+    z-index: 1000; // Ensure dropdown is above other content
+    display: block; // Show the dropdown when visible
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Add shadow for better visibility
+  }
+}
+
+.dropdown {
+  display: none; // Hidden by default
+  flex-direction: column; // Stack items vertically
+}
+
+.show-dropdown .dropdown {
+  display: block; // Show dropdown when visible
+}
+
+.tabs a,
+.dropdown a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px 10px; // Padding for spacing
+  margin: 5px 10px; // Add margin to dropdown items
+  border-radius: 5px; // Rounded corners
+}
+
+.dropdown a {
+  display: block; // Stack items vertically
+}
+
+.tabs a:hover,
+.dropdown a:hover {
+  background-color: #555; // Hover effect
+}
+
+.tabs a.active,
+.dropdown a.active,
+.tabs a.selected,
+.dropdown a.selected {
+  background-color: black;
+  color: #1bdc6f;
+}
+
+.banner-icon {
+  width: 175px;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}

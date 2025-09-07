@@ -1,0 +1,154 @@
+.profile-page {
+  display: flex;
+  justify-content: flex-start; /* Align items to the top */
+  align-items: flex-start; /* Align items to the left */
+  padding: 20px; /* Add padding around the profile */
+  height: 100vh; /* Full viewport height */
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.profile-container {
+  text-align: center;
+  background-color: #282828; /* Card background */
+  border-radius: 10px;
+  padding: 40px; /* Increase padding for larger tile */
+  width: 400px; /* Increased width for the profile card */
+  height: 500px; /* Increased height for the profile card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+.profile-header {
+  margin-bottom: 30px; /* Space between header and stats */
+}
+
+.profile-pic {
+  width: 200; /* Increased size of profile picture */
+  height: 200px; /* Increased size of profile picture */
+  border-radius: 50%; /* Circular profile picture */
+  object-fit: cover; /* Cover image */
+  border: 2px solid #9c0abf; /* Green border */
+}
+
+.user-name {
+  margin-top: 10px; /* Space between picture and name */
+  font-size: 28px; /* Increased font size for name */
+}
+
+.user-email {
+  font-size: 18px; /* Increased font size for email */
+  color: #b3b3b3; /* Light gray color for email */
+  margin-top: 5px; /* Space between name and email */
+}
+
+.profile-stats {
+  display: flex; /* Flex layout for stats */
+  justify-content: center; /* Center stats */
+}
+
+.stat-item {
+  text-align: center; /* Center align stats */
+  margin: 0 30px; /* Space between stats */
+}
+
+.stat-count {
+  font-size: 24px; /* Increased font size for count */
+  font-weight: bold; /* Bold text */
+}
+
+.stat-label {
+  font-size: 16px; /* Increased font size for label */
+  color: #b3b3b3; /* Light gray text for labels */
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px; // spacing between buttons
+  margin-top: 2rem; // spacing above buttons
+  flex-wrap: wrap; // ensures buttons won't overflow on small screens
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%; /* above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.06s ease-in-out; /* instant */
+  background: rgba(0, 0, 0, 0.95);
+  color: #fff;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.action-button {
+  border: none;
+  border-radius: 25px;
+  height: 50px;               /* consistent height */
+  width: 240px;               /* fixed width so both equal */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  color: white;               /* always white text */
+  text-align: center;
+  box-sizing: border-box;     /* keeps padding inside width */
+  overflow: hidden;           /* prevents text spill */
+
+  &:disabled {
+    background-color: grey !important;
+    border: none !important;
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
+
+  &.wrapped {
+    background-color: #1db954; // Spotify green
+
+    &:hover:not(:disabled) {
+      background-color: #17a74b;
+    }
+
+    &.active {
+      background-color: black;
+      border: 2px solid #1db954;
+
+      &:hover:not(:disabled) {
+        background-color: #222;
+      }
+    }
+  }
+
+  &.radar {
+    background-color: #9c0abf; // Purple
+
+    &:hover:not(:disabled) {
+      background-color: #7e089c;
+    }
+
+    &.active {
+      background-color: black;
+      border: 2px solid #9c0abf;
+
+      &:hover:not(:disabled) {
+        background-color: #222;
+      }
+    }
+  }
+}

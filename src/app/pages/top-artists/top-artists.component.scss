@@ -1,0 +1,153 @@
+.top-artists-page {
+  padding: 20px;
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.switch-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.switch input {
+  display: none; /* Hide the radio button */
+}
+
+.slider {
+  background-color: #9c0abf; /* New Purp */
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+}
+
+.artists-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  max-height: calc(100vh - 150px); /* Adjust based on your toolbar height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Optional: Add padding to avoid clipping scrollbar */
+}
+
+// Class to fade out cards
+.fade-out {
+  opacity: 0; /* Fade out effect */
+}
+
+.fade-in {
+  opacity: 1; /* Fade in effect */
+}
+
+.artist-card {
+  opacity: 1; /* Default opacity */
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  flex-direction: column; /* Stack elements vertically */
+  background-color: #282828; /* Dark card background */
+  border-radius: 10px;
+  padding: 10px; /* Padding inside the card */
+  text-align: center;
+  justify-content: space-between;
+  margin: 10px;
+  flex: 0 1 calc(20% - 20px); /* Set width to 20% minus margins for 5 cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  max-width: calc(20% - 20px); /* Maximum width for each card */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  &:hover {
+    background-color: #9c0abf; /* Change background on hover */
+    transform: scale(1.05); /* Slightly enlarge the card */
+    cursor: pointer; /* Change cursor to pointer */
+    .artist-ranking {
+      color: white; /* Change rank text color to black on hover */
+    }
+    .see-more-button {
+      background-color: black;
+    }
+  }
+}
+
+.artist-image {
+  width: auto; /* Full width of the card */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover; /* Cover the space without distortion */
+  border-radius: 5px; /* Rounded corners for the image */
+  align-self: center;
+}
+
+.artist-title {
+  font-size: 16px; /* Adjust title font size */
+  margin: 5px 0; /* Spacing around title */
+}
+
+.artist-artists {
+  font-size: 12px; /* Adjust artists font size */
+  color: #b3b3b3; /* Light gray color */
+}
+
+.artist-ranking {
+  display: block; /* Make it a block element */
+  font-size: 14px; /* Adjust ranking font size */
+  color: #1bdc6f; /* New Purp color */
+  margin-bottom: 10px; /* Space below the ranking */
+}
+
+.term-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; // Adjust spacing as needed
+}
+
+.term-button {
+  background-color: white; // Default color
+  color: black; // Text color
+  border: none;
+  border-radius: 25px; // More rounded corners
+  padding: 12px 30px; // Increased padding for a longer button
+  margin: 0 10px; // Space between buttons
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px; // Adjust font size as needed
+
+  &:hover {
+    background-color: #9c0abf; // Highlight on hover
+    color: white;
+  }
+}
+
+.selected {
+  background-color: #1bdc6f; // Color for selected button
+  color: white; // Change text color for visibility
+}
+.see-more-button {
+  background-color: #9c0abf; /* New Purp */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin-top: 10px; /* Space from the content above */
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    color: #1bdc6f
+  }
+}
+
+@media (max-width: 768px) {
+  .artist-card {
+    flex: 0 1 100%; /* Ensure full width for one card per row */
+    max-width: none; /* Remove maximum width constraints */
+    margin: 10px 0; /* Add some margin for spacing */
+  }
+}
+

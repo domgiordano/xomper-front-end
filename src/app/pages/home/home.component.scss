@@ -1,0 +1,30 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Align items to the top */
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  padding-top: 50px; /* Add some padding from the top */
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.welcome-message {
+  font-size: 32px; /* Adjust font size for the welcome message */
+  margin-bottom: 20px; /* Space between message and button */
+}
+
+.login-button {
+  background-color: #9c0abf; /* New Purp */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 25px; /* Rounded button */
+  padding: 10px 20px; /* Button padding */
+  font-size: 18px; /* Font size */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Transition for hover effect */
+
+  &:hover {
+    background-color: darken(#9c0abf, 10%); /* Darker purp on hover */
+  }
+}

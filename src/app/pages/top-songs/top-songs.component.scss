@@ -1,0 +1,197 @@
+.top-songs-page {
+  padding: 20px;  // Added padding to the outer container
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.switch-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.term-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; // Adjust spacing as needed
+}
+
+.term-button {
+  background-color: white; // Default color
+  color: black; // Text color
+  border: none;
+  border-radius: 25px; // More rounded corners
+  padding: 12px 30px; // Increased padding for a longer button
+  margin: 0 10px; // Space between buttons
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px; // Adjust font size as needed
+
+  &:hover {
+    background-color: #9c0abf; // Highlight on hover
+    color: white;
+  }
+}
+
+.selected {
+  background-color: #1bdc6f; // Color for selected button
+  color: white; // Change text color for visibility
+}
+
+.songs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+  max-height: calc(100vh - 150px); /* Adjust based on your toolbar height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Optional: Add padding to avoid clipping scrollbar */
+}
+
+// Media query for mobile responsiveness
+@media (max-width: 768px) {
+  .song-card {
+    width: calc(100% - 20px); // Show one card per row with padding
+    margin: 10px 0; // Add vertical margin between cards
+  }
+}
+
+// Class to fade out cards
+.fade-out {
+  opacity: 0; /* Fade out effect */
+}
+
+.fade-in {
+  opacity: 1; /* Fade in effect */
+}
+
+.song-card {
+  perspective: 1000px;
+  width: calc(20% - 20px);  // Show 4 cards per row on larger screens
+  height: 350px;  // Height for content
+  position: relative;
+  opacity: 1;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  justify-content: space-between;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  overflow: hidden;  // Prevent content from overflowing outside the card
+
+  .card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  // Ensure even spacing between content and button
+    flex-grow: 1;  // Allow content area to expand and keep button fixed
+  }
+
+  &.flipped .card-content {
+    transform: rotateY(180deg);
+  }
+
+  .card-front,
+  .card-back {
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #282828;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    background-color: #282828;
+  }
+
+  .song-image {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    align-self: center;
+  }
+  .song-stats {
+    font-size: 12px;  // Smaller font for stats
+    color: white;  // Lighter grey for stats text
+    margin: 2px 0;  // Reduce spacing between stats
+    line-height: 1.2;  // Adjust line height for tighter spacing
+  }
+
+  .song-title {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+
+  .song-artists {
+    font-size: 12px;
+    color: white;
+  }
+
+  .song-ranking {
+    font-size: 14px;
+    color: #1bdc6f;
+    margin-bottom: 10px;
+  }
+
+  .see-more-button {
+    background-color: #9c0abf; // Original color restored
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin-top: auto;  // Button stays at the bottom
+    transition: background-color 0.3s;
+    align-self: center;  // Center button
+
+    &:hover {
+      background-color: black;
+      color: #1bdc6f;
+    }
+  }
+
+  &:hover {
+    background-color: #9c0abf;
+    transform: scale(1.05);
+
+    .card-front,
+    .card-back {
+      background-color: #9c0abf;
+    }
+
+    .song-ranking {
+      color: white;
+    }
+
+    .see-more-button {
+      background-color: black;
+    }
+  }
+}
+
+@media (max-width: 768px) { /* Adjust the max-width as necessary for your breakpoints */
+  .song-card {
+    width: 100%; /* Full width for one card per row */
+    max-width: none; /* Remove any maximum width */
+    margin: 10px 0; /* Add some margin for spacing */
+  }
+}

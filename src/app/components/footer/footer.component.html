@@ -1,0 +1,16 @@
+<footer class="footer">
+  <div class="left-section">
+    <span>&#64;domgiordano on Github</span>
+  </div>
+  <div class="middle-section">
+    <button class="footer-button" *ngIf="showDynamicButton" (click)="handleDynamicButtonClick()">
+      {{ footerButtonText }}
+    </button>
+    <div class="spacer" *ngIf="!showDynamicButton"></div>
+  </div>
+  <div class="right-section">
+    <button class="footer-button" (click)="openGitHubRepo()">
+      Check the code out
+    </button>
+  </div>
+</footer>

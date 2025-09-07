@@ -1,0 +1,81 @@
+/* Application-wide Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+body {
+  margin: 0; /* Remove default margin */
+}
+
+body, input[type="text"], button {
+  color: #333;
+  font-family: Cambria, Georgia, serif;
+}
+
+button {
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: black;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+}
+
+button:disabled {
+  background-color: #eee;
+  color: #aaa;
+  cursor: auto;
+}
+
+/* Set html and body to full height */
+html, body {
+  height: 100%;
+  margin: 0; /* Remove default margin */
+}
+
+/* App container styles */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Ensure the container takes the full height of the viewport
+  padding: 0; // Ensure no padding around the container
+}
+
+app-toolbar {
+  flex: 0 0 auto; /* Toolbar takes its own height */
+  width: 100%;
+  margin: 0; // Ensure no margin
+}
+
+.content {
+  padding: 0; // Removed padding to ensure tight fit
+  flex: 1; // This will take all available space
+  margin: 0; // Ensure no margin
+  overflow-y: auto; // Allow vertical scrolling if needed
+}
+
+.content > * {
+  margin: 0; // Reset margins on all direct child elements of content
+}
+
+app-footer {
+  flex: 0 0 auto; /* Footer takes its own height */
+  width: 100%;
+}

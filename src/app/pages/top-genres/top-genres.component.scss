@@ -1,0 +1,66 @@
+.top-genres-page {
+  padding: 20px;
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.switch-container {
+  margin-bottom: 20px;
+}
+
+.term-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; // Adjust spacing as needed
+}
+
+.term-button {
+  background-color: white; // Default color
+  color: black; // Text color
+  border: none;
+  border-radius: 25px; // More rounded corners
+  padding: 12px 30px; // Increased padding for a longer button
+  margin: 0 10px; // Space between buttons
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px; // Adjust font size as needed
+
+  &:hover {
+    background-color: #9c0abf; // Highlight on hover
+  }
+}
+
+.selected {
+  background-color: #1bdc6f; // Color for selected button
+  color: white; // Change text color for visibility
+}
+
+.genres-list {
+  display: flex;
+  flex-direction: column; /* Stack genres vertically */
+  gap: 10px; /* Space between items */
+}
+
+.genre-item {
+  background-color: #282828; /* Dark background for genre item */
+  border-radius: 5px;
+  padding: 10px; /* Space inside the item */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+  display: flex;
+  align-items: center; /* Center items vertically */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.genre-item:hover {
+  background-color: #9c0abf; /* New Purp on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.genre-ranking {
+  margin-right: 10px; /* Space between ranking and genre name */
+}
+
+.highlighted {
+  background-color: #9c0abf; /* Keep the highlighted color consistent */
+  transform: scale(1.05); /* Slightly enlarge while hovered */
+}

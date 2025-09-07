@@ -1,0 +1,34 @@
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #9c0abf, #1bdc6f); /* Gradient from purple to green */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it appears on top */
+}
+
+.spinner {
+  border: 8px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #9c0abf; /* Top of spinner in purple */
+  border-right-color: #1bdc6f; /* Right side of spinner in green */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: white; /* Change text color to white for better visibility */
+}

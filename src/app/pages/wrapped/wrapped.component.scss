@@ -1,0 +1,102 @@
+.monthly-wrapped-page {
+  padding: 20px;
+  background-color: #121212;
+  color: #ffffff;
+
+  .opt-in-section,
+  .no-data-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #9c0abf;
+    border-radius: 10px;
+    max-width: 600px;
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .opt-in-button {
+      background-color: #9c0abf;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #17a74b; /* Slightly darker green on hover */
+      }
+    }
+  }
+
+  .charts-section {
+    .charts-container {
+      margin-bottom: 30px;
+
+      h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .chart {
+        display: flex;
+        flex-direction: column;
+
+        .chart-item {
+          display: flex;
+          justify-content: space-between;
+          background-color: #282828; /* Grey card background */
+          padding: 10px;
+          border-radius: 5px;
+          margin: 5px 0;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #9c0abf; /* Green on hover */
+          }
+
+          .ranking {
+            font-size: 16px;
+            color: #9c0abf;
+          }
+
+          .name {
+            font-size: 16px;
+            flex: 1;
+            text-align: left;
+            margin-left: 10px;
+          }
+
+          .change-indicator {
+            font-size: 16px;
+
+            &.up {
+              color: green;
+            }
+
+            &.down {
+              color: red;
+            }
+
+            &.same {
+              color: gray;
+            }
+
+            &.new {
+              color: green;
+            }
+          }
+        }
+      }
+    }
+  }
+}

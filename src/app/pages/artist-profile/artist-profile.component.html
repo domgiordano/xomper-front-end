@@ -1,0 +1,44 @@
+<div class="artist-profile-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="artist-card">
+    <div class="artist-header">
+      <h1 class="artist-title">{{ artist.name }}</h1>
+      <p class="artist-ranking">Popularity: {{ artist.popularity }}/100</p>
+    </div>
+
+    <div class="artist-content">
+      <div class="artist-image-container">
+        <img [src]="artist.image" alt="{{ artist.name }}" class="artist-image" />
+      </div>
+
+      <div class="top-songs">
+        <h2>Top Tracks</h2>
+        <div *ngFor="let song of artist.topTracks | slice:0:5; let i = index" class="song-card" (mouseover)="playSong(song.id)" (mouseleave)="stopSong()">
+          <span class="song-ranking">{{ i + 1 }}.</span>
+          <img [src]="song.image" alt="{{ song.name }} cover" class="song-cover" />
+          <div class="song-details">
+            <h3 class="song-title">{{ song.name }}</h3>
+            <p class="song-artists">{{ formatArtists(song.artists) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-artists">
+      <h2>Related Artists</h2>
+      <div class="carousel">
+        <button (click)="previousRelatedArtists()" [disabled]="isPreviousDisabled()"
+                [ngClass]="{'inactive': isPreviousDisabled()}">&lt;</button>
+        <div class="carousel-container">
+          <div *ngFor="let artist of visibleRelatedArtists" class="related-artist-card">
+            <img [src]="artist.image" alt="{{artist.name}}" class="related-artist-image">
+            <p class="related-artist-name">{{ artist.name }}</p>
+            <button class="see-more-btn" (click)="goToArtist(artist.id)">See More</button>
+          </div>
+        </div>
+        <button (click)="nextRelatedArtists()" [disabled]="isNextDisabled()"
+                [ngClass]="{'inactive': isNextDisabled()}">&gt;</button>
+      </div>
+    </div>
+  </div>
+</div>

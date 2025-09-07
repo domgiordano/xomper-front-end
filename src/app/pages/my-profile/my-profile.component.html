@@ -1,0 +1,49 @@
+<div class="profile-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img [src]="profilePicture" alt="User Profile Picture" class="profile-pic">
+      <h1 class="user-name">{{ userName }}</h1>
+      <p class="user-email">{{ email }}</p>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat-item">
+        <span class="stat-count">{{ followersCount }}</span>
+        <span class="stat-label"> Followers </span>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <div class="tooltip-container">
+        <button
+          (click)="toggleWrapped()"
+          [disabled]="disableEnrollButtons"
+          class="action-button wrapped"
+          [class.active]="wrappedEnrolled">
+          {{ wrappedEnrolled ? 'Unenroll in Wrapped' : 'Enroll in Wrapped' }}
+        </button>
+
+        <!-- instant custom tooltip (only present when buttons are disabled) -->
+        <span class="tooltip-text" *ngIf="disableEnrollButtons">
+          {{ maxReached ? 'Prolly enuff changes ya think??' : 'Inactive rn - let this button breathe bruv' }}
+        </span>
+      </div>
+
+      <div class="tooltip-container">
+        <button
+          (click)="toggleReleaseRadar()"
+          [disabled]="disableEnrollButtons"
+          class="action-button radar"
+          [class.active]="releaseRadarEnrolled">
+          {{ releaseRadarEnrolled ? 'Unenroll in Release Radar' : 'Enroll in Release Radar' }}
+        </button>
+
+        <!-- instant custom tooltip (only present when buttons are disabled) -->
+        <span class="tooltip-text" *ngIf="disableEnrollButtons">
+          {{ maxReached ? 'Prolly enuff changes ya think??' : 'Inactive rn - let this button breathe bruv' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
