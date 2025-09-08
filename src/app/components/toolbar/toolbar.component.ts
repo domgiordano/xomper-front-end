@@ -1,7 +1,6 @@
 // toolbar.component.ts
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // Adjust the path as necessary
 
 @Component({
   selector: 'app-toolbar',
@@ -12,7 +11,6 @@ export class ToolbarComponent implements OnInit {
   dropdownVisible = false;
   isMobile: boolean;
   constructor(
-    private AuthService: AuthService,
     private router: Router
     ) {
       this.checkIfMobile();
@@ -48,9 +46,6 @@ export class ToolbarComponent implements OnInit {
     this.isMobile = window.innerWidth <= 768; // Adjust this threshold as needed
   }
 
-  isLoggedIn(): boolean {
-    return this.AuthService.isLoggedIn();
-  }
   isSelected(route: string): boolean {
     return this.router.url === route;
   }

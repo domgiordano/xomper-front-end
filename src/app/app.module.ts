@@ -7,32 +7,25 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { FormsModule } from '@angular/forms';
-import { MyProfileComponent } from './pages/my-profile/my-profile.component';
-import { TopSongsComponent } from './pages/top-songs/top-songs.component';
-import { TopArtistsComponent } from './pages/top-artists/top-artists.component';
-import { TopGenresComponent } from './pages/top-genres/top-genres.component';
-import { PlaylistGeneratorComponent } from './pages/playlist-generator/playlist-generator.component';
-import { WrappedComponent } from './pages/wrapped/wrapped.component';
-import { AuthService } from './services/auth.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ToastComponent } from './components/toast/toast.component';
-import { ArtistProfileComponent } from './pages/artist-profile/artist-profile.component';
 import { SwiperModule } from 'swiper/angular';
 import { FooterComponent } from './components/footer/footer.component';
+import { SearchComponent } from './pages/search/search.component';
+import { MyLeagueComponent } from './pages/my-league/my-league.component';
+import { MyProfileComponent } from './pages/my-profile/my-profile.component';
+import { LeagueService } from './services/league.service';
+import { UserService } from './services/user.service';
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    MyProfileComponent,
-    TopSongsComponent,
-    TopArtistsComponent,
-    TopGenresComponent,
-    PlaylistGeneratorComponent,
-    WrappedComponent,
     LoaderComponent,
     ToastComponent,
-    ArtistProfileComponent,
-    FooterComponent
+    FooterComponent,
+    SearchComponent,
+    MyLeagueComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +35,7 @@ import { FooterComponent } from './components/footer/footer.component';
     SwiperModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthService],
+  providers: [LeagueService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

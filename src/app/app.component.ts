@@ -1,7 +1,7 @@
 // Main file - Angular Spotify
-import { Component, OnDestroy
- } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { Component, OnDestroy } from '@angular/core';
+import { LeagueService } from './services/league.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +12,11 @@ export class AppComponent implements OnDestroy {
   title = 'XOMPER';
 
   constructor(
-    private AuthService: AuthService
+    private LeagueService: LeagueService,
+    private UserService: UserService
   ) {}
   ngOnDestroy(): void {
-    this.AuthService.logout();
+    this.LeagueService.reset();
+    this.UserService.reset();
   }
 }

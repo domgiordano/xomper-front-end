@@ -4,35 +4,27 @@
   </h2>
 
   <div class="tabs" [ngClass]="{'hidden': dropdownVisible}">
-    <div *ngIf="isLoggedIn()">
+    <div>
+      <a routerLink="/search" routerLinkActive="active" [ngClass]="{'selected': isSelected('/search')}">
+        Search
+      </a>
       <a routerLink="/my-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
         My Profile
       </a>
-      <a routerLink="/top-songs" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-songs')}">
-        Top Songs
+      <a routerLink="/my-league" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
+        My League
       </a>
-      <a routerLink="/top-artists" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-artists')}">
-        Top Artists
-      </a>
-      <a routerLink="/top-genres" routerLinkActive="active" [ngClass]="{'selected': isSelected('/top-genres')}">
-        Top Genres
-      </a>
-      <!-- <a routerLink="/wrapped" routerLinkActive="active" [ngClass]="{'selected': isSelected('/wrapped')}">
-        Monthly Wrapped
-      </a> -->
     </div>
   </div>
 
   <!-- Dropdown Button -->
-  <div class="dropdown-button" *ngIf="isLoggedIn()" (click)="toggleDropdown()">
+  <div class="dropdown-button" (click)="toggleDropdown()">
     ☰
   </div>
 
   <div class="dropdown" *ngIf="dropdownVisible">
+    <a routerLink="/search" routerLinkActive="active" (click)="selectItem('/search')">Search</a>
     <a routerLink="/my-profile" routerLinkActive="active" (click)="selectItem('/my-profile')">My Profile</a>
-    <a routerLink="/top-songs" routerLinkActive="active" (click)="selectItem('/top-songs')">Top Songs</a>
-    <a routerLink="/top-artists" routerLinkActive="active" (click)="selectItem('/top-artists')">Top Artists</a>
-    <a routerLink="/top-genres" routerLinkActive="active" (click)="selectItem('/top-genres')">Top Genres</a>
-    <!-- <a routerLink="/wrapped" routerLinkActive="active" (click)="selectItem('/wrapped')">Monthly Wrapped</a> -->
+    <a routerLink="/my-league" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
   </div>
 </div>

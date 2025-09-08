@@ -9,9 +9,10 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
-  private currentUserId = "";
-  private currentUser = null;
+export class LeagueService {
+
+  private currentLeagueId = "";
+  private currentLeague = null;
   private baseUrl = 'https://api.sleeper.app/v1';
   constructor(
     private http: HttpClient,
@@ -19,13 +20,12 @@ export class UserService {
     private ToastService: ToastService
     ) {}
 
-  searchUser(userId: string): Observable <any> {
-    const url = `${this.baseUrl}/user/${userId}`;
+  searchLeague(leagueId: string): Observable<any> {
+    const url = `${this.baseUrl}/league/${leagueId}`;
     return this.http.get(url);
   }
-
-  userSelected(): boolean {
-    if (!this.currentUser) {
+  leagueSelected(): boolean {
+    if (!this.currentLeague) {
       return false;
     }
     else{
@@ -34,15 +34,15 @@ export class UserService {
   }
 
   reset(): void {
-    this.currentUserId = "";
-    this.currentUser = null;
+    this.currentLeagueId = "";
+    this.currentLeague = null;
   }
-  setUser(user: any): void {
-    this.currentUser = user;
+  setLeague(league: any): void {
+    this.currentLeague = league;
   }
-  getUser(): any {
-    return this.currentUser;
+
+  getLeague(): any {
+    return this.currentLeague;
   }
 
 }
-

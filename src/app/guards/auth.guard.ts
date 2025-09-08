@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { LeagueService } from '../services/league.service';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private AuthService: AuthService, private router: Router) {}
+  constructor(
+    private LeagueService: LeagueService, 
+    private UserService: UserService,
+    private router: Router,
+    private ToastService: ToastService
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-    const isLoggedIn = this.AuthService.isLoggedIn(); // Adjust based on your AuthService implementation
+    const url = state.url;
 
-    // If the user is not logged in and trying to access anything except /home
-    if (!isLoggedIn && state.url !== '/home') {
-      this.router.navigate(['/home']);
-      return false; // Prevent navigation to the route
+    if (url.includes('my-league')) {
+      if (this.LeagueService.leagueSelected()) {
+        return true;
+      } else {
+        this.ToastService.showNegativeToast("User View Selected. Search a league to continue.")
+        return false;
+      }
     }
 
-    // If the user is logged in and tries to access /home, redirect them to another route
-    if (isLoggedIn && state.url === '/home') {
-      this.router.navigate(['/my-profile']); // or another route
-      return false; // Prevent access to /home
+    if (url.includes('my-profile')) {
+      if (this.UserService.userSelected()) {
+        return true;
+      } else {
+        this.ToastService.showNegativeToast("League View Selected. Search a User to continue.")
+        return false;
+      }
     }
 
-    return true; // Allow access to the route
+    // Default allow all other routes
+    return true;
   }
 }

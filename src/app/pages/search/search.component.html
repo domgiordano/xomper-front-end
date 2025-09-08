@@ -1,0 +1,36 @@
+<div class="search-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="welcome-message">Welcome to Xomper!</div>
+
+  <div class="search-box">
+    <div class="search-container">
+      <!-- League ID Search -->
+      <input 
+        type="text" 
+        class="search-input"
+        placeholder="Search by Sleeper League ID"
+        [(ngModel)]="leagueId"
+        (input)="onLeagueInput()"
+        [disabled]="userId.length > 0"
+        [title]="userId.length > 0 ? 'Clear User Search to Search by League.' : ''"
+      />
+
+      <!-- OR Divider -->
+      <div class="or-divider"><span>OR</span></div>
+
+      <!-- User ID Search -->
+      <input 
+        type="text" 
+        class="search-input"
+        placeholder="Search by User ID"
+        [(ngModel)]="userId"
+        (input)="onUserInput()"
+        [disabled]="leagueId.length > 0"
+        [title]="leagueId.length > 0 ? 'Clear League Search to Search by User.' : ''"
+      />
+
+      <!-- Search Button -->
+      <button class="search-button" (click)="search()">Search</button>
+    </div>
+  </div>
+</div>
