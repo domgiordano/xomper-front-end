@@ -45,7 +45,7 @@
 
   &:focus {
     outline: none;
-    border-color: #9c0abf;
+    border-color: #bf0a0a;
   }
 
   &:disabled {
@@ -82,7 +82,7 @@
 
 .search-button {
   width: 100%;
-  background-color: #9c0abf;
+  background-color: #bf0a0a;
   color: #ffffff;
   border: none;
   border-radius: 25px;
@@ -93,7 +93,7 @@
   transition: background-color 0.3s, transform 0.2s;
 
   &:hover {
-    background-color: darken(#9c0abf, 10%);
+    background-color: darken(#bf0a0a, 10%);
     transform: translateY(-2px);
   }
 

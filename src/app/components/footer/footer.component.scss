@@ -20,7 +20,7 @@ footer {
   }
 
   .footer-button {
-    background-color: #9c0abf; /* New Purp */
+    background-color: #bf0a0a; /* New Purp */
     color: white;
     border: none;
     border-radius: 20px;
@@ -31,7 +31,7 @@ footer {
     text-decoration: none;
 
     &:hover {
-      background-color: darken(#9c0abf, 10%); /* Darker purp on hover */
+      background-color: darken(#bf0a0a, 10%); /* Darker purp on hover */
     }
   }
 
