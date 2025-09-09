@@ -1,6 +1,7 @@
 <div class="profile-page">
   <app-loader [loading]="loading"></app-loader>
   <div class="profile-container">
+    <!-- Profile header -->
     <div class="profile-header">
       <img 
         [src]="profilePicture ? profilePicture : 'assets/img/nfl.png'" 
@@ -9,6 +10,27 @@
         class="profile-pic"
       >
       <h1 class="user-name">{{ userName }}</h1>
+    </div>
+
+    <!-- League Section Header -->
+    <h2 class="leagues-title">2025 Leagues</h2>
+
+    <!-- League cards -->
+    <div class="leagues-list">
+      <div class="league-card" *ngFor="let league of userLeagues">
+        <img 
+          [src]="league.avatar ? 'https://sleepercdn.com/avatars/' + league.avatar : 'assets/img/nfl.png'" 
+          (error)="league.avatar='assets/img/nfl.png'" 
+          alt="{{ league.name }}" 
+          class="league-avatar"
+        >
+        <div class="league-info">
+          <h2 class="league-name">{{ league.name }}</h2>
+        </div>
+        <button class="league-more-btn" [routerLink]="['/league']" [queryParams]="{ id: league.league_id }">
+          More
+        </button>
+      </div>
     </div>
   </div>
 </div>

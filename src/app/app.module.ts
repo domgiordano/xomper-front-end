@@ -13,6 +13,7 @@ import { SwiperModule } from 'swiper/angular';
 import { FooterComponent } from './components/footer/footer.component';
 import { SearchComponent } from './pages/search/search.component';
 import { MyLeagueComponent } from './pages/my-league/my-league.component';
+import { LeagueComponent } from './pages/league/league.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { LeagueService } from './services/league.service';
 import { UserService } from './services/user.service';
@@ -25,7 +26,8 @@ import { UserService } from './services/user.service';
     FooterComponent,
     SearchComponent,
     MyLeagueComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    LeagueComponent
   ],
   imports: [
     BrowserModule,

@@ -22,7 +22,7 @@ export class MyLeagueComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-      console.log("My Profile Init.")
+      console.log("My League Init.")
       this.league = this.LeagueService.getLeague();
       this.profilePicture = `https://sleepercdn.com/avatars/${this.league.avatar}`;
       this.leagueName = this.league.name;
