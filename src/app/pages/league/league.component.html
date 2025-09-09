@@ -1,0 +1,14 @@
+<div class="search-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img 
+        [src]="profilePicture ? profilePicture : 'assets/img/nfl.png'" 
+        (error)="profilePicture='assets/img/nfl.png'" 
+        alt="User Profile Picture" 
+        class="profile-pic"
+      >
+      <h1 class="league-name">{{ leagueName }}</h1>
+    </div>
+  </div>
+</div>

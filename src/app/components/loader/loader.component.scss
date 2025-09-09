@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #9c0abf, #1bdc6f); /* Gradient from purple to green */
+  background: linear-gradient(135deg, #bf0a0a, #1b8edc); /* Gradient from purple to green */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,8 +14,8 @@
 
 .spinner {
   border: 8px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #9c0abf; /* Top of spinner in purple */
-  border-right-color: #1bdc6f; /* Right side of spinner in green */
+  border-top-color: #bf0a0a; /* Top of spinner in purple */
+  border-right-color: #1b8edc; /* Right side of spinner in green */
   border-radius: 50%;
   width: 50px;
   height: 50px;

@@ -12,10 +12,13 @@
   text-align: center;
   background-color: #282828; /* Card background */
   border-radius: 10px;
-  padding: 40px; /* Increase padding for larger tile */
-  width: 400px; /* Increased width for the profile card */
-  height: 500px; /* Increased height for the profile card */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  padding: 40px;
+  width: 400px;
+  min-height: 500px; /* let it grow instead of fixed height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .profile-header {
@@ -27,7 +30,7 @@
   height: 200px; /* Increased size of profile picture */
   border-radius: 50%; /* Circular profile picture */
   object-fit: cover; /* Cover image */
-  border: 2px solid #9c0abf; /* Green border */
+  border: 2px solid #bf0a0a; /* Green border */
 }
 
 .user-name {
@@ -62,4 +65,68 @@
 .tooltip-container:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+}
+
+.leagues-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%; /* stretch inside main card */
+}
+
+.league-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #383838; /* dark card to match profile */
+  color: #ffffff; /* make text visible */
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.leagues-title {
+  margin: 10px 0 15px 0;
+  font-size: 1.4rem;
+  color: #ffffff;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1px solid #444; /* subtle separator */
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+.league-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px; /* rounded square */
+  object-fit: cover;
+  margin-right: 12px;
+  background: #222; /* fallback background if no image loads */
+}
+
+.league-info {
+  flex: 1;
+  text-align: left;
+}
+
+.league-name {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.league-more-btn {
+  background-color: #1b8edc; /* blue */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #1470ad; /* darker blue on hover */
+  }
 }
