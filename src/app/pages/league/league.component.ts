@@ -28,12 +28,10 @@ export class LeagueComponent implements OnInit {
 
     ngOnInit(): void {
       console.log("League Init.")
-      this.route.queryParams.subscribe(params => {
-        this.leagueId = params['id'];
-        this.league = this.UserService.getLeagueById(this.leagueId);
-        this.leagueName = this.league.name;
-        this.profilePicture = `https://sleepercdn.com/avatars/${this.league.avatar}`;
-      });
+      this.league = this.LeagueService.getCurrentLeague();
+      this.leagueId = this.LeagueService.getCurrentLeagueId();
+      this.leagueName = this.LeagueService.getCurrentLeagueName();
+      this.profilePicture = this.LeagueService.getCurrentLeagueProfilePicture();
     }
 
 }

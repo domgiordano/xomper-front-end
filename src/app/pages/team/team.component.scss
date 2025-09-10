@@ -1,0 +1,69 @@
+.team-page {
+  display: flex;
+  justify-content: flex-start; /* Align items to the top */
+  align-items: flex-start; /* Align items to the left */
+  padding: 20px; /* Add padding around the team */
+  height: 100vh; /* Full viewport height */
+  background-color: #121212; /* Black background */
+  color: #ffffff; /* White text color */
+}
+
+.team-container {
+  text-align: center;
+  background-color: #282828; /* Card background */
+  border-radius: 10px;
+  padding: 40px;
+  width: 400px;
+  min-height: 500px; /* let it grow instead of fixed height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-header {
+  margin-bottom: 30px; /* Space between header and stats */
+}
+
+.team-pic {
+  width: 200; /* Increased size of team picture */
+  height: 200px; /* Increased size of team picture */
+  border-radius: 50%; /* Circular team picture */
+  object-fit: cover; /* Cover image */
+  border: 2px solid #bf0a0a; /* Green border */
+}
+
+.team-name {
+  margin-top: 10px; /* Space between picture and name */
+  font-size: 28px; /* Increased font size for name */
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  bottom: 125%; /* above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.06s ease-in-out; /* instant */
+  background: rgba(0, 0, 0, 0.95);
+  color: #fff;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+

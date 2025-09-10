@@ -1,0 +1,16 @@
+<div class="team-page">
+  <app-loader [loading]="loading"></app-loader>
+  <div class="team-container">
+    <!-- team header -->
+    <div class="team-header">
+      <img 
+        [src]="teamPicture ? teamPicture : 'assets/img/nfl.png'" 
+        (error)="teamPicture='assets/img/nfl.png'" 
+        alt="Team Picture" 
+        class="team-pic"
+      >
+      <h1 class="team-name">{{ teamName }}</h1>
+    </div>
+
+  </div>
+</div>
