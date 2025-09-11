@@ -57,7 +57,7 @@ export class TeamService {
     }
 
     getPlayerById(playerId: string): Observable<Player> {
-        const url = `${this.xomperApiUrl}/player-data`;
+        const url = `${this.xomperApiUrl}/player/data`;
         const headers = new HttpHeaders({
             Authorization: `Bearer ${this.apiAuthToken}`,
             'Content-Type': 'application/json'
