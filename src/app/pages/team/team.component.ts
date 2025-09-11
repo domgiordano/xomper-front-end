@@ -46,7 +46,7 @@ export class TeamComponent implements OnInit {
       const playerCalls = this.teamRoster.players.map((playerId: string) =>
         this.TeamService.getPlayerById(playerId)
       );
-
+      // Call at once
       forkJoin(playerCalls).subscribe({
         next: (results: Player[]) => {
           this.teamPlayers = results;
