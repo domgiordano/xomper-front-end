@@ -1,76 +1,128 @@
-// auth.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.interface';
+import { League } from '../models/league.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserId = "";
-  private currentUser = null;
-  private currentUserName = "";
+  private myUser: User | null = null;
+  private currentUser: User | null = null;
+  private myUserLeagues: Record<string, League[]> = {};
+  private currentUserLeagues: Record<string, League[]> = {};
+
   private baseUrl = 'https://api.sleeper.app/v1';
-  private leagues = {};
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    private ToastService: ToastService
-    ) {}
+    private toastService: ToastService
+  ) {}
 
-  searchUser(userId: string): Observable <any> {
+  // ---- API CALLS ----
+  searchUser(userId: string): Observable<User> {
     const url = `${this.baseUrl}/user/${userId}`;
-    return this.http.get(url);
+    return this.http.get<User>(url);
   }
 
-  userSelected(): boolean {
-    if (!this.currentUser) {
-      return false;
-    }
-    else{
-      return true;
-    }
+  findMyUserLeagues(season: string = '2025'): Observable<League[]> {
+    const url = `${this.baseUrl}/user/${this.myUser?.user_id}/leagues/nfl/${season}`;
+    return this.http.get<League[]>(url);
+  }
+
+  findCurrentUserLeagues(season: string = '2025'): Observable<League[]> {
+    const url = `${this.baseUrl}/user/${this.currentUser?.user_id}/leagues/nfl/${season}`;
+    return this.http.get<League[]>(url);
+  }
+
+  // ---- USER STATE ----
+  myUserSelected(): boolean {
+    return !!this.myUser;
+  }
+  currentUserSelected(): boolean {
+    return !!this.currentUser;
   }
 
   reset(): void {
-    this.currentUserId = "";
-    this.currentUserName = "";
+    this.myUser = null;
+    this.myUserLeagues = {};
     this.currentUser = null;
-    this.leagues = {};
+    this.currentUserLeagues = {};
   }
 
-  setUser(user: any): void {
-    this.currentUser = user;
-    this.currentUserId = this.currentUser.user_id;
-    this.currentUserName = this.currentUser.username;
+  setMyUser(user: User): void {
+    this.myUser = user;
   }
-  getUser(): any {
+  setCurrentUser(user: User): void {
+    this.currentUser = user;
+  }
+
+  getMyUser(): User | null {
+    return this.myUser;
+  }
+  getCurrentUser(): User | null {
     return this.currentUser;
   }
-  setLeagues(newLeagues: any): void {
-    newLeagues.forEach(league => {
-      const season = league.season;
-      const id = league.league_id;
-      if (!this.leagues[season]) {
-        this.leagues[season] = {}; // Create object for the year if missing
-      }
 
-      this.leagues[season][id] = league;
+  // ---- LEAGUES ----
+  setMyUserLeagues(newLeagues: League[]): void {
+    newLeagues.forEach((league) => {
+      const season = league.season;
+      if (!this.myUserLeagues[season]) {
+        this.myUserLeagues[season] = [];
+      }
+      this.myUserLeagues[season].push(league);
     });
   }
-  getLeagueById(leagueId: string, season: string = "2025"): any {
-    return this.leagues[season][leagueId];
-  }
-  getLeagues(): any {
-    return this.leagues;
-  }
-  getUserLeagues(season: String = "2025"): Observable <any> {
-    const url = `${this.baseUrl}/user/${this.currentUserId}/leagues/nfl/${season}`
-    return this.http.get(url);
+
+  setCurrentUserLeagues(newLeagues: League[]): void {
+    newLeagues.forEach((league) => {
+      const season = league.season;
+      if (!this.currentUserLeagues[season]) {
+        this.currentUserLeagues[season] = [];
+      }
+      this.currentUserLeagues[season].push(league);
+    });
   }
 
+  getMyUserLeagues(season: string = '2025'): League[] {
+    return this.myUserLeagues[season] ?? [];
+  }
+
+  getCurrentUserLeagues(season: string = '2025'): League[] {
+    return this.currentUserLeagues[season] ?? [];
+  }
+
+  getMyUserId(): string {
+    return this.myUser?.user_id ?? '';
+  }
+  getCurrentUserId(): string {
+    return this.currentUser?.user_id ?? '';
+  }
+
+  getMyUserName(): string {
+    return this.myUser?.display_name ?? '';
+  }
+  getCurrentUserName(): string {
+    return this.currentUser?.display_name ?? '';
+  }
+
+  getMyUserProfilePicture(): string {
+    return this.myUser?.avatar
+      ? `https://sleepercdn.com/avatars/${this.myUser.avatar}`
+      : 'assets/img/nfl.png';
+  }
+
+  getCurrentUserProfilePicture(): string {
+    return this.currentUser?.avatar
+      ? `https://sleepercdn.com/avatars/${this.currentUser.avatar}`
+      : 'assets/img/nfl.png';
+  }
+  buildAvatar(avatar: string): string {
+    return `https://sleepercdn.com/avatars/${avatar}`
+  }
 }
-

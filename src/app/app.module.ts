@@ -17,6 +17,8 @@ import { LeagueComponent } from './pages/league/league.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { LeagueService } from './services/league.service';
 import { UserService } from './services/user.service';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { TeamComponent } from './pages/team/team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,9 @@ import { UserService } from './services/user.service';
     SearchComponent,
     MyLeagueComponent,
     MyProfileComponent,
-    LeagueComponent
+    LeagueComponent,
+    ProfileComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,

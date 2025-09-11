@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
-import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-footer',

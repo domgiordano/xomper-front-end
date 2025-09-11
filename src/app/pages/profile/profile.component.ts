@@ -7,17 +7,15 @@ import { LeagueService } from 'src/app/services/league.service';
 
 @Component({
   selector: 'app-search',
-  templateUrl: './my-profile.component.html',
-  styleUrls: ['./my-profile.component.scss']
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
-export class MyProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit {
     private user;
     profilePicture = "";
     userName = ""
     userLeagues = {};
     loading = false;
-    // ordered fallback extensions
-    private fallbackExtensions = ['jpg', 'png', 'webp'];
 
     constructor(
       private UserService: UserService,
@@ -28,10 +26,10 @@ export class MyProfileComponent implements OnInit {
 
     ngOnInit(): void {
       console.log("My Profile Init.")
-      this.user = this.UserService.getMyUser();
-      this.profilePicture = this.UserService.getMyUserProfilePicture();
-      this.userName = this.UserService.getMyUserName();
-      this.userLeagues = this.UserService.getMyUserLeagues();
+      this.user = this.UserService.getCurrentUser();
+      this.profilePicture = this.UserService.getCurrentUserProfilePicture();
+      this.userName = this.UserService.getCurrentUserName();
+      this.userLeagues = this.UserService.getCurrentUserLeagues();
       if (Object.keys(this.UserService.getMyUserLeagues()).length === 0){
         this.loading = true;
         this.getUserLeagues();

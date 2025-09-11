@@ -41,14 +41,13 @@ export class SearchComponent implements OnInit {
 
     search() {
       this.loading = true;
-      this.LeagueService.reset();
-      this.UserService.reset();
       if (this.leagueId) {
+        this.LeagueService.reset();
         console.log('Searching by League ID:', this.leagueId);
         this.LeagueService.searchLeague(this.leagueId).pipe(take(1)).subscribe({
           next: league => {
             console.log("League Found------", league);
-            this.LeagueService.setLeague(league)
+            this.LeagueService.setMyLeague(league)
             this.ToastService.showPositiveToast("League Found.")
             
           },
@@ -63,11 +62,12 @@ export class SearchComponent implements OnInit {
           }
         });
       } else if (this.userId) {
+        this.UserService.reset();
         console.log('Searching by User ID:', this.userId);
         this.UserService.searchUser(this.userId).pipe(take(1)).subscribe({
           next: user => {
             console.log("User Found------", user);
-            this.UserService.setUser(user)
+            this.UserService.setMyUser(user)
             this.ToastService.showPositiveToast("User Found.")
           },
           error: err => {

@@ -14,6 +14,15 @@
       <a routerLink="/my-league" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
         My League
       </a>
+      <a routerLink="/selected-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/selected-profile')}">
+        Selected Profile
+      </a>
+      <a routerLink="/selected-league" routerLinkActive="active" [ngClass]="{'selected': isSelected('/selected-league')}">
+        Selected League
+      </a>
+      <a routerLink="/selected-team" routerLinkActive="active" [ngClass]="{'selected': isSelected('/selected-team')}">
+        Selected Team
+      </a>
     </div>
   </div>
 
@@ -26,5 +35,8 @@
     <a routerLink="/search" routerLinkActive="active" (click)="selectItem('/search')">Search</a>
     <a routerLink="/my-profile" routerLinkActive="active" (click)="selectItem('/my-profile')">My Profile</a>
     <a routerLink="/my-league" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
+    <a routerLink="/selected-profile" routerLinkActive="active" (click)="selectItem('/view-profile')">Selected Profile</a>
+    <a routerLink="/selected-league" routerLinkActive="active" (click)="selectItem('/view-league')">Selected League</a>
+    <a routerLink="/selected-team" routerLinkActive="active" (click)="selectItem('/view-team')">Selected Team</a>
   </div>
 </div>

@@ -1,14 +1,44 @@
-<div class="search-page">
+<div class="my-league-page">
   <app-loader [loading]="loading"></app-loader>
-  <div class="profile-container">
-    <div class="profile-header">
+
+  <!-- League Card -->
+  <div class="my-league-container">
+    <div class="my-league-header">
       <img 
-        [src]="profilePicture ? profilePicture : 'assets/img/nfl.png'" 
-        (error)="profilePicture='assets/img/nfl.png'" 
-        alt="User Profile Picture" 
-        class="profile-pic"
+        [src]="leaguePicture ? leaguePicture : 'assets/img/nfl.png'" 
+        (error)="leaguePicture='assets/img/nfl.png'" 
+        alt="League Picture" 
+        class="league-pic"
       >
       <h1 class="league-name">{{ leagueName }}</h1>
     </div>
+
+    <!-- Standings Table -->
+    <div class="standings">
+      <div class="standings-header">
+        <span>Team</span>
+        <span>User</span>
+        <span>Wins</span>
+        <span>Losses</span>
+        <span>Streak</span>
+        <span>FPTS For</span>
+        <span>FPTS Against</span>
+      </div>
+
+      <div class="standings-row" *ngFor="let team of standings">
+        <div class="team-info">
+          <img [src]="team.avatar" class="team-pic" alt="Team Avatar">
+          <span class="team-name">{{ team.teamName }}</span>
+        </div>
+        <span class="user-name">{{ team.userName }}</span>
+        <span>{{ team.wins }}</span>
+        <span>{{ team.losses }}</span>
+        <span [ngClass]="{'win-streak': team.streak.type==='win', 'loss-streak': team.streak.type==='loss'}">
+          {{ team.streak.type==='win' ? 'W' : 'L' }}{{ team.streak.total }}
+        </span>
+        <span>{{ team.fpts.toFixed(2) }}</span>
+        <span>{{ team.fptsAgainst.toFixed(2) }}</span>
+        <button class="team-more-btn" (click)="selectCurrentTeam(team)">More</button>
+      </div>
   </div>
 </div>

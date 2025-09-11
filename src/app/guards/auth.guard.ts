@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     const url = state.url;
 
     if (url.includes('my-league')) {
-      if (this.LeagueService.leagueSelected()) {
+      if (this.LeagueService.myLeagueSelected()) {
         return true;
       } else {
         this.ToastService.showNegativeToast("User View Selected. Search a league to continue.")
@@ -32,10 +32,28 @@ export class AuthGuard implements CanActivate {
     }
 
     if (url.includes('my-profile')) {
-      if (this.UserService.userSelected()) {
+      if (this.UserService.myUserSelected()) {
         return true;
       } else {
         this.ToastService.showNegativeToast("League View Selected. Search a User to continue.")
+        return false;
+      }
+    }
+
+    if (url.includes('selected-profile')) {
+      if (this.UserService.currentUserSelected()) {
+        return true;
+      } else {
+        this.ToastService.showNegativeToast("Selected Profile View Selected. No other profile viewed yet..")
+        return false;
+      }
+    }
+
+    if (url.includes('selected-league')) {
+      if (this.LeagueService.currentLeagueSelected()) {
+        return true;
+      } else {
+        this.ToastService.showNegativeToast("Selected League View Selected. No other league viewed yet.")
         return false;
       }
     }
