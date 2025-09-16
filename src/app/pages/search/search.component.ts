@@ -58,7 +58,11 @@ export class SearchComponent implements OnInit {
           },
           complete: () => {
             this.loading = false;
-            this.router.navigate(['/my-league']);
+            this.router.navigate(['/my-league'],
+              {
+                queryParams: { leagueId: this.LeagueService.getMyLeagueId() }
+              }
+            );
           }
         });
       } else if (this.userId) {
@@ -77,7 +81,11 @@ export class SearchComponent implements OnInit {
           },
           complete: () => {
             this.loading = false;
-            this.router.navigate(['/my-profile']);
+            this.router.navigate(['/my-profile'],
+              {
+                queryParams: { userId: this.UserService.getMyUserId() }
+              }
+            );
           }
         });
       } else {

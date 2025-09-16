@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Roster } from '../models/roster.interface';
 import { League } from '../models/league.interface';
 import { User } from '../models/user.interface';
+import { LeagueConfig } from '../models/league-config.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,16 @@ export class LeagueService {
   private currentLeagueRosters: Roster[] = [];
 
   private baseUrl = 'https://api.sleeper.app/v1';
+
+  private leagueMap: Record<string, LeagueConfig> = {
+    'clt-dynasty': {
+      id: '1181789700187090944',
+      dynasty: true,
+      divisions: 3,
+      size: 12,
+      taxi: true
+    }
+  };
 
   constructor(
     private http: HttpClient,
@@ -128,5 +139,12 @@ export class LeagueService {
   }
   buildAvatar(avatar: string): string {
     return `https://sleepercdn.com/avatars/${avatar}`
+  }
+
+  getAllowedLeagueId(leagueName: string): string | null {
+    return this.leagueMap[leagueName].id || null;
+  }
+  getAllowedLeagues(): string[] {
+    return Object.keys(this.leagueMap);
   }
 }

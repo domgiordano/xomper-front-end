@@ -8,16 +8,19 @@ import { LeagueComponent } from './pages/league/league.component';
 import { MyProfileComponent } from './pages/my-profile/my-profile.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/team/team.component';
+import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // default entry
+  { path: 'home/:leagueName', component: HomeComponent },
+  { path: 'home', component: SearchComponent }, // fallback if no leagueName
   { path: 'search', component: SearchComponent },
-  { path: 'my-league', component: MyLeagueComponent, canActivate: [AuthGuard] },
-  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard]},
-  { path: 'selected-profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  { path: 'selected-league', component: LeagueComponent, canActivate: [AuthGuard]},
-  { path: 'selected-team', component: TeamComponent, canActivate: [AuthGuard]},
-  { path: '', redirectTo: '/search', pathMatch: 'full' }, // Redirect empty path to /search
+  { path: 'my-league', component: MyLeagueComponent },
+  { path: 'my-profile', component: MyProfileComponent },
+  { path: 'selected-profile', component: ProfileComponent },
+  { path: 'selected-league', component: LeagueComponent },
+  { path: 'selected-team', component: TeamComponent },
   { path: '**', redirectTo: '/search' }, // Redirect all other paths to /search
 ];
 
@@ -25,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

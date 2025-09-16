@@ -1,6 +1,8 @@
 // toolbar.component.ts
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LeagueService } from 'src/app/services/league.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +13,9 @@ export class ToolbarComponent implements OnInit {
   dropdownVisible = false;
   isMobile: boolean;
   constructor(
-    private router: Router
+    private router: Router,
+    private LeagueService: LeagueService,
+    private UserService: UserService
     ) {
       this.checkIfMobile();
       window.addEventListener('resize', this.checkIfMobile.bind(this));
@@ -48,5 +52,12 @@ export class ToolbarComponent implements OnInit {
 
   isSelected(route: string): boolean {
     return this.router.url === route;
+  }
+  get leagueId(): string {
+    return this.LeagueService.getMyLeagueId();
+  }
+
+  get userId(): string {
+    return this.UserService.getMyUserId();
   }
 }

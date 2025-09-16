@@ -8,10 +8,10 @@
       <a routerLink="/search" routerLinkActive="active" [ngClass]="{'selected': isSelected('/search')}">
         Search
       </a>
-      <a routerLink="/my-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
+      <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
         My Profile
       </a>
-      <a routerLink="/my-league" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
+      <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
         My League
       </a>
       <a routerLink="/selected-profile" routerLinkActive="active" [ngClass]="{'selected': isSelected('/selected-profile')}">

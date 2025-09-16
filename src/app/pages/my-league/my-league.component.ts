@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { LeagueService } from 'src/app/services/league.service';
 import { StandingsService } from 'src/app/services/standings.service';
@@ -28,24 +28,51 @@ export class MyLeagueComponent implements OnInit {
       private router: Router,
       private ToastService: ToastService,
       private StandingsService: StandingsService,
-      private TeamService: TeamService
+      private TeamService: TeamService,
+      private route: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
       console.log("My League Init.")
-      this.league = this.LeagueService.getMyLeague();
+      this.loading = true;
+      this.league = this.LeagueService.reset();
+      // Always check query params
+      this.route.queryParams.pipe(take(1)).subscribe(params => {
+        const queryLeagueId = params['leagueId'];
+        console.log("LeagueId from query:", queryLeagueId);
+
+        // No league in service, fetch it by ID
+        this.LeagueService.searchLeague(queryLeagueId).pipe(take(1)).subscribe({
+          next: league => {
+            console.log("League Found from query param:", league);
+            this.LeagueService.setMyLeague(league);
+            this.ToastService.showPositiveToast("League Loaded.");
+            this.league = league;
+            this.setupLeague();
+          },
+          error: err => {
+            console.error("Error loading league from query param", err);
+            this.ToastService.showNegativeToast("Error loading league.");
+            this.loading = false;
+          },
+          complete: () => {
+            this.loading = false;
+          }
+        });
+      });
+    }
+    private setupLeague(): void {
       this.leaguePicture = this.LeagueService.getMyLeagueProfilePicture();
       this.leagueName = this.LeagueService.getMyLeagueName();
       this.leagueId = this.LeagueService.getMyLeagueId();
-      this.leagueUsers = this.LeagueService.getMyLeagueUsers()
-      if (this.leagueUsers.length == 0){
+      this.leagueUsers = this.LeagueService.getMyLeagueUsers();
+
+      if (this.leagueUsers.length === 0) {
         this.getLeagueUsers();
-      }
-      else{
-        console.log("Already got dem league users.")
+      } else {
+        console.log("Already got dem league users.");
       }
     }
-
     getLeagueUsers(): void {
       this.loading = true;
       console.log('Getting League Users.');

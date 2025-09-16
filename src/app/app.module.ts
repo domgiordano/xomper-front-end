@@ -19,6 +19,7 @@ import { LeagueService } from './services/league.service';
 import { UserService } from './services/user.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/team/team.component';
+import { HomeComponent } from './pages/home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { TeamComponent } from './pages/team/team.component';
     MyProfileComponent,
     LeagueComponent,
     ProfileComponent,
-    TeamComponent
+    TeamComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
