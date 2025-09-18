@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
 
     constructor(
       private LeagueService: LeagueService,
+      private UserService: UserService,
       private router: Router,
       private ToastService: ToastService,
       private route: ActivatedRoute
@@ -72,6 +73,27 @@ export class HomeComponent implements OnInit {
       }
       // handle actual login here
       console.log(`Logging in ${this.username} to ${this.leagueName}`);
+      
+      this.UserService.loginUser(this.leagueId, this.username, this.password).pipe(take(1)).subscribe({
+          next: user => {
+            this.UserService.setMyUser(user)
+            this.ToastService.showPositiveToast("User Login Success!")
+            
+          },
+          error: err => {
+            console.error('Error Logging User In', err);
+            this.ToastService.showNegativeToast('Error Logging User In.');
+            this.loading = false;
+          },
+          complete: () => {
+            this.loading = false;
+            this.router.navigate(['/my-league'],
+              {
+                queryParams: { leagueId: this.LeagueService.getMyLeagueId() }
+              }
+            );
+          }
+        });
     }
 
     resetPassword() {
