@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 import { LeagueService } from 'src/app/services/league.service';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
     constructor(
       private LeagueService: LeagueService,
       private UserService: UserService,
+      private AuthService: AuthService,
       private router: Router,
       private ToastService: ToastService,
       private route: ActivatedRoute
@@ -73,12 +75,13 @@ export class HomeComponent implements OnInit {
       }
       // handle actual login here
       console.log(`Logging in ${this.username} to ${this.leagueName}`);
+      this.loading = true;
       
-      this.UserService.loginUser(this.leagueId, this.username, this.password).pipe(take(1)).subscribe({
+      this.AuthService.loginUser(this.leagueId, this.username, this.password).pipe(take(1)).subscribe({
           next: user => {
             this.UserService.setMyUser(user)
             this.ToastService.showPositiveToast("User Login Success!")
-            
+            this.AuthService.toggleAuthentication();
           },
           error: err => {
             console.error('Error Logging User In', err);

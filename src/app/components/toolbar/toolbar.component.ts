@@ -1,6 +1,7 @@
 // toolbar.component.ts
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { LeagueService } from 'src/app/services/league.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,7 +16,8 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private router: Router,
     private LeagueService: LeagueService,
-    private UserService: UserService
+    private UserService: UserService,
+    private AuthService: AuthService
     ) {
       this.checkIfMobile();
       window.addEventListener('resize', this.checkIfMobile.bind(this));
@@ -59,5 +61,9 @@ export class ToolbarComponent implements OnInit {
 
   get userId(): string {
     return this.UserService.getMyUserId();
+  }
+
+  isLoggedIn(): boolean {
+    return this.AuthService.isLoggedIn();
   }
 }

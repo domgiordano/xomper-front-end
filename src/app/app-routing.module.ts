@@ -16,11 +16,11 @@ const routes: Routes = [
   { path: 'home/:leagueName', component: HomeComponent },
   { path: 'home', component: SearchComponent }, // fallback if no leagueName
   { path: 'search', component: SearchComponent },
-  { path: 'my-league', component: MyLeagueComponent },
-  { path: 'my-profile', component: MyProfileComponent },
-  { path: 'selected-profile', component: ProfileComponent },
-  { path: 'selected-league', component: LeagueComponent },
-  { path: 'selected-team', component: TeamComponent },
+  { path: 'my-league', component: MyLeagueComponent, canActivate: [AuthGuard] },
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] },
+  { path: 'selected-profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'selected-league', component: LeagueComponent, canActivate: [AuthGuard] },
+  { path: 'selected-team', component: TeamComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/search' }, // Redirect all other paths to /search
 ];
 

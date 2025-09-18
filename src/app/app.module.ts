@@ -20,6 +20,9 @@ import { UserService } from './services/user.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TeamComponent } from './pages/team/team.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AuthService } from './services/auth.service';
+import { StandingsService } from './services/standings.service';
+import { TeamService } from './services/team.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +46,7 @@ import { HomeComponent } from './pages/home/home.component';
     SwiperModule,
     BrowserAnimationsModule
   ],
-  providers: [LeagueService, UserService],
+  providers: [LeagueService, UserService, AuthService, StandingsService, TeamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

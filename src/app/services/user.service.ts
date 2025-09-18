@@ -5,7 +5,6 @@ import { ToastService } from './toast.service';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.interface';
 import { League } from '../models/league.interface';
-import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +14,6 @@ export class UserService {
   private currentUser: User | null = null;
   private myUserLeagues: Record<string, League[]> = {};
   private currentUserLeagues: Record<string, League[]> = {};
-  private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
-  private readonly apiAuthToken = environment.apiAuthToken;
 
   private baseUrl = 'https://api.sleeper.app/v1';
 
@@ -129,17 +126,4 @@ export class UserService {
     return `https://sleepercdn.com/avatars/${avatar}`
   }
 
-  loginUser(leagueId: string, userId: string, password: string): Observable<User> {
-    const url = `${this.xomperApiUrl}/user/login`;
-    const body = {
-        leagueId: leagueId,
-        userId: userId,
-        password: password
-    };
-    const headers = new HttpHeaders({
-        Authorization: `Bearer ${this.apiAuthToken}`,
-        'Content-Type': 'application/json'
-    });
-    return this.http.post<User>(url, body, { headers });
-  }
 }
