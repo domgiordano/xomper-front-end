@@ -24,6 +24,7 @@ export class LeagueService {
   private leagueMap: Record<string, LeagueConfig> = {
     'clt-dynasty': {
       id: '1181789700187090944',
+      display_name: 'CLT DYNASTY',
       dynasty: true,
       divisions: 3,
       size: 12,
@@ -146,5 +147,8 @@ export class LeagueService {
   }
   getAllowedLeagues(): string[] {
     return Object.keys(this.leagueMap);
+  }
+  getLeagueMap(): Record<string, LeagueConfig> {
+    return this.leagueMap;
   }
 }

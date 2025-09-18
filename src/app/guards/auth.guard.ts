@@ -15,7 +15,7 @@ export class AuthGuard {
       return true;
     }
     // redirect to search/home if not signed in
-    this.router.navigate(['/search']);
+    this.router.navigate(['/home']);
     return false;
   }
 
