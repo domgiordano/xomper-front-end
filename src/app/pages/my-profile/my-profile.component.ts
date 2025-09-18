@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -23,18 +23,51 @@ export class MyProfileComponent implements OnInit {
       private UserService: UserService,
       private LeagueService: LeagueService,
       private router: Router,
-      private ToastService: ToastService
+      private ToastService: ToastService,
+      private route: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
-      console.log("My Profile Init.")
+      console.log("My Profile Init.");
       this.user = this.UserService.getMyUser();
+      this.loading = true;
+      this.UserService.reset();
+      // Always check query params
+      this.route.queryParams.pipe(take(1)).subscribe(params => {
+        const queryUserId = params['userId'];
+        console.log("UserId from query:", queryUserId);
+
+        // Load user from query param
+        this.UserService.searchUser(queryUserId).pipe(take(1)).subscribe({
+          next: user => {
+            console.log("User Found from query param:", user);
+            this.UserService.setMyUser(user);
+            this.ToastService.showPositiveToast("User Loaded.");
+            this.user = user;
+            this.setupUser();
+          },
+          error: err => {
+            console.error("Error loading user from query param", err);
+            this.ToastService.showNegativeToast("Error loading user.");
+            this.loading = false;
+          },
+          complete: () => {
+            this.loading = false;
+          }
+        });
+      });
+    }
+
+    private setupUser(): void {
       this.profilePicture = this.UserService.getMyUserProfilePicture();
       this.userName = this.UserService.getMyUserName();
       this.userLeagues = this.UserService.getMyUserLeagues();
-      if (Object.keys(this.UserService.getMyUserLeagues()).length === 0){
+
+      if (Object.keys(this.userLeagues).length === 0) {
         this.loading = true;
         this.getUserLeagues();
+      } else {
+        console.log("Already have user leagues.");
       }
     }
 

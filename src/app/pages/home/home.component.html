@@ -1,0 +1,36 @@
+<div class="home-page">
+  <app-loader [loading]="loading"></app-loader>
+
+  <!-- Welcome / League Login -->
+  <div class="login-header">
+    <h2>Login to {{ leagueName || 'Xomper' }}</h2>
+  </div>
+
+  <div class="login-box">
+    <div class="login-container">
+
+      <!-- Username Input -->
+      <input
+        type="text"
+        class="login-input"
+        placeholder="Username"
+        [(ngModel)]="username"
+      />
+
+      <!-- Password Input -->
+      <input
+        type="password"
+        class="login-input"
+        placeholder="Password"
+        [(ngModel)]="password"
+      />
+
+      <!-- Buttons -->
+      <div class="login-buttons">
+        <button class="login-button" (click)="login()">Login</button>
+        <button class="reset-button" (click)="resetPassword()">Reset Password</button>
+      </div>
+
+    </div>
+  </div>
+</div>
