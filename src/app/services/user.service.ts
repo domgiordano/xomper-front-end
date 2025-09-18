@@ -129,12 +129,12 @@ export class UserService {
     return `https://sleepercdn.com/avatars/${avatar}`
   }
 
-  loginUser(leagueId: string, userId: string, passowrd: string): Observable<User> {
+  loginUser(leagueId: string, userId: string, password: string): Observable<User> {
     const url = `${this.xomperApiUrl}/user/login`;
     const body = {
         leagueId: leagueId,
         userId: userId,
-        passowrd: passowrd
+        password: password
     };
     const headers = new HttpHeaders({
         Authorization: `Bearer ${this.apiAuthToken}`,
