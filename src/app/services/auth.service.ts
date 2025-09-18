@@ -1,0 +1,46 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { ToastService } from './toast.service';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.interface';
+import { environment } from 'src/environments/environment.prod';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+    private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
+    private readonly apiAuthToken = environment.apiAuthToken;
+    private authenticated = false;
+
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+        private toastService: ToastService
+    ) {}
+    
+    loginUser(leagueId: string, userId: string, password: string): Observable<User> {
+        const url = `${this.xomperApiUrl}/user/login`;
+        const body = {
+            leagueId: leagueId,
+            userId: userId,
+            password: password
+        };
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${this.apiAuthToken}`,
+            'Content-Type': 'application/json'
+        });
+        return this.http.post<User>(url, body, { headers });
+    }
+
+    toggleAuthentication(): void {
+        this.authenticated = !this.authenticated;
+    }
+    isLoggedIn(): boolean {
+        return this.authenticated;
+    }
+    reset(): void {
+        this.authenticated = false;
+    }
+}
