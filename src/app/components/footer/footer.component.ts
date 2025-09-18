@@ -11,7 +11,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class FooterComponent implements OnInit {
   showDynamicButton: boolean = false;
   footerButtonText: string = '';
-  githubRepoUrl: string = 'https://github.com/domgiordano/angular-spotify';
+  githubRepoUrl: string = 'https://github.com/domgiordano/xomper-front-end';
   userId: string;
 
 

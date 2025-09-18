@@ -5,10 +5,10 @@
 
   <div class="tabs" [ngClass]="{'hidden': dropdownVisible}">
     <div>
-      <a routerLink="/search" routerLinkActive="active" [ngClass]="{'selected': isSelected('/search')}">
-        Search
+      <a routerLink="/home" routerLinkActive="active" [ngClass]="{'selected': isSelected('/home')}">
+        Home
       </a>
-      <ng-container *ngIf="isLoggedIn">
+      <ng-container *ngIf="isLoggedIn()">
         <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
           My Profile
         </a>
@@ -25,8 +25,8 @@
   </div>
 
   <div class="dropdown" *ngIf="dropdownVisible">
-    <a routerLink="/search" routerLinkActive="active" (click)="selectItem('/search')">Search</a>
-    <ng-container *ngIf="isLoggedIn">
+    <a routerLink="/home" routerLinkActive="active" (click)="selectItem('/home')">Home</a>
+    <ng-container *ngIf="isLoggedIn()">
       <a routerLink="/my-profile" routerLinkActive="active" (click)="selectItem('/my-profile')">My Profile</a>
       <a routerLink="/my-league" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
     </ng-container>

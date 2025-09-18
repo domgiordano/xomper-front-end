@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // default entry
   { path: 'home/:leagueName', component: HomeComponent },
   { path: 'home', component: SearchComponent }, // fallback if no leagueName
-  { path: 'search', component: SearchComponent },
   { path: 'my-league', component: MyLeagueComponent, canActivate: [AuthGuard] },
   { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] },
   { path: 'selected-profile', component: ProfileComponent, canActivate: [AuthGuard] },
