@@ -7,9 +7,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import { StandingsTeam } from 'src/app/models/standings.interface';
 import { Roster } from 'src/app/models/roster.interface';
 import { TeamService } from 'src/app/services/team.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-search',
+  selector: 'app-my-league',
   templateUrl: './my-league.component.html',
   styleUrls: ['./my-league.component.scss']
 })
@@ -29,36 +30,43 @@ export class MyLeagueComponent implements OnInit {
       private ToastService: ToastService,
       private StandingsService: StandingsService,
       private TeamService: TeamService,
+      private UserService: UserService,
       private route: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
       console.log("My League Init.")
       this.loading = true;
-      this.league = this.LeagueService.reset();
+      //this.league = this.LeagueService.reset();
       // Always check query params
       this.route.queryParams.pipe(take(1)).subscribe(params => {
         const queryLeagueId = params['leagueId'];
         console.log("LeagueId from query:", queryLeagueId);
-
-        // No league in service, fetch it by ID
-        this.LeagueService.searchLeague(queryLeagueId).pipe(take(1)).subscribe({
-          next: league => {
-            console.log("League Found from query param:", league);
-            this.LeagueService.setMyLeague(league);
-            this.ToastService.showPositiveToast("League Loaded.");
-            this.league = league;
-            this.setupLeague();
-          },
-          error: err => {
-            console.error("Error loading league from query param", err);
-            this.ToastService.showNegativeToast("Error loading league.");
-            this.loading = false;
-          },
-          complete: () => {
-            this.loading = false;
-          }
-        });
+        
+        if (this.LeagueService.myLeagueSelected()) {
+          // No league in service, fetch it by ID
+          this.LeagueService.searchLeague(queryLeagueId).pipe(take(1)).subscribe({
+            next: league => {
+              console.log("League Found from query param:", league);
+              this.LeagueService.setMyLeague(league);
+              this.ToastService.showPositiveToast("League Loaded.");
+              this.league = league;
+              this.setupLeague();
+            },
+            error: err => {
+              console.error("Error loading league from query param", err);
+              this.ToastService.showNegativeToast("Error loading league.");
+              this.loading = false;
+            },
+            complete: () => {
+              this.loading = false;
+            }
+          });
+        }
+        else {
+          console.log("League Already loaded we gud.")
+          this.setupLeague();
+        }
       });
     }
     private setupLeague(): void {
@@ -66,12 +74,7 @@ export class MyLeagueComponent implements OnInit {
       this.leagueName = this.LeagueService.getMyLeagueName();
       this.leagueId = this.LeagueService.getMyLeagueId();
       this.leagueUsers = this.LeagueService.getMyLeagueUsers();
-
-      if (this.leagueUsers.length === 0) {
-        this.getLeagueUsers();
-      } else {
-        console.log("Already got dem league users.");
-      }
+      this.getLeagueUsers();
     }
     getLeagueUsers(): void {
       this.loading = true;
@@ -81,7 +84,7 @@ export class MyLeagueComponent implements OnInit {
           console.log("League Users Found------");
           this.LeagueService.setMyLeagueUsers(users)
           this.leagueUsers = this.LeagueService.getMyLeagueUsers();
-          this.ToastService.showPositiveToast("Users Found.")
+          //this.ToastService.showPositiveToast("Users Found.")
           this.getLeagueRosters();
         },
         error: err => {
@@ -123,6 +126,7 @@ export class MyLeagueComponent implements OnInit {
 
             return {
               roster,
+              players: [],
               user: user!,
               league: this.league!,
               teamName: user?.metadata?.team_name || `${user?.display_name}'s Team`,
@@ -139,7 +143,7 @@ export class MyLeagueComponent implements OnInit {
             };
           });
 
-          this.ToastService.showPositiveToast("Rosters Found.");
+          //this.ToastService.showPositiveToast("Rosters Found.");
         },
         error: err => {
           console.error('Error Getting League Rosters', err);
@@ -147,6 +151,8 @@ export class MyLeagueComponent implements OnInit {
           this.loading = false;
         },
         complete: () => {
+          const myRoster = this.standings.find(standingsTeam => String(standingsTeam.roster.owner_id) === this.UserService.getMyUserId());
+          this.TeamService.setMyTeam(myRoster);
           this.loading = false;
         }
       });

@@ -23,6 +23,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuthService } from './services/auth.service';
 import { StandingsService } from './services/standings.service';
 import { TeamService } from './services/team.service';
+import { MyTeamComponent } from './pages/my-team/my-team.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { TeamService } from './services/team.service';
     SearchComponent,
     MyLeagueComponent,
     MyProfileComponent,
+    MyTeamComponent,
     LeagueComponent,
     ProfileComponent,
     TeamComponent,

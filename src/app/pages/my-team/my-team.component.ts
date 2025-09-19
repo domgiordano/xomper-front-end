@@ -10,11 +10,11 @@ import { League } from 'src/app/models/league.interface';
 import { Player } from 'src/app/models/player.interface';
 
 @Component({
-  selector: 'app-team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.scss']
+  selector: 'app-my-team',
+  templateUrl: './my-team.component.html',
+  styleUrls: ['./my-team.component.scss']
 })
-export class TeamComponent implements OnInit {
+export class MyTeamComponent implements OnInit {
     private team;
     teamPicture = "";
     teamName = ""
@@ -33,12 +33,19 @@ export class TeamComponent implements OnInit {
 
     ngOnInit(): void {
       console.log("Team Init.")
-      this.team = this.TeamService.getCurrentTeam();
-      this.teamPicture = this.TeamService.getCurrentTeamProfilePicture();
-      this.teamName = this.TeamService.getCurrentTeamName();
-      this.teamRoster = this.TeamService.getCurrentTeamRoster();
-      this.teamLeague = this.TeamService.getCurrentTeamLeague();
-      this.loadRosters();
+      this.team = this.TeamService.getMyTeam();
+      this.teamPicture = this.TeamService.getMyTeamProfilePicture();
+      this.teamName = this.TeamService.getMyTeamName();
+      this.teamRoster = this.TeamService.getMyTeamRoster();
+      this.teamLeague = this.TeamService.getMyTeamLeague();
+      this.teamPlayers = this.TeamService.getMyTeamPlayers();
+      if (this.teamPlayers.length == 0) {
+        console.log("Need the roster rq.")
+        this.loadRosters();
+      }
+      else {
+        console.log("You been here before - we got that roster.")
+      }
     }
 
     loadRosters(): void {
