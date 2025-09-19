@@ -6,7 +6,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { LeagueService } from 'src/app/services/league.service';
 
 @Component({
-  selector: 'app-search',
+  selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })

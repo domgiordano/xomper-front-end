@@ -3,6 +3,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { LeagueService } from 'src/app/services/league.service';
+import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class ToolbarComponent implements OnInit {
     private router: Router,
     private LeagueService: LeagueService,
     private UserService: UserService,
+    private TeamService: TeamService,
     private AuthService: AuthService
     ) {
       this.checkIfMobile();
@@ -63,6 +65,13 @@ export class ToolbarComponent implements OnInit {
     return this.UserService.getMyUserId();
   }
 
+  get teamUserName(): string {
+    return this.TeamService.getMyTeamUserName();
+  }
+  get teamLeagueId(): string {
+    return this.TeamService.getMyTeamLeagueId();  
+  }
+  
   isLoggedIn(): boolean {
     return this.AuthService.isLoggedIn();
   }
