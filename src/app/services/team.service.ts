@@ -13,7 +13,7 @@ import { Player } from '../models/player.interface';
 export class TeamService {
     private myTeam: StandingsTeam | null = null;
     private currentTeam: StandingsTeam | null = null;
-    private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/dev`;
+    private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/prod`;
     private readonly apiAuthToken = environment.apiAuthToken;
 
     constructor(
@@ -104,7 +104,7 @@ export class TeamService {
     }
 
     getPlayerById(playerId: string): Observable<Player> {
-        const url = `${this.xomperApiUrl}/player/data`;
+        const url = `${this.xomperApiUrl}/player`;
         const headers = new HttpHeaders({
             Authorization: `Bearer ${this.apiAuthToken}`,
             'Content-Type': 'application/json'
