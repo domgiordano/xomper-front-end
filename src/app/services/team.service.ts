@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { StandingsTeam } from '../models/standings.interface';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { League } from '../models/league.interface';
 import { Roster } from '../models/roster.interface';
 import { environment } from 'src/environments/environment.prod';
 import { Player } from '../models/player.interface';
+import { XomperResponse } from '../models/xomper-api-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -110,7 +111,9 @@ export class TeamService {
             'Content-Type': 'application/json'
         });
         const params = new HttpParams().set('playerId', playerId);
-        return this.http.get<Player>(url, {headers, params})
+        return this.http.get<XomperResponse<Player>>(url, {headers, params}).pipe(
+          map((res: XomperResponse<Player>) => res.ResponseData)
+        );
     }
 
     // Reset

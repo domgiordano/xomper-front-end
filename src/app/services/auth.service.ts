@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { User } from '../models/user.interface';
+import { XomperResponse } from '../models/xomper-api-response.interface';
 import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
@@ -31,7 +32,9 @@ export class AuthService {
             Authorization: `Bearer ${this.apiAuthToken}`,
             'Content-Type': 'application/json'
         });
-        return this.http.post<User>(url, body, { headers });
+        return this.http.post<XomperResponse<User>>(url, body, { headers }).pipe(
+            map((res: XomperResponse<User>) => res.ResponseData)
+        );
     }
 
     toggleAuthentication(): void {
