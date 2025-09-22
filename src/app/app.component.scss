@@ -50,32 +50,27 @@ html, body {
   margin: 0; /* Remove default margin */
 }
 
-/* App container styles */
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; // Ensure the container takes the full height of the viewport
-  padding: 0; // Ensure no padding around the container
-}
-
 app-toolbar {
   flex: 0 0 auto; /* Toolbar takes its own height */
   width: 100%;
   margin: 0; // Ensure no margin
 }
 
-.content {
-  padding: 0; // Removed padding to ensure tight fit
-  flex: 1; // This will take all available space
-  margin: 0; // Ensure no margin
-  overflow-y: auto; // Allow vertical scrolling if needed
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // fill viewport
 }
 
-.content > * {
-  margin: 0; // Reset margins on all direct child elements of content
+.content {
+  flex: 1;                // take remaining space
+  overflow-y: auto;        // scrollable
+  padding: 16px;
+  padding-bottom: 120px;   // <-- reserve space for footer height
+  box-sizing: border-box;  // ensure padding included in height
 }
 
 app-footer {
-  flex: 0 0 auto; /* Footer takes its own height */
+  flex-shrink: 0; // do not shrink
   width: 100%;
 }

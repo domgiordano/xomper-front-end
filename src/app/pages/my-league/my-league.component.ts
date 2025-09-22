@@ -20,6 +20,7 @@ export class MyLeagueComponent implements OnInit {
     leagueName = "";
     leagueId = "";
     leagueUsers;
+    leagueDivisions: string[];
     leagueRosters: Roster[] = [];
     standings: StandingsTeam[] = [];
     loading = false;
@@ -74,6 +75,8 @@ export class MyLeagueComponent implements OnInit {
       this.leagueName = this.LeagueService.getMyLeagueName();
       this.leagueId = this.LeagueService.getMyLeagueId();
       this.leagueUsers = this.LeagueService.getMyLeagueUsers();
+      this.LeagueService.setMyLeagueDivisions();
+      this.leagueDivisions = this.LeagueService.getMyLeagueDivisions();
       this.getLeagueUsers();
     }
     getLeagueUsers(): void {
@@ -124,6 +127,8 @@ export class MyLeagueComponent implements OnInit {
               }
             }
 
+            let divisionIndex = user.settings?.division - 1;
+
             return {
               roster,
               players: [],
@@ -139,7 +144,9 @@ export class MyLeagueComponent implements OnInit {
               streak: {
                 type: streakType,
                 total: streakTotal
-              }
+              },
+              divisionName: this.leagueDivisions[divisionIndex],
+              divisionIndex: divisionIndex
             };
           });
 
