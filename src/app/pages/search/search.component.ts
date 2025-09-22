@@ -76,7 +76,6 @@ export class SearchComponent implements OnInit {
       .subscribe({
         next: league => {
           this.LeagueService.setMyLeague(league);
-          this.ToastService.showPositiveToast('League Found.');
         },
         error: err => {
           console.error('Error Searching League', err);
