@@ -21,7 +21,7 @@ export class AuthService {
     ) {}
     
     loginUser(leagueId: string, userId: string, password: string): Observable<User> {
-        const url = `${this.xomperApiUrl}/login`;
+        const url = `${this.xomperApiUrl}/user/login`;
         const body = {
             leagueId: leagueId,
             userId: userId,
