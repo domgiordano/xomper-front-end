@@ -15,4 +15,6 @@ export interface StandingsTeam {
   losses: number;
   fpts: number;
   fptsAgainst: number;
+  divisionName: string;
+  divisionIndex: number;
 }

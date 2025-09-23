@@ -1,6 +1,7 @@
 <div class="team-page">
   <app-loader [loading]="loading"></app-loader>
   <div class="team-container">
+    
     <!-- team header -->
     <div class="team-header">
       <img 
@@ -10,6 +11,135 @@
         class="team-pic"
       >
       <h1 class="team-name">{{ teamName }}</h1>
+    </div>
+
+    <!-- Starters -->
+    <div class="player-group" *ngIf="starters.length > 0">
+      <h2 class="group-title">Starters</h2>
+      <div class="roster">
+        <div class="player-card" *ngFor="let player of starters">
+          <div class="player-header">
+            <img 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
+              (error)="player.data.photoError = true" 
+              alt="{{ player.data.full_name }}" 
+              class="player-pic"
+            >
+            <div class="player-info">
+              <div class="name-row">
+                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <img 
+                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
+                  alt="{{ player.data.team }}" 
+                  class="team-logo"
+                >
+              </div>
+              <p class="player-meta">
+                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+              </p>
+            </div>
+          </div>
+
+          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+          </button>
+
+          <div class="player-details" *ngIf="player.data.showDetails">
+            <p><strong>Age:</strong> {{ player.data.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.data.college }}</p>
+            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.data.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bench -->
+    <div class="player-group" *ngIf="bench.length > 0">
+      <h2 class="group-title">Bench</h2>
+      <div class="roster">
+        <div class="player-card" *ngFor="let player of bench">
+          <div class="player-header">
+            <img 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
+              (error)="player.data.photoError = true" 
+              alt="{{ player.data.full_name }}" 
+              class="player-pic"
+            >
+            <div class="player-info">
+              <div class="name-row">
+                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <img 
+                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
+                  alt="{{ player.data.team }}" 
+                  class="team-logo"
+                >
+              </div>
+              <p class="player-meta">
+                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+              </p>
+            </div>
+          </div>
+
+          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+          </button>
+
+          <div class="player-details" *ngIf="player.data.showDetails">
+            <p><strong>Age:</strong> {{ player.data.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.data.college }}</p>
+            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.data.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Taxi Squad -->
+    <div class="player-group" *ngIf="taxi.length > 0">
+      <h2 class="group-title">Taxi Squad</h2>
+      <div class="roster">
+        <div class="player-card" *ngFor="let player of taxi">
+          <div class="player-header">
+            <img 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
+              (error)="player.data.photoError = true" 
+              alt="{{ player.data.full_name }}" 
+              class="player-pic"
+            >
+            <div class="player-info">
+              <div class="name-row">
+                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <img 
+                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
+                  alt="{{ player.data.team }}" 
+                  class="team-logo"
+                >
+              </div>
+              <p class="player-meta">
+                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+              </p>
+            </div>
+          </div>
+
+          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+          </button>
+
+          <div class="player-details" *ngIf="player.data.showDetails">
+            <p><strong>Age:</strong> {{ player.data.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.data.college }}</p>
+            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.data.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

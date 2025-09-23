@@ -18,6 +18,9 @@ export class LeagueService {
   private currentLeagueUsers: User[] = [];
   private myLeagueRosters: Roster[] = [];
   private currentLeagueRosters: Roster[] = [];
+  private myLeagueDivisions: string[] = [];
+  private currentLeagueDivisions: string[] = [];
+
 
   private baseUrl = 'https://api.sleeper.app/v1';
 
@@ -68,6 +71,8 @@ export class LeagueService {
     this.currentLeague = null;
     this.myLeagueUsers = [];
     this.currentLeagueUsers = [];
+    this.myLeagueDivisions = [];
+    this.currentLeagueDivisions = [];
   }
 
   setMyLeague(league: League): void {
@@ -107,6 +112,23 @@ export class LeagueService {
     return this.currentLeague?.avatar
       ? `https://sleepercdn.com/avatars/${this.currentLeague.avatar}`
       : 'assets/img/nfl.png';
+  }
+
+  setMyLeagueDivisions(): void {
+    const divisionKeys = Object.keys(this.myLeague.metadata).filter(key => key.startsWith('division_'));
+    this.myLeagueDivisions = divisionKeys.map(key => this.myLeague.metadata[key]);
+    
+  }
+  getMyLeagueDivisions(): string[] {
+    return this.myLeagueDivisions;
+  }
+  setCurrentLeagueDivisions(): void {
+    const divisionKeys = Object.keys(this.currentLeague.metadata).filter(key => key.startsWith('division_'));
+    this.currentLeagueDivisions = divisionKeys.map(key => this.currentLeague.metadata[key]);
+    
+  }
+  getCurrentLeagueDivisions(): string[] {
+    return this.currentLeagueDivisions;
   }
 
   // ---- USERS ----

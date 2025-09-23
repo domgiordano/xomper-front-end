@@ -15,13 +15,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./my-league.component.scss']
 })
 export class MyLeagueComponent implements OnInit {
+    viewMode: 'league' | 'division' = 'league'; // default to full league
     private league;
     leaguePicture = "";
     leagueName = "";
     leagueId = "";
     leagueUsers;
+    leagueDivisions: string[];
     leagueRosters: Roster[] = [];
     standings: StandingsTeam[] = [];
+    standingsByDivision: { [division: string]: StandingsTeam[] };
     loading = false;
 
     constructor(
@@ -74,6 +77,8 @@ export class MyLeagueComponent implements OnInit {
       this.leagueName = this.LeagueService.getMyLeagueName();
       this.leagueId = this.LeagueService.getMyLeagueId();
       this.leagueUsers = this.LeagueService.getMyLeagueUsers();
+      this.LeagueService.setMyLeagueDivisions();
+      this.leagueDivisions = this.LeagueService.getMyLeagueDivisions();
       this.getLeagueUsers();
     }
     getLeagueUsers(): void {
@@ -107,10 +112,10 @@ export class MyLeagueComponent implements OnInit {
           this.leagueRosters = this.LeagueService.getMyLeagueRosters();
 
           // Sort rosters by standings
-          const sortedRosters = this.StandingsService.buildStandings(this.leagueRosters);
+          //const sortedRosters = this.StandingsService.buildStandings(this.leagueRosters, false);
 
           // Build standings view model
-          this.standings = sortedRosters.map(roster => {
+          this.standings = this.leagueRosters.map(roster => {
             // Find the user object from leagueUsers
             const user = this.leagueUsers.find(u => u.user_id === roster.owner_id);
             // Parse streak from metadata.streak (example: "1W" or "2L")
@@ -123,6 +128,8 @@ export class MyLeagueComponent implements OnInit {
                 streakType = match[2] === 'W' ? 'win' : 'loss';
               }
             }
+
+            let divisionIndex = roster.settings?.division - 1;
 
             return {
               roster,
@@ -139,7 +146,9 @@ export class MyLeagueComponent implements OnInit {
               streak: {
                 type: streakType,
                 total: streakTotal
-              }
+              },
+              divisionName: this.leagueDivisions[divisionIndex],
+              divisionIndex: divisionIndex
             };
           });
 
@@ -152,14 +161,49 @@ export class MyLeagueComponent implements OnInit {
         },
         complete: () => {
           const myRoster = this.standings.find(standingsTeam => String(standingsTeam.roster.owner_id) === this.UserService.getMyUserId());
+          // Sort league
+          this.standings = this.StandingsService.buildStandings(this.standings);
           this.TeamService.setMyTeam(myRoster);
+          // dynamically build division -> teams map
+          this.standingsByDivision = {};
+          this.standings.forEach(team => {
+            const division = team.divisionName || "Unknown Division";
+            if (!this.standingsByDivision[division]) {
+              this.standingsByDivision[division] = [];
+            }
+            this.standingsByDivision[division].push(team);
+          });
+
+          console.log('Standings by division:', this.standingsByDivision);
           this.loading = false;
         }
       });
     }
     selectCurrentTeam(team: StandingsTeam): void {
       console.log(`Team Selected: ${team.teamName}`);
-      this.TeamService.setCurrentTeam(team);
-      this.router.navigate(['/selected-team']);
+      if (team.teamName == this.TeamService.getMyTeamName()) {
+        console.log("Selected yourself - (conceited, pompous, self centered)")
+        this.router.navigate(['/my-team'],
+          {
+            queryParams: { 
+              user: this.TeamService.getMyTeamUserName(), 
+              league: this.LeagueService.getMyLeagueId() 
+            }
+          }
+        );
+      }
+      else {
+        this.TeamService.setCurrentTeam(team);
+        this.router.navigate(['/selected-team'],
+          {
+            queryParams: { 
+              user: this.TeamService.getMyTeamUserName(), 
+              league: this.LeagueService.getMyLeagueId() 
+            }
+          }
+        );
+      }
+      
     }
+
 }

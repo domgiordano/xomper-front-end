@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Roster } from '../models/roster.interface';
+import { StandingsTeam } from '../models/standings.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StandingsService {
-  buildStandings(rosters: Roster[]): Roster[] {
-    return rosters.sort((a, b) => {
-      if (a.settings.division !== b.settings.division) {
-        return a.settings.division - b.settings.division;
+  buildStandings(standings: StandingsTeam[], groupByDivision = false): StandingsTeam[] {
+    return standings.sort((a, b) => {
+
+      if (groupByDivision && a.divisionIndex !== b.divisionIndex) {
+        return a.divisionIndex - b.divisionIndex;
       }
 
-      if (a.settings.wins !== b.settings.wins) {
-        return b.settings.wins - a.settings.wins;
+      if (a.wins !== b.wins) {
+        return b.wins - a.wins;
       }
 
-      const aPoints = a.settings.fpts + (a.settings.fpts_decimal ?? 0) / 100;
-      const bPoints = b.settings.fpts + (b.settings.fpts_decimal ?? 0) / 100;
-
-      return bPoints - aPoints;
+      return b.fpts - a.fpts;
     });
   }
 }

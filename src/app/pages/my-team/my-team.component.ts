@@ -8,6 +8,7 @@ import { TeamService } from 'src/app/services/team.service';
 import { Roster } from 'src/app/models/roster.interface';
 import { League } from 'src/app/models/league.interface';
 import { Player } from 'src/app/models/player.interface';
+import { StandingsTeam } from 'src/app/models/standings.interface';
 
 @Component({
   selector: 'app-my-team',
@@ -15,11 +16,14 @@ import { Player } from 'src/app/models/player.interface';
   styleUrls: ['./my-team.component.scss']
 })
 export class MyTeamComponent implements OnInit {
-    private team;
+    private team: StandingsTeam;
     teamPicture = "";
     teamName = ""
     teamRoster: Roster;
     teamPlayers: Player[];
+    starters: Player[] = [];
+    bench: Player[] = [];
+    taxi: Player[] = [];
     teamLeague: League;
     loading = false;
 
@@ -57,6 +61,7 @@ export class MyTeamComponent implements OnInit {
       forkJoin(playerCalls).subscribe({
         next: (results: Player[]) => {
           this.teamPlayers = results;
+          this.sortPlayersIntoGroups();
           console.log('Loaded players:', this.teamPlayers);
           this.ToastService.showPositiveToast('Successfully Loaded Team Players.');
         },
@@ -69,6 +74,35 @@ export class MyTeamComponent implements OnInit {
           this.loading = false;
         }
       });
+    }
+
+    sortPlayersIntoGroups() {
+      console.log("Sorting da players.")
+      if (!this.teamPlayers || !this.teamRoster) return;
+
+      const startersSet = new Set(this.teamRoster.starters);
+      const taxiSet = new Set(this.teamRoster.taxi);
+
+      // Clear arrays in case of re-sort
+      this.starters = [];
+      this.bench = [];
+      this.taxi = [];
+
+      this.teamPlayers.forEach(player => {
+        const id = player.player_id;
+
+        if (startersSet.has(id)) {
+          this.starters.push(player);
+        } else if (taxiSet.has(id)) {
+          this.taxi.push(player);
+        } else {
+          this.bench.push(player);
+        }
+      });
+    }
+
+    togglePlayerDetails(player: Player) {
+      console.log("Player selected-----", player);
     }
 
 }

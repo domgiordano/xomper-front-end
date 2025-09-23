@@ -15,9 +15,8 @@
   }
 
   .content {
-    margin-top: 20px;
+    margin-top: 1px;
     text-align: center;
-    margin-top: 100px; /* Adjust the margin-top value to create spacing between toolbar and content */
   }
 
   .toolbar {
