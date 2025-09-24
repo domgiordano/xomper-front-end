@@ -58,11 +58,11 @@ export class ToolbarComponent implements OnInit {
     return this.router.url === route;
   }
   get leagueId(): string {
-    return this.LeagueService.getMyLeagueId();
+    return this.LeagueService.getMyLeague()?.getId();
   }
 
   get userId(): string {
-    return this.UserService.getMyUserId();
+    return this.UserService.getMyUser()?.getUserId();
   }
 
   get teamUserName(): string {

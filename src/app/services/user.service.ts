@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.interface';
+import { UserModel } from '../models/user.model';
 import { League } from '../models/league.interface';
+import { User } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private myUser: User | null = null;
-  private currentUser: User | null = null;
+  private myUser: UserModel | null = null;
+  private currentUser: UserModel | null = null;
   private myUserLeagues: Record<string, League[]> = {};
   private currentUserLeagues: Record<string, League[]> = {};
 
@@ -28,14 +29,8 @@ export class UserService {
     const url = `${this.baseUrl}/user/${userId}`;
     return this.http.get<User>(url);
   }
-
-  findMyUserLeagues(season: string = '2025'): Observable<League[]> {
-    const url = `${this.baseUrl}/user/${this.myUser?.user_id}/leagues/nfl/${season}`;
-    return this.http.get<League[]>(url);
-  }
-
-  findCurrentUserLeagues(season: string = '2025'): Observable<League[]> {
-    const url = `${this.baseUrl}/user/${this.currentUser?.user_id}/leagues/nfl/${season}`;
+  findUserLeagues(userId: string): Observable<League[]> {
+    const url = `${this.baseUrl}/user/${userId}/leagues/nfl/2025`;
     return this.http.get<League[]>(url);
   }
 
@@ -43,6 +38,7 @@ export class UserService {
   myUserSelected(): boolean {
     return !!this.myUser;
   }
+
   currentUserSelected(): boolean {
     return !!this.currentUser;
   }
@@ -55,72 +51,19 @@ export class UserService {
   }
 
   setMyUser(user: User): void {
-    this.myUser = user;
-  }
-  setCurrentUser(user: User): void {
-    this.currentUser = user;
+    this.myUser = new UserModel(user);
   }
 
-  getMyUser(): User | null {
+  setCurrentUser(user: User): void {
+    this.currentUser = new UserModel(user);
+  }
+
+  getMyUser(): UserModel | null {
     return this.myUser;
   }
-  getCurrentUser(): User | null {
+
+  getCurrentUser(): UserModel | null {
     return this.currentUser;
-  }
-
-  // ---- LEAGUES ----
-  setMyUserLeagues(newLeagues: League[]): void {
-    newLeagues.forEach((league) => {
-      const season = league.season;
-      if (!this.myUserLeagues[season]) {
-        this.myUserLeagues[season] = [];
-      }
-      this.myUserLeagues[season].push(league);
-    });
-  }
-
-  setCurrentUserLeagues(newLeagues: League[]): void {
-    newLeagues.forEach((league) => {
-      const season = league.season;
-      if (!this.currentUserLeagues[season]) {
-        this.currentUserLeagues[season] = [];
-      }
-      this.currentUserLeagues[season].push(league);
-    });
-  }
-
-  getMyUserLeagues(season: string = '2025'): League[] {
-    return this.myUserLeagues[season] ?? [];
-  }
-
-  getCurrentUserLeagues(season: string = '2025'): League[] {
-    return this.currentUserLeagues[season] ?? [];
-  }
-
-  getMyUserId(): string {
-    return this.myUser?.user_id ?? '';
-  }
-  getCurrentUserId(): string {
-    return this.currentUser?.user_id ?? '';
-  }
-
-  getMyUserName(): string {
-    return this.myUser?.display_name ?? '';
-  }
-  getCurrentUserName(): string {
-    return this.currentUser?.display_name ?? '';
-  }
-
-  getMyUserProfilePicture(): string {
-    return this.myUser?.avatar
-      ? `https://sleepercdn.com/avatars/${this.myUser.avatar}`
-      : 'assets/img/nfl.png';
-  }
-
-  getCurrentUserProfilePicture(): string {
-    return this.currentUser?.avatar
-      ? `https://sleepercdn.com/avatars/${this.currentUser.avatar}`
-      : 'assets/img/nfl.png';
   }
   buildAvatar(avatar: string): string {
     return `https://sleepercdn.com/avatars/${avatar}`
