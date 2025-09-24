@@ -190,6 +190,16 @@
   color: white;
 }
 
+.user-name.clickable {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0056b3;
+  }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .standings-header,

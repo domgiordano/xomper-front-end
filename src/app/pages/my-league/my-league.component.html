@@ -22,7 +22,9 @@
           (click)="viewMode = 'league'">
           League
         </button>
+        <!-- Only show Divisions button if league has divisions -->
         <button
+          *ngIf="leagueDivisions.length > 0"
           class="view-button"
           [ngClass]="{'selected': viewMode === 'division'}"
           (click)="viewMode = 'division'">
@@ -56,7 +58,12 @@
             <img [src]="team.avatar" class="team-pic" alt="Team Avatar">
             <span class="team-name">{{ team.teamName }}</span>
           </div>
-          <span class="user-name">{{ team.userName }}</span>
+          <span 
+            class="user-name clickable" 
+            title="View Profile"
+            (click)="goToUserProfile(team.user.user_id)">
+            {{ team.userName }}
+          </span>
           <span>{{ team.wins }}</span>
           <span>{{ team.losses }}</span>
           <span [ngClass]="{'win-streak': team.streak.type==='win', 'loss-streak': team.streak.type==='loss'}">

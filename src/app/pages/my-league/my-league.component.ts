@@ -8,6 +8,8 @@ import { StandingsTeam } from 'src/app/models/standings.interface';
 import { Roster } from 'src/app/models/roster.interface';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
+import { UserModel } from 'src/app/models/user.model';
+import { LeagueModel } from 'src/app/models/league.model';
 
 @Component({
   selector: 'app-my-league',
@@ -16,7 +18,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class MyLeagueComponent implements OnInit {
     viewMode: 'league' | 'division' = 'league'; // default to full league
-    private league;
+    private league: LeagueModel;
     leaguePicture = "";
     leagueName = "";
     leagueId = "";
@@ -73,22 +75,23 @@ export class MyLeagueComponent implements OnInit {
       });
     }
     private setupLeague(): void {
-      this.leaguePicture = this.LeagueService.getMyLeagueProfilePicture();
-      this.leagueName = this.LeagueService.getMyLeagueName();
-      this.leagueId = this.LeagueService.getMyLeagueId();
-      this.leagueUsers = this.LeagueService.getMyLeagueUsers();
-      this.LeagueService.setMyLeagueDivisions();
-      this.leagueDivisions = this.LeagueService.getMyLeagueDivisions();
+      this.leaguePicture = this.league.getProfilePicture();
+      this.leagueName = this.league.getDisplayName();
+      this.leagueId = this.league.getId();
+      this.leagueUsers = this.league.getUsers();
+      this.league.setDivisions();
+      this.leagueDivisions = this.league.getDivisions();
       this.getLeagueUsers();
     }
     getLeagueUsers(): void {
       this.loading = true;
       console.log('Getting League Users.');
-      this.LeagueService.getLeagueUsers(this.leagueId).pipe(take(1)).subscribe({
+      this.LeagueService.findLeagueUsers(this.leagueId).pipe(take(1)).subscribe({
         next: users => {
           console.log("League Users Found------");
-          this.LeagueService.setMyLeagueUsers(users)
-          this.leagueUsers = this.LeagueService.getMyLeagueUsers();
+          const userModels = users.map(user => new UserModel(user));
+          this.league.setUsers(userModels)
+          this.leagueUsers = this.league.getUsers();
           //this.ToastService.showPositiveToast("Users Found.")
           this.getLeagueRosters();
         },
@@ -105,11 +108,11 @@ export class MyLeagueComponent implements OnInit {
     getLeagueRosters(): void {
       this.loading = true;
       console.log('Getting League Rosters.');
-      this.LeagueService.getLeagueRosters(this.leagueId).pipe(take(1)).subscribe({
+      this.LeagueService.findLeagueRosters(this.leagueId).pipe(take(1)).subscribe({
         next: rosters => {
           console.log("League Rosters Found------", rosters);
-          this.LeagueService.setMyLeagueRosters(rosters);
-          this.leagueRosters = this.LeagueService.getMyLeagueRosters();
+          this.league.setRosters(rosters);
+          this.leagueRosters = this.league.getRosters();
 
           // Sort rosters by standings
           //const sortedRosters = this.StandingsService.buildStandings(this.leagueRosters, false);
@@ -138,7 +141,7 @@ export class MyLeagueComponent implements OnInit {
               league: this.league!,
               teamName: user?.metadata?.team_name || `${user?.display_name}'s Team`,
               userName: user?.display_name || "Unknown User",
-              avatar: user?.avatar ? this.LeagueService.buildAvatar(user.avatar) : "assets/img/nfl.png",
+              avatar: user?.avatar ? this.UserService.buildAvatar(user.avatar) : "assets/img/nfl.png",
               wins: roster.settings?.wins ?? 0,
               losses: roster.settings?.losses ?? 0,
               fpts: (roster.settings?.fpts ?? 0) + ((roster.settings?.fpts_decimal ?? 0) / 100),
@@ -160,7 +163,7 @@ export class MyLeagueComponent implements OnInit {
           this.loading = false;
         },
         complete: () => {
-          const myRoster = this.standings.find(standingsTeam => String(standingsTeam.roster.owner_id) === this.UserService.getMyUserId());
+          const myRoster = this.standings.find(standingsTeam => String(standingsTeam.roster.owner_id) === this.UserService.getMyUser()?.getUserId());
           // Sort league
           this.standings = this.StandingsService.buildStandings(this.standings);
           this.TeamService.setMyTeam(myRoster);
@@ -187,7 +190,7 @@ export class MyLeagueComponent implements OnInit {
           {
             queryParams: { 
               user: this.TeamService.getMyTeamUserName(), 
-              league: this.LeagueService.getMyLeagueId() 
+              league: this.league.getId() 
             }
           }
         );
@@ -197,13 +200,35 @@ export class MyLeagueComponent implements OnInit {
         this.router.navigate(['/selected-team'],
           {
             queryParams: { 
-              user: this.TeamService.getMyTeamUserName(), 
-              league: this.LeagueService.getMyLeagueId() 
+              user: this.TeamService.getCurrentTeamUserName(), 
+              league: this.league.getId() 
             }
           }
         );
       }
       
+    }
+    goToUserProfile(userId: string): void {
+      console.log(`User Selected: ${userId}`)
+      if (userId == this.UserService.getMyUser()?.getUserId()){
+        console.log("Selected yourself - (conceited, pompous, self centered)")
+        this.router.navigate(['/my-profile'],
+          {
+            queryParams: { 
+              userId: userId
+            }
+          }
+        );
+      }
+      else {
+        this.router.navigate(['/selected-profile'],
+          {
+            queryParams: { 
+              userId: userId
+            }
+          }
+        );
+      }
     }
 
 }

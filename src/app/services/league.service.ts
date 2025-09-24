@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Roster } from '../models/roster.interface';
 import { League } from '../models/league.interface';
+import { LeagueModel } from '../models/league.model';
 import { User } from '../models/user.interface';
 import { LeagueConfig } from '../models/league-config.interface';
 
@@ -12,15 +13,8 @@ import { LeagueConfig } from '../models/league-config.interface';
   providedIn: 'root',
 })
 export class LeagueService {
-  private myLeague: League | null = null;
-  private currentLeague: League | null = null;
-  private myLeagueUsers: User[] = [];
-  private currentLeagueUsers: User[] = [];
-  private myLeagueRosters: Roster[] = [];
-  private currentLeagueRosters: Roster[] = [];
-  private myLeagueDivisions: string[] = [];
-  private currentLeagueDivisions: string[] = [];
-
+  private myLeague: LeagueModel | null = null;
+  private currentLeague: LeagueModel | null = null;
 
   private baseUrl = 'https://api.sleeper.app/v1';
 
@@ -31,8 +25,8 @@ export class LeagueService {
       dynasty: true,
       divisions: 3,
       size: 12,
-      taxi: true
-    }
+      taxi: true,
+    },
   };
 
   constructor(
@@ -42,22 +36,43 @@ export class LeagueService {
   ) {}
 
   // ---- API CALLS ----
-  searchLeague(leagueId: string): Observable<League> {
-    const url = `${this.baseUrl}/league/${leagueId}`;
-    return this.http.get<League>(url);
+  searchLeague(leagueId: string): Observable<LeagueModel> {
+    return this.http
+      .get<League>(`${this.baseUrl}/league/${leagueId}`)
+      .pipe(map((l) => new LeagueModel(l)));
   }
 
-  getLeagueUsers(leagueId: string): Observable<User[]> {
-    const url = `${this.baseUrl}/league/${leagueId}/users`;
-    return this.http.get<User[]>(url);
+  findLeagueUsers(leagueId: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/league/${leagueId}/users`);
   }
 
-  getLeagueRosters(leagueId: string): Observable<Roster[]> {
-    const url = `${this.baseUrl}/league/${leagueId}/rosters`;
-    return this.http.get<Roster[]>(url);
+  findLeagueRosters(leagueId: string): Observable<Roster[]> {
+    return this.http.get<Roster[]>(`${this.baseUrl}/league/${leagueId}/rosters`);
+  }
+
+  findUserLeagues(season: string = '2025', userId?: string): Observable<LeagueModel[]> {
+    if (!userId) throw new Error("User ID required to fetch leagues");
+    return this.http
+      .get<League[]>(`${this.baseUrl}/user/${userId}/leagues/nfl/${season}`)
+      .pipe(map((leagues) => leagues.map((l) => new LeagueModel(l))));
   }
 
   // ---- LEAGUE STATE ----
+  setMyLeague(league: League | LeagueModel): void {
+    this.myLeague = league instanceof LeagueModel ? league : new LeagueModel(league);
+  }
+
+  getMyLeague(): LeagueModel | null {
+    return this.myLeague;
+  }
+
+  setCurrentLeague(league: League | LeagueModel): void {
+    this.currentLeague = league instanceof LeagueModel ? league : new LeagueModel(league);
+  }
+
+  getCurrentLeague(): LeagueModel | null {
+    return this.currentLeague;
+  }
   myLeagueSelected(): boolean {
     return !!this.myLeague;
   }
@@ -69,108 +84,19 @@ export class LeagueService {
   reset(): void {
     this.myLeague = null;
     this.currentLeague = null;
-    this.myLeagueUsers = [];
-    this.currentLeagueUsers = [];
-    this.myLeagueDivisions = [];
-    this.currentLeagueDivisions = [];
   }
 
-  setMyLeague(league: League): void {
-    this.myLeague = league;
-  }
-  setCurrentLeague(league: League): void {
-    this.currentLeague = league;
-  }
-
-  getMyLeague(): League | null {
-    return this.myLeague;
-  }
-  getCurrentLeague(): League | null {
-    return this.currentLeague;
-  }
-
-  getMyLeagueId(): string {
-    return this.myLeague?.league_id ?? '';
-  }
-  getCurrentLeagueId(): string {
-    return this.currentLeague?.league_id ?? '';
-  }
-
-  getMyLeagueName(): string {
-    return this.myLeague?.name ?? '';
-  }
-  getCurrentLeagueName(): string {
-    return this.currentLeague?.name ?? '';
-  }
-
-  getMyLeagueProfilePicture(): string {
-    return this.myLeague?.avatar
-      ? `https://sleepercdn.com/avatars/${this.myLeague.avatar}`
-      : 'assets/img/nfl.png';
-  }
-  getCurrentLeagueProfilePicture(): string {
-    return this.currentLeague?.avatar
-      ? `https://sleepercdn.com/avatars/${this.currentLeague.avatar}`
-      : 'assets/img/nfl.png';
-  }
-
-  setMyLeagueDivisions(): void {
-    const divisionKeys = Object.keys(this.myLeague.metadata).filter(key => key.startsWith('division_'));
-    this.myLeagueDivisions = divisionKeys.map(key => this.myLeague.metadata[key]);
-    
-  }
-  getMyLeagueDivisions(): string[] {
-    return this.myLeagueDivisions;
-  }
-  setCurrentLeagueDivisions(): void {
-    const divisionKeys = Object.keys(this.currentLeague.metadata).filter(key => key.startsWith('division_'));
-    this.currentLeagueDivisions = divisionKeys.map(key => this.currentLeague.metadata[key]);
-    
-  }
-  getCurrentLeagueDivisions(): string[] {
-    return this.currentLeagueDivisions;
-  }
-
-  // ---- USERS ----
-  setMyLeagueUsers(users: User[]): void {
-    this.myLeagueUsers = users;
-  }
-  getMyLeagueUsers(): User[] {
-    return this.myLeagueUsers;
-  }
-
-  setCurrentLeagueUsers(users: User[]): void {
-    this.currentLeagueUsers = users;
-  }
-  getCurrentLeagueUsers(): User[] {
-    return this.currentLeagueUsers;
-  }
-
-  // ---- ROSTERS ----
-  getMyLeagueRosters(): Roster[] {
-    return this.myLeagueRosters;
-  }
-  setMyLeagueRosters(rosters: Roster[]): void {
-    this.myLeagueRosters = rosters;
-  }
-
-  getCurrentLeagueRosters(): Roster[] {
-    return this.currentLeagueRosters;
-  }
-  setCurrentLeagueRosters(rosters: Roster[]): void {
-    this.currentLeagueRosters = rosters;
-  }
-  buildAvatar(avatar: string): string {
-    return `https://sleepercdn.com/avatars/${avatar}`
-  }
-
+  // ---- LEAGUE MAP ----
   getAllowedLeagueId(leagueName: string): string | null {
-    return this.leagueMap[leagueName].id || null;
+      return this.leagueMap[leagueName]?.id ?? null;
   }
+
   getAllowedLeagues(): string[] {
-    return Object.keys(this.leagueMap);
+      return Object.keys(this.leagueMap);
   }
+
   getLeagueMap(): Record<string, LeagueConfig> {
-    return this.leagueMap;
+      return this.leagueMap;
   }
+
 }

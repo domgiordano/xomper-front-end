@@ -85,7 +85,7 @@ export class SearchComponent implements OnInit {
         complete: () => {
           this.loading = false;
           this.router.navigate([`/home/${this.selectedLeague.key}`], {
-            queryParams: { leagueId: this.LeagueService.getMyLeagueId() }
+            queryParams: { leagueId: this.LeagueService.getMyLeague()?.getId() }
           });
         }
       });

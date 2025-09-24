@@ -1,69 +1,137 @@
 .team-page {
   display: flex;
-  justify-content: flex-start; /* Align items to the top */
-  align-items: flex-start; /* Align items to the left */
-  padding: 20px; /* Add padding around the team */
-  height: 100vh; /* Full viewport height */
-  background-color: #121212; /* Black background */
-  color: #ffffff; /* White text color */
+  flex-direction: column;
+  height: 100%; // take full height of parent (.content)
+  padding: 0 16px;
 }
 
 .team-container {
-  text-align: center;
-  background-color: #282828; /* Card background */
-  border-radius: 10px;
-  padding: 40px;
-  width: 400px;
-  min-height: 500px; /* let it grow instead of fixed height */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  flex: 1;
+  overflow-y: auto; // scrollable
+  padding-top: 0;   // no extra gap
 }
 
 .team-header {
-  margin-bottom: 30px; /* Space between header and stats */
-}
-
-.team-pic {
-  width: 200; /* Increased size of team picture */
-  height: 200px; /* Increased size of team picture */
-  border-radius: 50%; /* Circular team picture */
-  object-fit: cover; /* Cover image */
-  border: 2px solid #bf0a0a; /* Green border */
-}
-
-.team-name {
-  margin-top: 10px; /* Space between picture and name */
-  font-size: 28px; /* Increased font size for name */
-}
-
-.tooltip-container {
-  position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0; // will stick to top of .team-container
+  z-index: 10;
+  background-color: #121212; // same as page background
+  padding: 16px 0;
+
+  .team-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 32px;
+    border: 3px solid #bf0a0a;
+  }
+
+  .team-name {
+    font-size: 32px;
+    font-weight: bold;
+  }
 }
 
-.tooltip-text {
-  visibility: hidden;
-  position: absolute;
-  bottom: 125%; /* above the button */
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 14px;
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.06s ease-in-out; /* instant */
-  background: rgba(0, 0, 0, 0.95);
-  color: #fff;
+.player-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.tooltip-container:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+.roster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+
+
+
+.player-card {
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 20px;
+  width: 280px;
+  min-height: auto; // changed from 200px to auto to remove extra space
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .player-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .player-pic {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #bf0a0a;
+      margin-right: 12px;
+    }
+
+    .player-info {
+      flex: 1;
+
+      .name-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .player-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin: 0;
+        }
+
+        .team-logo {
+          width: 36px;
+          height: 36px;
+          margin-left: 8px;
+        }
+      }
+
+      .player-meta {
+        font-size: 14px;
+        color: #aaa;
+        margin-top: 4px;
+        text-align: left; // align left instead of centered
+      }
+    }
+  }
+
+  .view-more-btn {
+    background: #bf0a0a;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+      background: #9c0808;
+    }
+  }
+
+  .player-details {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #ddd;
+  }
 }
 
