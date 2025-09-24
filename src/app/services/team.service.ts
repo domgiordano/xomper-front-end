@@ -4,7 +4,7 @@ import { map, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { League } from '../models/league.interface';
 import { Roster } from '../models/roster.interface';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment.prod';;
 import { Player } from '../models/player.interface';
 import { XomperResponse } from '../models/xomper-api-response.interface';
 

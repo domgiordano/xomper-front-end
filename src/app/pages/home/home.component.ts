@@ -53,8 +53,8 @@ export class HomeComponent implements OnInit {
           next: league => {
             console.log("League Loaded------", league);
             this.LeagueService.setMyLeague(league)
-            this.leagueId = this.LeagueService.getMyLeagueId();
-            this.leagueName = this.LeagueService.getMyLeagueName();
+            this.leagueId = this.LeagueService.getMyLeague()?.getId();
+            this.leagueName = this.LeagueService.getMyLeague()?.getDisplayName();
             this.ToastService.showPositiveToast("League Loaded.")
             
           },
@@ -92,7 +92,7 @@ export class HomeComponent implements OnInit {
             this.loading = false;
             this.router.navigate(['/my-league'],
               {
-                queryParams: { leagueId: this.LeagueService.getMyLeagueId() }
+                queryParams: { leagueId: this.LeagueService.getMyLeague()?.getId() }
               }
             );
           }

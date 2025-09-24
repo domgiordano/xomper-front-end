@@ -1,65 +1,222 @@
-.profile-page {
+.my-league-page {
   display: flex;
-  justify-content: flex-start; /* Align items to the top */
-  align-items: flex-start; /* Align items to the left */
-  padding: 20px; /* Add padding around the profile */
-  height: 100vh; /* Full viewport height */
-  background-color: #121212; /* Black background */
-  color: #ffffff; /* White text color */
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #121212;
+  color: #ffffff;
 }
 
-.profile-container {
+.my-league-container {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 1000px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.my-league-header {
   text-align: center;
-  background-color: #282828; /* Card background */
-  border-radius: 10px;
-  padding: 40px; /* Increase padding for larger tile */
-  width: 400px; /* Increased width for the profile card */
-  height: 500px; /* Increased height for the profile card */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  margin-bottom: 20px;
 }
 
-.profile-header {
-  margin-bottom: 30px; /* Space between header and stats */
-}
-
-.profile-pic {
-  width: 200; /* Increased size of profile picture */
-  height: 200px; /* Increased size of profile picture */
-  border-radius: 50%; /* Circular profile picture */
-  object-fit: cover; /* Cover image */
-  border: 2px solid #bf0a0a; /* Green border */
+.league-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid #bf0a0a;
 }
 
 .league-name {
-  margin-top: 10px; /* Space between picture and name */
-  font-size: 28px; /* Increased font size for name */
+  margin-top: 10px;
+  font-size: 24px;
 }
 
-.tooltip-container {
-  position: relative;
-  display: inline-flex;
+.standings {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Adjusted grid for rank + button alignment */
+.standings-header,
+.standings-row {
+  display: grid;
+  grid-template-columns: 40px 2fr 1.5fr 0.7fr 0.7fr 0.8fr 1fr 1fr 80px; /* last column fixed width for button */
+  gap: 10px;
   align-items: center;
+  padding: 10px 15px;
 }
 
-.tooltip-text {
-  visibility: hidden;
-  position: absolute;
-  bottom: 125%; /* above the button */
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 6px 10px;
+.standings-header {
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+}
+
+.standings-row {
+  border-bottom: 1px solid #333;
+  background-color: #1f1f1f;
   border-radius: 6px;
-  font-size: 14px;
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.06s ease-in-out; /* instant */
-  background: rgba(0, 0, 0, 0.95);
-  color: #fff;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+    background-color: #2a2a2a;
+  }
+
+  .rank-number {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+
+    &.gold { color: gold; }
+    &.silver { color: silver; }
+    &.bronze { color: #cd7f32; }
+    color: white; // default
+  }
 }
 
-.tooltip-container:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
+.team-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #555;
+}
+
+.team-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.team-more-btn {
+  background-color: #1b8edc; /* blue */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background-color: #1470ad; /* darker blue on hover */
+  }
+}
+
+.win-streak {
+  color: #00ff00 !important;
+  font-weight: bold;
+}
+
+.loss-streak {
+  color: #ff4d4d !important;
+  font-weight: bold;
+}
+
+.standings-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background: #ccc;
+    cursor: pointer;
+
+    &.active {
+      background: #333;
+      color: #fff;
+    }
+  }
+}
+
+.division-title {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.switch-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.view-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.view-button {
+  background-color: white; // default
+  color: black;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #0055ff; // blue on hover
+    color: white;
+  }
+}
+
+.selected {
+  background-color: #ff0033; // red when selected
+  color: white;
+}
+
+.user-name.clickable {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0056b3;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .standings-header,
+  .standings-row {
+    grid-template-columns: 30px 2fr 1fr 0.7fr 0.7fr 0.8fr 0.8fr 0.8fr auto;
+    padding: 8px 10px;
+  }
+
+  .team-name, .user-name {
+    font-size: 12px;
+  }
+
+  .rank-number {
+    font-size: 14px;
+  }
+
+  .team-more-btn {
+    padding: 4px 10px;
+  }
 }
