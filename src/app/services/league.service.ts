@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { ToastService } from './toast.service';
 import { Observable, map } from 'rxjs';
 import { Roster } from '../models/roster.interface';
 import { League } from '../models/league.interface';
@@ -30,9 +28,7 @@ export class LeagueService {
   };
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private toastService: ToastService
+    private http: HttpClient
   ) {}
 
   // ---- API CALLS ----
@@ -58,7 +54,7 @@ export class LeagueService {
   }
 
   // ---- LEAGUE STATE ----
-  setMyLeague(league: League | LeagueModel): void {
+  setMyLeague(league: LeagueModel): void {
     this.myLeague = league instanceof LeagueModel ? league : new LeagueModel(league);
   }
 
@@ -66,7 +62,7 @@ export class LeagueService {
     return this.myLeague;
   }
 
-  setCurrentLeague(league: League | LeagueModel): void {
+  setCurrentLeague(league: LeagueModel): void {
     this.currentLeague = league instanceof LeagueModel ? league : new LeagueModel(league);
   }
 
@@ -88,15 +84,15 @@ export class LeagueService {
 
   // ---- LEAGUE MAP ----
   getAllowedLeagueId(leagueName: string): string | null {
-      return this.leagueMap[leagueName]?.id ?? null;
+    return this.leagueMap[leagueName]?.id ?? null;
   }
 
   getAllowedLeagues(): string[] {
-      return Object.keys(this.leagueMap);
+    return Object.keys(this.leagueMap);
   }
 
   getLeagueMap(): Record<string, LeagueConfig> {
-      return this.leagueMap;
+    return this.leagueMap;
   }
 
 }

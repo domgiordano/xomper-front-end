@@ -24,7 +24,7 @@
         </button>
         <!-- Only show Divisions button if league has divisions -->
         <button
-          *ngIf="leagueDivisions.length > 0"
+          *ngIf="standings[0].hasDivision()"
           class="view-button"
           [ngClass]="{'selected': viewMode === 'division'}"
           (click)="viewMode = 'division'">
@@ -78,7 +78,14 @@
       <!-- Division View -->
       <ng-container *ngIf="viewMode === 'division'">
         <div *ngFor="let division of standingsByDivision | keyvalue">
-          <h2 class="division-title">{{ division.key }}</h2>
+          <div class="division-header">
+            <img 
+              [src]="division.value[0]?.divisionAvatar || 'assets/img/nfl.png'" 
+              alt="{{ division.key }}" 
+              class="division-pic"
+            >
+            <h2 class="division-title">{{ division.key }}</h2>
+          </div>
 
           <div class="standings-header">
             <span>#</span>
@@ -100,7 +107,12 @@
               <img [src]="team.avatar" class="team-pic" alt="Team Avatar">
               <span class="team-name">{{ team.teamName }}</span>
             </div>
-            <span class="user-name">{{ team.userName }}</span>
+            <span 
+              class="user-name clickable" 
+              title="View Profile"
+              (click)="goToUserProfile(team.user.user_id)">
+              {{ team.userName }}
+            </span>
             <span>{{ team.wins }}</span>
             <span>{{ team.losses }}</span>
             <span [ngClass]="{'win-streak': team.streak.type==='win', 'loss-streak': team.streak.type==='loss'}">

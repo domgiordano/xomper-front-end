@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { StandingsTeam } from '../models/standings.interface';
 import { map, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { League } from '../models/league.interface';
-import { Roster } from '../models/roster.interface';
 import { environment } from 'src/environments/environment.prod';;
 import { Player } from '../models/player.interface';
 import { XomperResponse } from '../models/xomper-api-response.interface';
+import { StandingsTeamModel } from '../models/standings.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeamService {
-    private myTeam: StandingsTeam | null = null;
-    private currentTeam: StandingsTeam | null = null;
+    private myTeam: StandingsTeamModel | null = null;
+    private currentTeam: StandingsTeamModel | null = null;
     private xomperApiUrl: string = `https://${environment.apiId}.execute-api.us-east-1.amazonaws.com/prod`;
     private readonly apiAuthToken = environment.apiAuthToken;
 
@@ -22,88 +20,25 @@ export class TeamService {
     ){}
 
     // -------- MY TEAM --------
-    setMyTeam(team: StandingsTeam): void {
+    setMyTeam(team: StandingsTeamModel): void {
         this.myTeam = team;
     }
 
-    getMyTeam(): StandingsTeam | null {
+    getMyTeam(): StandingsTeamModel | null {
         return this.myTeam;
     }
 
-    getMyTeamName(): string {
-        return this.myTeam.teamName;
-    }
-
-    
-    getMyTeamLeague(): League | null {
-        return this.myTeam.league;
-    }
-  
-    getMyTeamLeagueId(): string {
-      return this.myTeam.league.league_id;
-    }
-
-    getMyTeamLeagueName(): string {
-      return this.myTeam.league.name;
-    }
-  
-    getMyTeamProfilePicture(): string {
-      return this.myTeam.avatar;
-    }
-    getMyTeamUserName(): string {
-      return this.myTeam.userName;
-    }
     
     // -------- CURRENT TEAM --------
-    setCurrentTeam(team: StandingsTeam): void {
+    setCurrentTeam(team: StandingsTeamModel): void {
         this.currentTeam = team;
     }
 
-    getCurrentTeam(): StandingsTeam | null {
+    getCurrentTeam(): StandingsTeamModel | null {
         return this.currentTeam;
     }
 
-    getCurrentTeamName(): string {
-        return this.currentTeam.teamName;
-    }
-
-    getCurrentTeamLeague(): League | null {
-        return this.currentTeam.league;
-    }
-  
-    getCurrentTeamLeagueId(): string {
-      return this.currentTeam.league.league_id;
-    }
-
-    getCurrentTeamLeagueName(): string {
-      return this.currentTeam.league.name;
-    }
-  
-    getCurrentTeamProfilePicture(): string {
-      return this.currentTeam.avatar;
-    }
-    getCurrentTeamUserName(): string {
-      return this.currentTeam.userName;
-    }
-
-  
     // ---- ROSTERS ----
-    getMyTeamRoster(): Roster {
-      return this.myTeam.roster;
-    }
-
-    getMyTeamPlayers(): Player[] {
-      return this.myTeam.players;
-    }
-
-    getCurrentTeamRoster(): Roster {
-      return this.currentTeam.roster;
-    }
-
-    getCurrentTeamPlayers(): Player[] {
-      return this.currentTeam.players;
-    }
-
     getPlayerById(playerId: string): Observable<Player> {
         const url = `${this.xomperApiUrl}/player/data`;
         const headers = new HttpHeaders({

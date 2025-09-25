@@ -66,10 +66,10 @@ export class ToolbarComponent implements OnInit {
   }
 
   get teamUserName(): string {
-    return this.TeamService.getMyTeamUserName();
+    return this.TeamService.getMyTeam()?.getUser()?.getUserName();
   }
   get teamLeagueId(): string {
-    return this.TeamService.getMyTeamLeagueId();  
+    return this.TeamService.getMyTeam()?.getLeague()?.getId();  
   }
   
   isLoggedIn(): boolean {

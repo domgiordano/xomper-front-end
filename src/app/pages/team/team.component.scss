@@ -14,30 +14,53 @@
 }
 
 .team-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-  position: sticky;
-  top: 0; // will stick to top of .team-container
-  z-index: 10;
-  background-color: #121212; // same as page background
-  padding: 16px 0;
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  .team-header-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* allow wrapping on smaller screens */
+    gap: 20px;
+  }
 
   .team-pic {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 12px;
     object-fit: cover;
-    margin-right: 32px;
-    border: 3px solid #bf0a0a;
+    border: 2px solid #bf0a0a;
   }
 
   .team-name {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .team-record {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .team-streak {
+    font-weight: bold;
+    &.win-streak { color: #4caf50; }
+    &.loss-streak { color: #f44336; }
+  }
+
+  .team-place {
+    background-color: #2a2a2a;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #bbb;
   }
 }
+
 
 .player-groups {
   display: flex;
@@ -111,20 +134,8 @@
       }
     }
   }
-
-  .view-more-btn {
-    background: #bf0a0a;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-
-    &:hover {
-      background: #9c0808;
-    }
+  .view-more-btn:hover {
+    background-color: var(--secondary-color); // assign dynamically in ts with ngStyle
   }
 
   .player-details {
