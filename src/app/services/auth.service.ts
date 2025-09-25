@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { ToastService } from './toast.service';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user.interface';
 import { XomperResponse } from '../models/xomper-api-response.interface';
@@ -16,9 +14,7 @@ export class AuthService {
     private authenticated = false;
 
     constructor(
-        private http: HttpClient,
-        private router: Router,
-        private toastService: ToastService
+        private http: HttpClient
     ) {}
     
     loginUser(leagueId: string, userId: string, password: string): Observable<User> {

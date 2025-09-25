@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { ToastService } from './toast.service';
 import { Observable } from 'rxjs';
 import { UserModel } from '../models/user.model';
 import { League } from '../models/league.interface';
@@ -13,15 +11,12 @@ import { User } from '../models/user.interface';
 export class UserService {
   private myUser: UserModel | null = null;
   private currentUser: UserModel | null = null;
-  private myUserLeagues: Record<string, League[]> = {};
-  private currentUserLeagues: Record<string, League[]> = {};
+
 
   private baseUrl = 'https://api.sleeper.app/v1';
 
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private toastService: ToastService
+    private http: HttpClient
   ) {}
 
   // ---- API CALLS ----
@@ -45,9 +40,7 @@ export class UserService {
 
   reset(): void {
     this.myUser = null;
-    this.myUserLeagues = {};
     this.currentUser = null;
-    this.currentUserLeagues = {};
   }
 
   setMyUser(user: User): void {
