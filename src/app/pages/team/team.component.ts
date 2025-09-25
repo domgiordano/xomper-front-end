@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { LeagueService } from 'src/app/services/league.service';
 import { TeamService } from 'src/app/services/team.service';
-import { Roster } from 'src/app/models/roster.interface';
-import { League } from 'src/app/models/league.interface';
+import { RosterModel } from 'src/app/models/roster.model';
+import { LeagueModel } from 'src/app/models/league.model';
+import { PlayerModel } from 'src/app/models/player.model';
 import { Player } from 'src/app/models/player.interface';
-import { StandingsTeam } from 'src/app/models/standings.interface';
+import { StandingsTeamModel } from 'src/app/models/standings.model';
+import { TEAM_COLORS } from 'src/app/constants/team-colors';
 
 @Component({
   selector: 'app-team',
@@ -16,21 +15,18 @@ import { StandingsTeam } from 'src/app/models/standings.interface';
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
-    private team: StandingsTeam;
+    team: StandingsTeamModel;
     teamPicture = "";
     teamName = ""
-    teamRoster: Roster;
-    teamPlayers: Player[];
-    starters: Player[] = [];
-    bench: Player[] = [];
-    taxi: Player[] = [];
-    teamLeague: League;
+    teamRoster: RosterModel;
+    teamPlayers: PlayerModel[];
+    starters: PlayerModel[] = [];
+    bench: PlayerModel[] = [];
+    taxi: PlayerModel[] = [];
+    teamLeague: LeagueModel;
     loading = false;
 
     constructor(
-      private UserService: UserService,
-      private LeagueService: LeagueService,
-      private router: Router,
       private ToastService: ToastService,
       private TeamService: TeamService
     ) {}
@@ -38,11 +34,11 @@ export class TeamComponent implements OnInit {
     ngOnInit(): void {
       console.log("Team Init.")
       this.team = this.TeamService.getCurrentTeam();
-      this.teamPicture = this.TeamService.getCurrentTeamProfilePicture();
-      this.teamName = this.TeamService.getCurrentTeamName();
-      this.teamRoster = this.TeamService.getCurrentTeamRoster();
-      this.teamLeague = this.TeamService.getCurrentTeamLeague();
-      this.teamPlayers = this.TeamService.getCurrentTeamPlayers();
+      this.teamPicture = this.team.getProfilePicture();
+      this.teamName = this.team.getTeamName();
+      this.teamRoster = this.team.getRoster();
+      this.teamLeague = this.team.getLeague();
+      this.teamPlayers = this.team.getPlayers();
       if (this.teamPlayers.length == 0) {
         console.log("Need the roster rq.")
         this.loadRosters();
@@ -59,8 +55,10 @@ export class TeamComponent implements OnInit {
       );
       // Call at once
       forkJoin(playerCalls).subscribe({
-        next: (results: Player[]) => {
-          this.teamPlayers = results;
+        next: (players: Player[]) => {
+          const playerModels = players.map(player => new PlayerModel(player));
+          this.team.setPlayers(playerModels)
+          this.teamPlayers = this.team.getPlayers();
           this.sortPlayersIntoGroups();
           console.log('Loaded players:', this.teamPlayers);
           this.ToastService.showPositiveToast('Successfully Loaded Team Players.');
@@ -101,8 +99,65 @@ export class TeamComponent implements OnInit {
       });
     }
 
-    togglePlayerDetails(player: Player) {
+    togglePlayerDetails(player: PlayerModel) {
       console.log("Player selected-----", player);
     }
+    getTeamStyle(team: string | undefined) {
+          if (!team) {
+            return {
+              backgroundColor: '#2a2a2a',
+              border: '2px solid #444'
+            };
+          }
+    
+          const key = team.toLowerCase();
+          const colors = TEAM_COLORS[key];
+    
+          if (!colors) {
+            return {
+              backgroundColor: '#2a2a2a',
+              border: '2px solid #444'
+            };
+          }
+    
+          return {
+            background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+            color: '#fff'
+          };
+        }
+        // getTeamButtonStyle(team: string | undefined) {
+        //   if (!team) return { background: '#444', color: '#fff' };
+    
+        //   const key = team.toLowerCase();
+        //   const colors = TEAM_COLORS[key];
+        //   if (!colors) return { background: '#444', color: '#fff' };
+    
+        //   return {
+        //     background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+        //     color: '#fff',
+        //     border: 'none',
+        //     borderRadius: '20px',
+        //     padding: '6px 14px',
+        //     fontWeight: 'bold',
+        //     cursor: 'pointer'
+        //   };
+        // }
+        getTeamButtonStyle(team: string | undefined) {
+          if (!team) return { background: '#444', color: '#fff' };
+    
+          const key = team.toLowerCase();
+          const colors = TEAM_COLORS[key];
+          if (!colors) return { background: '#444', color: '#fff' };
+    
+          return {
+            backgroundColor: colors.primary,
+            color: '#fff',
+            border: 'none',
+            borderRadius: '20px',
+            padding: '6px 14px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          };
+        }
 
 }

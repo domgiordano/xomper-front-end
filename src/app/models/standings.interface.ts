@@ -1,13 +1,13 @@
-import { Roster } from './roster.interface';
-import { User } from './user.interface';
-import { League } from './league.interface';
-import { Player } from './player.interface';
+import { RosterModel } from './roster.model';
+import { UserModel } from './user.model';
+import { LeagueModel } from './league.model';
+import { PlayerModel } from './player.model';
 
 export interface StandingsTeam {
-  roster: Roster;           // full roster
-  players: Player[];        // List of players fully loaded
-  user: User;               // user who owns the roster
-  league: League;           // league of the roster
+  roster: RosterModel;           // full roster
+  players: PlayerModel[];        // List of players fully loaded
+  user: UserModel;               // user who owns the roster
+  league: LeagueModel;           // league of the roster
   teamName: string;
   userName: string;
   avatar: string | null;
@@ -15,6 +15,9 @@ export interface StandingsTeam {
   losses: number;
   fpts: number;
   fptsAgainst: number;
+  streak: { type: 'win' | 'loss' | ''; total: number }; 
   divisionName: string;
-  divisionIndex: number;
+  divisionAvatar: string;
+  leagueRank: number;
+  divisionRank: number;
 }

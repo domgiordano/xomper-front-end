@@ -1,6 +1,6 @@
 import { LeagueConfig } from "./league-config.interface";
 import { League } from "./league.interface";
-import { Roster } from "./roster.interface";
+import { RosterModel } from "./roster.model";
 import { UserModel } from "./user.model";
 
 export class LeagueModel implements League {
@@ -8,7 +8,7 @@ export class LeagueModel implements League {
     name: string;
     season: string;
     users: UserModel[];
-    rosters: Roster[];
+    rosters: RosterModel[];
     season_type: string; // "regular" | "post" | "off"
     sport: string;
     status: string; // "in_season" | "pre_draft" | "complete"
@@ -20,6 +20,7 @@ export class LeagueModel implements League {
     group_id?: string | null;
     avatar: string | null;
     divisions: string[] = [];
+    divisionAvatars: string[] = [];
 
     settings: {
         daily_waivers?: number;
@@ -59,6 +60,8 @@ export class LeagueModel implements League {
         if (!this.metadata) {return;}
         const divisionKeys = Object.keys(this.metadata).filter((key) => key.startsWith("division_"));
         this.divisions = divisionKeys.map((key) => this.metadata![key]);
+        const divisionAvatarKeys = Object.keys(this.metadata).filter((key) => key.startsWith("division_") && key.endsWith('_avatar'));
+        this.divisionAvatars = divisionAvatarKeys.map((key) => this.metadata![key]);
     }
     getDivisions(): string[] {
         return this.divisions;
@@ -95,10 +98,10 @@ export class LeagueModel implements League {
     getUsers(): UserModel[] {
         return this.users;
     }
-    setRosters(rosters: Roster[]): void {
+    setRosters(rosters: RosterModel[]): void {
         this.rosters = rosters;
     }
-    getRosters(): Roster[] {
+    getRosters(): RosterModel[] {
         return this.rosters;
     }
 }

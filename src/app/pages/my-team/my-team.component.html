@@ -4,20 +4,52 @@
     
     <!-- team header -->
     <div class="team-header">
-      <img 
-        [src]="teamPicture ? teamPicture : 'assets/img/nfl.png'" 
-        (error)="teamPicture='assets/img/nfl.png'" 
-        alt="Team Picture" 
-        class="team-pic"
-      >
-      <h1 class="team-name">{{ teamName }}</h1>
+      <div class="team-header-row">
+        <!-- team picture -->
+        <img 
+          [src]="teamPicture ? teamPicture : 'assets/img/nfl.png'" 
+          (error)="teamPicture='assets/img/nfl.png'" 
+          alt="Team Picture" 
+          class="team-pic"
+        >
+
+        <!-- team name -->
+        <h1 class="team-name">{{ teamName }}</h1>
+
+        <!-- record -->
+        <p class="team-record">
+          ({{ team?.wins }}-{{ team?.losses }})
+        </p>
+
+        <!-- streak -->
+        <p class="team-streak" 
+          [ngClass]="{'win-streak': team?.streak?.type==='win', 'loss-streak': team?.streak?.type==='loss'}">
+          {{ team?.streak?.type==='win' ? 'W' : 'L' }}{{ team?.streak?.total }}
+        </p>
+
+        <!-- league rank -->
+        <p class="team-place">
+          {{ teamLeague.name }} Rank: 
+          {{ team?.leagueRank }}{{ team?.leagueRank === 1 ? 'st' : team?.leagueRank === 2 ? 'nd' : team?.leagueRank === 3 ? 'rd' : 'th' }}
+        </p>
+
+        <!-- division rank -->
+        <p class="team-place">
+          {{ team?.divisionName }} Rank: 
+          {{ team?.divisionRank }}{{ team?.divisionRank === 1 ? 'st' : team?.divisionRank === 2 ? 'nd' : team?.divisionRank === 3 ? 'rd' : 'th' }}
+        </p>
+      </div>
     </div>
 
     <!-- Starters -->
     <div class="player-group" *ngIf="starters.length > 0">
       <h2 class="group-title">Starters</h2>
       <div class="roster">
-        <div class="player-card" *ngFor="let player of starters">
+        <div 
+          class="player-card"
+          *ngFor="let player of starters"
+          [ngStyle]="getTeamStyle(player.data.team)"
+        >
           <div class="player-header">
             <img 
               [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
@@ -29,18 +61,21 @@
               <div class="name-row">
                 <h2 class="player-name">{{ player.data.full_name }}</h2>
                 <img 
-                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
-                  alt="{{ player.data.team }}" 
+                  [src]="player.data.team ? 'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team?.toLowerCase() + '.png' : 'assets/img/nfl.png'" 
+                  alt="{{ player.data.team || 'FA' }}"
                   class="team-logo"
                 >
               </div>
               <p class="player-meta">
-                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+                {{ player.data.team || 'FA' }} * {{ player.data.position }} * {{ player.data.number }}
               </p>
             </div>
           </div>
 
-          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+          <button 
+            class="view-more-btn" 
+            [ngStyle]="getTeamButtonStyle(player.data.team)"
+            (click)="togglePlayerDetails(player)">
             {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 
@@ -60,7 +95,11 @@
     <div class="player-group" *ngIf="bench.length > 0">
       <h2 class="group-title">Bench</h2>
       <div class="roster">
-        <div class="player-card" *ngFor="let player of bench">
+        <div 
+          class="player-card"
+          *ngFor="let player of bench"
+          [ngStyle]="getTeamStyle(player.data.team)"
+        >
           <div class="player-header">
             <img 
               [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
@@ -83,7 +122,10 @@
             </div>
           </div>
 
-          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+          <button 
+            class="view-more-btn" 
+            [ngStyle]="getTeamButtonStyle(player.data.team)"
+            (click)="togglePlayerDetails(player)">
             {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 
@@ -103,7 +145,11 @@
     <div class="player-group" *ngIf="taxi.length > 0">
       <h2 class="group-title">Taxi Squad</h2>
       <div class="roster">
-        <div class="player-card" *ngFor="let player of taxi">
+        <div 
+          class="player-card"
+          *ngFor="let player of taxi"
+          [ngStyle]="getTeamStyle(player.data.team)"
+        >
           <div class="player-header">
             <img 
               [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
@@ -126,7 +172,10 @@
             </div>
           </div>
 
-          <button class="view-more-btn" (click)="togglePlayerDetails(player)">
+          <button 
+            class="view-more-btn" 
+            [ngStyle]="getTeamButtonStyle(player.data.team)"
+            (click)="togglePlayerDetails(player)">
             {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 

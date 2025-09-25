@@ -1,23 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Roster } from '../models/roster.interface';
-import { StandingsTeam } from '../models/standings.interface';
+import { StandingsTeamModel } from '../models/standings.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StandingsService {
-  buildStandings(standings: StandingsTeam[], groupByDivision = false): StandingsTeam[] {
-    return standings.sort((a, b) => {
+  buildStandings(standings: StandingsTeamModel[]): StandingsTeamModel[] {
+    const sorted = standings.sort((a, b) => {
 
-      if (groupByDivision && a.divisionIndex !== b.divisionIndex) {
-        return a.divisionIndex - b.divisionIndex;
+      if (a.getWins() !== b.getWins()) {
+        return b.getWins() - a.getWins();
       }
 
-      if (a.wins !== b.wins) {
-        return b.wins - a.wins;
-      }
-
-      return b.fpts - a.fpts;
+      return b.getFpts() - a.getFpts();
     });
+
+    // assign rank
+    sorted.forEach((team, index) => {
+      team.leagueRank = index + 1;
+    });
+
+    return sorted;
+  }
+
+  buildDivisionStandings(standings: StandingsTeamModel[]): Record<string, StandingsTeamModel[]> {
+    const standingsByDivision: Record<string, StandingsTeamModel[]> = {};
+
+    // group teams into divisions
+    standings.forEach(team => {
+      const division = team.getDivisionName() || "Unknown Division";
+      if (!standingsByDivision[division]) {
+        standingsByDivision[division] = [];
+      }
+      standingsByDivision[division].push(team);
+    });
+
+    // sort within each division & assign division ranks
+    Object.values(standingsByDivision).forEach(divisionTeams => {
+      divisionTeams.sort((a, b) => {
+        if (a.getWins() !== b.getWins()) {
+          return b.getWins() - a.getWins();
+        }
+        return b.getFpts() - a.getFpts();
+      });
+
+      divisionTeams.forEach((team, index) => {
+        team.divisionRank = index + 1;
+      });
+    });
+
+    return standingsByDivision;
   }
 }
