@@ -92,7 +92,11 @@ export class HomeComponent implements OnInit {
             this.loading = false;
             this.router.navigate(['/my-league'],
               {
-                queryParams: { leagueId: this.LeagueService.getMyLeague()?.getId() }
+                queryParams: { 
+                  leagueId: this.LeagueService.getMyLeague()?.getId(),
+                  view: "league"
+                }
+                
               }
             );
           }

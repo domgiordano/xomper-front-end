@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { LeagueService } from 'src/app/services/league.service';
@@ -17,6 +17,7 @@ import { StandingsTeamModel } from 'src/app/models/standings.model';
   styleUrls: ['./league.component.scss']
 })
 export class LeagueComponent implements OnInit {
+    @Input() mode: 'my' | 'selected' = 'selected';
     viewMode: 'league' | 'division' = 'league'; // default to full league
     private league: LeagueModel;
     leaguePicture = "";
@@ -41,9 +42,16 @@ export class LeagueComponent implements OnInit {
     ngOnInit(): void {
       console.log("League Init.")
       this.loading = true;
+      if (this.mode === 'my') {
+        this.league = this.LeagueService.getMyLeague();
+      } else {
+        this.league = this.LeagueService.getCurrentLeague();
+      }
       // Always check query params
       this.route.queryParams.pipe(take(1)).subscribe(params => {
         const queryLeagueId = params['leagueId'];
+        this.viewMode = params['view'];
+  
         console.log("LeagueId from query:", queryLeagueId);
         
         // Always fetch league
@@ -167,6 +175,20 @@ export class LeagueComponent implements OnInit {
         complete: () => {
           // Sort league
           this.standings = this.StandingsService.buildStandings(this.standings);
+          
+          if (this.mode == 'my'){
+            console.log("Setting My Team.")
+            // Get My Team
+            const myUserName = this.UserService.getMyUser().getUserName();
+            const myTeam = this.standings.find(
+              (team) => team.userName === myUserName
+            );
+            this.TeamService.setMyTeam(myTeam);
+          }
+          else{
+            console.log("Not my league bro.")
+          }
+
           // dynamically build division -> teams map
           this.standingsByDivision = this.StandingsService.buildDivisionStandings(this.standings);
 

@@ -16,6 +16,14 @@
         <!-- team name -->
         <h1 class="team-name">{{ teamName }}</h1>
 
+        <!-- username -->
+        <p 
+          class="clickable user-name"
+          (click)="goToUserProfile(team?.user?.user_id)">
+          {{ team?.userName }}
+        </p>
+
+
         <!-- record -->
         <p class="team-record">
           ({{ team?.wins }}-{{ team?.losses }})
@@ -28,14 +36,14 @@
         </p>
 
         <!-- league rank -->
-        <p class="team-place">
-          {{ teamLeague.name }} Rank: 
+        <p class="clickable team-place" (click)="goToStandings(teamLeague.league_id, 'league')">
+          {{ teamLeague.name }} Standings:
           {{ team?.leagueRank }}{{ team?.leagueRank === 1 ? 'st' : team?.leagueRank === 2 ? 'nd' : team?.leagueRank === 3 ? 'rd' : 'th' }}
         </p>
 
         <!-- division rank -->
-        <p class="team-place">
-          {{ team?.divisionName }} Rank: 
+        <p class="clickable team-place" (click)="goToStandings(teamLeague.league_id, 'division')">
+          {{ team?.divisionName }} Standings:
           {{ team?.divisionRank }}{{ team?.divisionRank === 1 ? 'st' : team?.divisionRank === 2 ? 'nd' : team?.divisionRank === 3 ? 'rd' : 'th' }}
         </p>
       </div>

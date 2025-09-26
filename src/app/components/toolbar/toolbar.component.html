@@ -12,7 +12,7 @@
         <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
           My Profile
         </a>
-        <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
+        <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId, view: 'league' }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
           My League
         </a>
         <a routerLink="/my-team" [queryParams]="{ user: teamUserName, league: teamLeagueId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-team')}">
@@ -31,7 +31,7 @@
     <a routerLink="/home" routerLinkActive="active" (click)="selectItem('/home')">Home</a>
     <ng-container *ngIf="isLoggedIn()">
       <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" (click)="selectItem('/my-profile')">My Profile</a>
-      <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId }" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
+      <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId, view: 'league' }" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
       <a routerLink="/my-team" [queryParams]="{ user: teamUserName, league: teamLeagueId }" routerLinkActive="active" (click)="selectItem('/my-team')">My Team</a>
     </ng-container>
   </div>

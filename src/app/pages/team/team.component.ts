@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { ToastService } from 'src/app/services/toast.service';
 import { TeamService } from 'src/app/services/team.service';
@@ -8,6 +8,9 @@ import { PlayerModel } from 'src/app/models/player.model';
 import { Player } from 'src/app/models/player.interface';
 import { StandingsTeamModel } from 'src/app/models/standings.model';
 import { TEAM_COLORS } from 'src/app/constants/team-colors';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { LeagueService } from 'src/app/services/league.service';
 
 @Component({
   selector: 'app-team',
@@ -15,6 +18,7 @@ import { TEAM_COLORS } from 'src/app/constants/team-colors';
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
+    @Input() mode: 'my' | 'selected' = 'selected';
     team: StandingsTeamModel;
     teamPicture = "";
     teamName = ""
@@ -28,12 +32,19 @@ export class TeamComponent implements OnInit {
 
     constructor(
       private ToastService: ToastService,
-      private TeamService: TeamService
+      private TeamService: TeamService,
+      private UserService: UserService,
+      private LeagueService: LeagueService,
+      private router: Router
     ) {}
 
     ngOnInit(): void {
-      console.log("Team Init.")
-      this.team = this.TeamService.getCurrentTeam();
+      if (this.mode === 'my') {
+        this.team = this.TeamService.getMyTeam();
+      } else {
+        this.team = this.TeamService.getCurrentTeam();
+      }
+      //this.team = this.TeamService.getCurrentTeam();
       this.teamPicture = this.team.getProfilePicture();
       this.teamName = this.team.getTeamName();
       this.teamRoster = this.team.getRoster();
@@ -98,6 +109,58 @@ export class TeamComponent implements OnInit {
         }
       });
     }
+    //////////////////////
+    ////// ROUTING //////
+    ////////////////////
+    goToUserProfile(userId: string) {
+      if (!userId) return;
+      console.log(`User Selected: ${userId}`)
+      if (userId == this.UserService.getMyUser()?.getUserId()){
+        console.log("Selected yourself - (conceited, pompous, self centered)")
+        this.router.navigate(['/my-profile'],
+          {
+            queryParams: { 
+              userId: userId
+            }
+          }
+        );
+      }
+      else {
+        this.router.navigate(['/selected-profile'],
+          {
+            queryParams: { 
+              userId: userId
+            }
+          }
+        );
+      }
+    }
+
+    goToStandings(leagueId: string, view: string) {
+      if (!leagueId) return;
+      console.log(`League Selected: ${leagueId}`)
+      if (leagueId == this.LeagueService.getMyLeague()?.getId()){
+        console.log("Selected your own league - (conceited, pompous, self centered)")
+        this.router.navigate(['/my-league'],
+          {
+            queryParams: { 
+              leagueId: leagueId,
+              view: view
+            }
+          }
+        );
+      }
+      else {
+        this.router.navigate(['/selected-league'],
+          {
+            queryParams: { 
+              leagueId: leagueId,
+              view: view
+            }
+          }
+        );
+      }
+    }
 
     togglePlayerDetails(player: PlayerModel) {
       console.log("Player selected-----", player);
@@ -125,23 +188,6 @@ export class TeamComponent implements OnInit {
             color: '#fff'
           };
         }
-        // getTeamButtonStyle(team: string | undefined) {
-        //   if (!team) return { background: '#444', color: '#fff' };
-    
-        //   const key = team.toLowerCase();
-        //   const colors = TEAM_COLORS[key];
-        //   if (!colors) return { background: '#444', color: '#fff' };
-    
-        //   return {
-        //     background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-        //     color: '#fff',
-        //     border: 'none',
-        //     borderRadius: '20px',
-        //     padding: '6px 14px',
-        //     fontWeight: 'bold',
-        //     cursor: 'pointer'
-        //   };
-        // }
         getTeamButtonStyle(team: string | undefined) {
           if (!team) return { background: '#444', color: '#fff' };
     
