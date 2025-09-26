@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user.interface';
 import { XomperResponse } from '../models/xomper-api-response.interface';
-import { environment } from 'src/environments/environment.prod';;
+import { environment } from 'src/environments/environment.dev';;
 
 @Injectable({
   providedIn: 'root',

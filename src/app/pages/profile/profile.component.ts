@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { take } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
@@ -13,6 +13,7 @@ import { LeagueModel } from 'src/app/models/league.model';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+    @Input() mode: 'my' | 'selected' = 'selected';
     private user: UserModel;
     profilePicture = "";
     userName = ""
@@ -31,7 +32,11 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit(): void {
       console.log("Profile Init.");
-      this.user = this.UserService.getCurrentUser();
+      if (this.mode === 'my') {
+        this.user = this.UserService.getMyUser();
+      } else {
+        this.user = this.UserService.getCurrentUser();
+      }
       this.loading = true;
       // Always check query params
       this.route.queryParams.pipe(take(1)).subscribe(params => {
@@ -104,7 +109,8 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/my-league'],
           {
             queryParams: { 
-              leagueId: leagueId
+              leagueId: leagueId,
+              view: "league"
             }
           }
         );
@@ -113,7 +119,8 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/selected-league'],
           {
             queryParams: { 
-              leagueId: leagueId
+              leagueId: leagueId,
+              view: "division"
             }
           }
         );

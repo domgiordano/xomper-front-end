@@ -24,6 +24,9 @@ import { AuthService } from './services/auth.service';
 import { StandingsService } from './services/standings.service';
 import { TeamService } from './services/team.service';
 import { MyTeamComponent } from './pages/my-team/my-team.component';
+import { SelectedTeamComponent } from './pages/selected-team/selected-team.component';
+import { SelectedProfileComponent } from './pages/selected-profile/selected-profile.component';
+import { SelectedLeagueComponent } from './pages/selected-league/selected-league.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,8 +39,11 @@ import { MyTeamComponent } from './pages/my-team/my-team.component';
     MyProfileComponent,
     MyTeamComponent,
     LeagueComponent,
+    SelectedLeagueComponent,
     ProfileComponent,
+    SelectedProfileComponent,
     TeamComponent,
+    SelectedTeamComponent,
     HomeComponent
   ],
   imports: [

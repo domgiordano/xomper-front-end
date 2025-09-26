@@ -146,6 +146,6 @@ export class StandingsTeamModel {
 
   /** Shortcut for checking if the team is in a division. */
   hasDivision(): boolean {
-    return this.divisionName.trim().length > 0;
+    return this.divisionName.trim() != "Unknown Division";
   }
 }

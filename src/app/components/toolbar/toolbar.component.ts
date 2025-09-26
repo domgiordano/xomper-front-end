@@ -66,7 +66,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   get teamUserName(): string {
-    return this.TeamService.getMyTeam()?.getUser()?.getUserName();
+    return this.TeamService.getMyTeam().getUserName();
   }
   get teamLeagueId(): string {
     return this.TeamService.getMyTeam()?.getLeague()?.getId();  

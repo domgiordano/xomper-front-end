@@ -145,4 +145,13 @@
     color: #ddd;
   }
 }
+.clickable {
+  cursor: pointer;
+  color: #007bff; // or your theme color
+  text-decoration: underline;
+
+  &:hover {
+    color: #0056b3;
+  }
+}
 
