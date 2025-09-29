@@ -10,6 +10,8 @@ import { UserModel } from 'src/app/models/user.model';
 import { LeagueModel } from 'src/app/models/league.model';
 import { RosterModel } from 'src/app/models/roster.model';
 import { StandingsTeamModel } from 'src/app/models/standings.model';
+import { MatchupModel } from 'src/app/models/matchup.model';
+import { MatchupDisplay } from 'src/app/models/matchup-display.interface';
 
 @Component({
   selector: 'app-league',
@@ -23,11 +25,16 @@ export class LeagueComponent implements OnInit {
     leaguePicture = "";
     leagueName = "";
     leagueId = "";
+    leaguePlayoffTeams: number = 0;
     leagueUsers;
     leagueRosters: RosterModel[] = [];
     standings: StandingsTeamModel[] = [];
     standingsByDivision: { [division: string]: StandingsTeamModel[] };
     loading = false;
+    activeTab: 'standings' | 'matchups' = 'standings';
+    matchups: MatchupModel[] = [];
+    matchupsGrouped: MatchupDisplay[] = [];
+    currentWeek: number;
 
     constructor(
       private LeagueService: LeagueService,
@@ -80,6 +87,7 @@ export class LeagueComponent implements OnInit {
       this.leagueName = this.league.getDisplayName();
       this.leagueId = this.league.getId();
       this.leagueUsers = this.league.getUsers();
+      this.leaguePlayoffTeams = this.league.getPlayoffTeams();
       this.league.setDivisions();
       this.getLeagueUsers();
     }
@@ -243,6 +251,56 @@ export class LeagueComponent implements OnInit {
             }
           }
         );
+      }
+    }
+
+    getMatchups(): void {
+      this.loading = true;
+      this.LeagueService.getLeagueMatchups(this.leagueId, this.LeagueService.getNflState().week).pipe(take(1)).subscribe({
+        next: rawPairs => {
+          this.matchupsGrouped = rawPairs.map(pair => {
+            const teamAInfo = this.standings.find(
+              t => t.roster.roster_id === pair.teamA.roster_id
+            );
+            const teamBInfo = this.standings.find(
+              t => t.roster.roster_id === pair.teamB.roster_id
+            );
+
+            return {
+              teamA: {
+                teamName: teamAInfo.teamName,
+                userName: teamAInfo.userName,
+                avatar: teamAInfo.avatar,
+                wins: teamAInfo.wins,
+                losses: teamAInfo.losses,
+                points: pair.teamA.points
+              },
+              teamB: {
+                teamName: teamBInfo.teamName,
+                userName: teamBInfo.userName,
+                avatar: teamBInfo.avatar,
+                wins: teamBInfo.wins,
+                losses: teamBInfo.losses,
+                points: pair.teamB.points
+              }
+            } as MatchupDisplay;
+          });
+        },
+        error: err => {
+          console.error('Error Getting League Matchups', err);
+          this.ToastService.showNegativeToast('Error Finding League Matchups.');
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
+    }
+
+    setTab(tab: 'standings' | 'matchups') {
+      this.activeTab = tab;
+      if (tab === 'matchups' && this.matchups.length === 0) {
+        this.getMatchups();
       }
     }
 

@@ -6,6 +6,11 @@ import { League } from '../models/league.interface';
 import { LeagueModel } from '../models/league.model';
 import { User } from '../models/user.interface';
 import { LeagueConfig } from '../models/league-config.interface';
+import { Matchup } from '../models/matchup.interface';
+import { MatchupModel } from '../models/matchup.model';
+import { NflStateModel } from '../models/nfl-state.model';
+import { StandingsTeamModel } from '../models/standings.model';
+import { MatchupDisplay } from '../models/matchup-display.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +18,7 @@ import { LeagueConfig } from '../models/league-config.interface';
 export class LeagueService {
   private myLeague: LeagueModel | null = null;
   private currentLeague: LeagueModel | null = null;
+  private leagueState: NflStateModel | null = null;
 
   private baseUrl = 'https://api.sleeper.app/v1';
 
@@ -53,6 +59,33 @@ export class LeagueService {
       .pipe(map((leagues) => leagues.map((l) => new LeagueModel(l))));
   }
 
+  getLeagueMatchups(leagueId: string, week: number): Observable<{ teamA: Matchup; teamB: Matchup }[]> {
+    return this.http
+      .get<Matchup[]>(`${this.baseUrl}/league/${leagueId}/matchups/${week}`)
+      .pipe(
+        map((matchups) => {
+          // Group by matchup_id
+          const grouped: { [key: number]: Matchup[] } = {};
+          matchups.forEach((m) => {
+            if (!grouped[m.matchup_id]) {
+              grouped[m.matchup_id] = [];
+            }
+            grouped[m.matchup_id].push(m);
+          });
+
+          // Return simple pairs of raw Matchups
+          return Object.values(grouped).map((pair) => ({
+            teamA: pair[0],
+            teamB: pair[1]
+          }));
+        })
+      );
+  }
+
+  getLeagueState(): Observable<NflStateModel> {
+    return this.http.get<NflStateModel>(`${this.baseUrl}/state/nfl`);
+  }
+
   // ---- LEAGUE STATE ----
   setMyLeague(league: LeagueModel): void {
     this.myLeague = league instanceof LeagueModel ? league : new LeagueModel(league);
@@ -77,9 +110,17 @@ export class LeagueService {
     return !!this.currentLeague;
   }
 
+  setNflState(state: NflStateModel): void {
+    this.leagueState = state;
+  }
+  getNflState(): NflStateModel {
+   return this.leagueState;
+  }
+
   reset(): void {
     this.myLeague = null;
     this.currentLeague = null;
+    this.leagueState = null;
   }
 
   // ---- LEAGUE MAP ----
@@ -94,5 +135,6 @@ export class LeagueService {
   getLeagueMap(): Record<string, LeagueConfig> {
     return this.leagueMap;
   }
+  
 
 }

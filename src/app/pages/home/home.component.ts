@@ -31,21 +31,31 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
       console.log("Home Init.")
 
-      this.route.paramMap.subscribe(params => {
-      this.leagueName = params.get('leagueName');
-      if (this.leagueName) {
-        this.leagueId = this.LeagueService.getAllowedLeagueId(this.leagueName);
-        if (!this.leagueId) {
-          console.error('Invalid league name:', this.leagueName);
-          this.router.navigate(['/home']); // fallback if invalid league
-        } else {
-          console.log(`Loaded league ${this.leagueName} -> ID ${this.leagueId}`);
-          this.loadLeague();
-        }
-      }
-    });
-    }
+      this.getNflState();
 
+      this.route.paramMap.subscribe(params => {
+        this.leagueName = params.get('leagueName');
+        if (this.leagueName) {
+          this.leagueId = this.LeagueService.getAllowedLeagueId(this.leagueName);
+          if (!this.leagueId) {
+            console.error('Invalid league name:', this.leagueName);
+            this.router.navigate(['/home']); // fallback if invalid league
+          } else {
+            console.log(`Loaded league ${this.leagueName} -> ID ${this.leagueId}`);
+            this.loadLeague();
+          }
+        }
+      });
+    }
+    getNflState() {
+      console.log("Getting NFL State..");
+      this.LeagueService.getLeagueState().pipe(take(1)).subscribe({
+        next: state => {
+          console.log("League State--------", state);
+          this.LeagueService.setNflState(state);
+        }
+      })
+    }
     loadLeague() {
       this.loading = true;
       console.log('Loading League..:', this.leagueId);
