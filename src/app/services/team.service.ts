@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment.dev';;
+import { environment } from 'src/environments/environment.prod';
 import { Player } from '../models/player.interface';
 import { XomperResponse } from '../models/xomper-api-response.interface';
 import { StandingsTeamModel } from '../models/standings.model';

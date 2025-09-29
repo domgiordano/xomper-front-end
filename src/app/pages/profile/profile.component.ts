@@ -120,7 +120,7 @@ export class ProfileComponent implements OnInit {
           {
             queryParams: { 
               leagueId: leagueId,
-              view: "division"
+              view: "league"
             }
           }
         );
