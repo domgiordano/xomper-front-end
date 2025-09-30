@@ -34,8 +34,9 @@ export class PlayerModel implements Player {
   search_first_name: string;
   yahoo_id: string | null;
 
-  constructor(data: Player) {
-    Object.assign(this, data);
+  constructor(raw: any) {
+    const player = raw.data ?? raw; // unwrap if needed
+    Object.assign(this, player);
   }
 
   // ---- HELPERS ----
@@ -64,9 +65,10 @@ export class PlayerModel implements Player {
   }
 
   getDepthChartInfo(): string {
-    return this.depth_chart_position
-      ? `${this.getDisplayPosition()} (Depth ${this.depth_chart_position})`
-      : this.getDisplayPosition();
+    if (!this.depth_chart_order) {
+      return this.getDisplayPosition();
+    }
+    return `${this.getDisplayPosition()}${this.depth_chart_order}`;
   }
 
   getProfilePicture(): string {

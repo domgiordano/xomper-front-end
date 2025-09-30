@@ -27,6 +27,8 @@ import { MyTeamComponent } from './pages/my-team/my-team.component';
 import { SelectedTeamComponent } from './pages/selected-team/selected-team.component';
 import { SelectedProfileComponent } from './pages/selected-profile/selected-profile.component';
 import { SelectedLeagueComponent } from './pages/selected-league/selected-league.component';
+import { PlayerService } from './services/player.service';
+import { PlayerModalComponent } from './components/player-modal/player-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,8 @@ import { SelectedLeagueComponent } from './pages/selected-league/selected-league
     SelectedProfileComponent,
     TeamComponent,
     SelectedTeamComponent,
-    HomeComponent
+    HomeComponent,
+    PlayerModalComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import { SelectedLeagueComponent } from './pages/selected-league/selected-league
     SwiperModule,
     BrowserAnimationsModule
   ],
-  providers: [LeagueService, UserService, AuthService, StandingsService, TeamService],
+  providers: [LeagueService, UserService, AuthService, StandingsService, TeamService, PlayerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
