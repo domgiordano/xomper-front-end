@@ -1,0 +1,113 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.6);
+  animation: fadeIn 250ms;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  max-width: 900px;
+  width: 90%;
+  background-color: #282828;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  animation: zoomIn 0.25s ease-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+}
+.player-page {
+  display: flex;
+  justify-content: center;
+  padding: 40px; // more spacing around card
+}
+
+.player-card {
+  width: 800px; // larger card
+  background-color: #282828;
+  border-radius: 12px;
+  padding: 30px; // more padding inside card
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 25px; // space between picture and info
+  margin-bottom: 30px;
+
+  .player-pic {
+    width: 140px; // bigger picture
+    height: 140px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 3px solid #000; // black outline
+  }
+
+  .player-basic {
+    flex: 1;
+
+    .player-name {
+      font-size: 36px; // bigger name
+      font-weight: bold;
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+
+    .player-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .team-logo {
+        width: 50px;
+        height: 50px;
+      }
+
+      p {
+        font-size: 20px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+/* Grid for stats boxes */
+.player-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; // bigger gap
+  margin-top: 15px;
+
+  .stat-box {
+    background-color: #1e1e1e;
+    padding: 20px; // larger boxes
+    border-radius: 10px;
+    font-size: 18px; // bigger text
+    font-weight: 500;
+    text-align: left;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+  }
+}
+

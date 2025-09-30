@@ -56,44 +56,44 @@
         <div 
           class="player-card"
           *ngFor="let player of starters"
-          [ngStyle]="getTeamStyle(player.data.team)"
+          [ngStyle]="getTeamStyle(player.team)"
         >
           <div class="player-header">
             <img 
-              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
-              (error)="player.data.photoError = true" 
-              alt="{{ player.data.full_name }}" 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.player_id + '.jpg'" 
+              (error)="player.photoError = true" 
+              alt="{{ player.full_name }}" 
               class="player-pic"
             >
             <div class="player-info">
               <div class="name-row">
-                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <h2 class="player-name">{{ player.full_name }}</h2>
                 <img 
-                  [src]="player.data.team ? 'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team?.toLowerCase() + '.png' : 'assets/img/nfl.png'" 
-                  alt="{{ player.data.team || 'FA' }}"
+                  [src]="player.team ? 'https://sleepercdn.com/images/team_logos/nfl/' + player.team?.toLowerCase() + '.png' : 'assets/img/nfl.png'" 
+                  alt="{{ player.team || 'FA' }}"
                   class="team-logo"
                 >
               </div>
               <p class="player-meta">
-                {{ player.data.team || 'FA' }} * {{ player.data.position }} * {{ player.data.number }}
+                {{ player.team || 'FA' }} * {{ player.position }} * {{ player.number }}
               </p>
             </div>
           </div>
 
           <button 
             class="view-more-btn" 
-            [ngStyle]="getTeamButtonStyle(player.data.team)"
-            (click)="togglePlayerDetails(player)">
-            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+            [ngStyle]="getTeamButtonStyle(player.team)"
+            (click)="openPlayerModal(player, $event)">
+            {{ player.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 
-          <div class="player-details" *ngIf="player.data.showDetails">
-            <p><strong>Age:</strong> {{ player.data.age }}</p>
-            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
-            <p><strong>College:</strong> {{ player.data.college }}</p>
-            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
-            <p><strong>Status:</strong> {{ player.data.status }}</p>
-            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          <div class="player-details" *ngIf="player.showDetails">
+            <p><strong>Age:</strong> {{ player.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.height }}" / {{ player.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.college }}</p>
+            <p><strong>Experience:</strong> {{ player.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.depth_chart_position }} ({{ player.depth_chart_order }})</p>
           </div>
         </div>
       </div>
@@ -106,44 +106,44 @@
         <div 
           class="player-card"
           *ngFor="let player of bench"
-          [ngStyle]="getTeamStyle(player.data.team)"
+          [ngStyle]="getTeamStyle(player.team)"
         >
           <div class="player-header">
             <img 
-              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
-              (error)="player.data.photoError = true" 
-              alt="{{ player.data.full_name }}" 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.player_id + '.jpg'" 
+              (error)="player.photoError = true" 
+              alt="{{ player.full_name }}" 
               class="player-pic"
             >
             <div class="player-info">
               <div class="name-row">
-                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <h2 class="player-name">{{ player.full_name }}</h2>
                 <img 
-                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
-                  alt="{{ player.data.team }}" 
+                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.team.toLowerCase() + '.png'" 
+                  alt="{{ player.team }}" 
                   class="team-logo"
                 >
               </div>
               <p class="player-meta">
-                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+                {{ player.team }} * {{ player.position }} * {{ player.number }}
               </p>
             </div>
           </div>
 
           <button 
             class="view-more-btn" 
-            [ngStyle]="getTeamButtonStyle(player.data.team)"
-            (click)="togglePlayerDetails(player)">
-            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+            [ngStyle]="getTeamButtonStyle(player.team)"
+            (click)="openPlayerModal(player, $event)">
+            {{ player.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 
-          <div class="player-details" *ngIf="player.data.showDetails">
-            <p><strong>Age:</strong> {{ player.data.age }}</p>
-            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
-            <p><strong>College:</strong> {{ player.data.college }}</p>
-            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
-            <p><strong>Status:</strong> {{ player.data.status }}</p>
-            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          <div class="player-details" *ngIf="player.showDetails">
+            <p><strong>Age:</strong> {{ player.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.height }}" / {{ player.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.college }}</p>
+            <p><strong>Experience:</strong> {{ player.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.depth_chart_position }} ({{ player.depth_chart_order }})</p>
           </div>
         </div>
       </div>
@@ -156,44 +156,44 @@
         <div 
           class="player-card"
           *ngFor="let player of taxi"
-          [ngStyle]="getTeamStyle(player.data.team)"
+          [ngStyle]="getTeamStyle(player.team)"
         >
           <div class="player-header">
             <img 
-              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.data.player_id + '.jpg'" 
-              (error)="player.data.photoError = true" 
-              alt="{{ player.data.full_name }}" 
+              [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.player_id + '.jpg'" 
+              (error)="player.photoError = true" 
+              alt="{{ player.full_name }}" 
               class="player-pic"
             >
             <div class="player-info">
               <div class="name-row">
-                <h2 class="player-name">{{ player.data.full_name }}</h2>
+                <h2 class="player-name">{{ player.full_name }}</h2>
                 <img 
-                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.data.team.toLowerCase() + '.png'" 
-                  alt="{{ player.data.team }}" 
+                  [src]="'https://sleepercdn.com/images/team_logos/nfl/' + player.team.toLowerCase() + '.png'" 
+                  alt="{{ player.team }}" 
                   class="team-logo"
                 >
               </div>
               <p class="player-meta">
-                {{ player.data.team }} * {{ player.data.position }} * {{ player.data.number }}
+                {{ player.team }} * {{ player.position }} * {{ player.number }}
               </p>
             </div>
           </div>
 
           <button 
             class="view-more-btn" 
-            [ngStyle]="getTeamButtonStyle(player.data.team)"
-            (click)="togglePlayerDetails(player)">
-            {{ player.data.showDetails ? 'Hide Details' : 'View More' }}
+            [ngStyle]="getTeamButtonStyle(player.team)"
+            (click)="openPlayerModal(player, $event)">
+            {{ player.showDetails ? 'Hide Details' : 'View More' }}
           </button>
 
-          <div class="player-details" *ngIf="player.data.showDetails">
-            <p><strong>Age:</strong> {{ player.data.age }}</p>
-            <p><strong>Height / Weight:</strong> {{ player.data.height }}" / {{ player.data.weight }} lbs</p>
-            <p><strong>College:</strong> {{ player.data.college }}</p>
-            <p><strong>Experience:</strong> {{ player.data.years_exp }} years</p>
-            <p><strong>Status:</strong> {{ player.data.status }}</p>
-            <p><strong>Depth Chart:</strong> {{ player.data.depth_chart_position }} ({{ player.data.depth_chart_order }})</p>
+          <div class="player-details" *ngIf="player.showDetails">
+            <p><strong>Age:</strong> {{ player.age }}</p>
+            <p><strong>Height / Weight:</strong> {{ player.height }}" / {{ player.weight }} lbs</p>
+            <p><strong>College:</strong> {{ player.college }}</p>
+            <p><strong>Experience:</strong> {{ player.years_exp }} years</p>
+            <p><strong>Status:</strong> {{ player.status }}</p>
+            <p><strong>Depth Chart:</strong> {{ player.depth_chart_position }} ({{ player.depth_chart_order }})</p>
           </div>
         </div>
       </div>
@@ -201,3 +201,10 @@
 
   </div>
 </div>
+
+<app-player-modal 
+  *ngIf="selectedPlayer" 
+  [player]="selectedPlayer"
+  [startPos]="modalStart"
+  (close)="closePlayerModal()">
+</app-player-modal>

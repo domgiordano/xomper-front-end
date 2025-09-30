@@ -4,6 +4,7 @@ import { LeagueService } from './services/league.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import { TeamService } from './services/team.service';
+import { PlayerService } from './services/player.service';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,14 @@ export class AppComponent implements OnDestroy {
     private AuthService: AuthService,
     private LeagueService: LeagueService,
     private UserService: UserService,
-    private TeamService: TeamService
+    private TeamService: TeamService,
+    private PlayerService: PlayerService
   ) {}
   ngOnDestroy(): void {
     this.AuthService.reset();
     this.LeagueService.reset();
     this.UserService.reset();
     this.TeamService.reset();
+    this.PlayerService.reset();
   }
 }
