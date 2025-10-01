@@ -123,11 +123,18 @@
 
     <!-- Matchups Tab -->
     <ng-container *ngIf="activeTab === 'matchups'">
+      <!-- Week Selector -->
+      <div class="week-selector">
+        <button *ngFor="let week of weeks" class="week-bubble" [ngClass]="{ 'selected': week === selectedWeek }"
+          (click)="setWeek(week)">
+          {{ week }}
+        </button>
+      </div>
       <div class="matchups-grid">
-        <div *ngFor="let matchup of matchupsGrouped" class="matchup-card">
+        <div *ngFor="let matchup of matchupsGrouped" class="matchup-card" (click)="openMatchupModal(matchup, $event)">
 
           <!-- Team A -->
-          <div class="team-card">
+          <div class="team-card" [ngClass]="matchup.teamA.highlight">
             <img class="team-pic" [src]="matchup.teamA.avatar" alt="{{ matchup.teamA.teamName }}">
             <div class="team-name">{{ matchup.teamA.teamName }}</div>
             <div class="team-user">{{ matchup.teamA.userName }}</div>
@@ -138,7 +145,7 @@
           <div class="vs">vs</div>
 
           <!-- Team B -->
-          <div class="team-card">
+          <div class="team-card" [ngClass]="matchup.teamB.highlight">
             <img class="team-pic" [src]="matchup.teamB.avatar" alt="{{ matchup.teamB.teamName }}">
             <div class="team-name">{{ matchup.teamB.teamName }}</div>
             <div class="team-user">{{ matchup.teamB.userName }}</div>
@@ -151,3 +158,11 @@
     </ng-container>
   </div>
 </div>
+
+<app-matchup-modal 
+  *ngIf="selectedMatchup"
+  [matchup]="selectedMatchup"
+  [week]="selectedWeek"
+  [startPos]="modalStart"
+  (close)="selectedMatchup = null">
+</app-matchup-modal>

@@ -29,6 +29,8 @@ import { SelectedProfileComponent } from './pages/selected-profile/selected-prof
 import { SelectedLeagueComponent } from './pages/selected-league/selected-league.component';
 import { PlayerService } from './services/player.service';
 import { PlayerModalComponent } from './components/player-modal/player-modal.component';
+import { MatchupModalComponent } from './components/matchup-modal/matchup-modal.component';
+import { TaxiSquadComponent } from './pages/taxi-squad/taxi-squad.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +49,9 @@ import { PlayerModalComponent } from './components/player-modal/player-modal.com
     TeamComponent,
     SelectedTeamComponent,
     HomeComponent,
-    PlayerModalComponent
+    PlayerModalComponent,
+    MatchupModalComponent,
+    TaxiSquadComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { environment } from 'src/environments/environment.dev';
+import { environment } from 'src/environments/environment.prod';
 import { Player } from '../models/player.interface';
 import { PlayerModel } from '../models/player.model';
 import { XomperResponse } from '../models/xomper-api-response.interface';

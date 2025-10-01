@@ -1,3 +1,5 @@
+import { StandingsTeamModel } from "./standings.model";
+
 export interface MatchupDisplay {
   teamA: {
     teamName: string;
@@ -5,6 +7,7 @@ export interface MatchupDisplay {
     wins: number;
     losses: number;
     points: number;
+    standingsTeam: StandingsTeamModel;
   };
   teamB: {
     teamName: string;
@@ -12,5 +15,7 @@ export interface MatchupDisplay {
     wins: number;
     losses: number;
     points: number;
+    standingsTeam: StandingsTeamModel;
   };
+  status: string;
 }

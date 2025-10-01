@@ -8,7 +8,7 @@ import { zoomModalAnimation } from 'src/app/animations/zoom-modal.animation';
   selector: 'app-player-modal',
   templateUrl: './player-modal.component.html',
   styleUrls: ['./player-modal.component.scss'],
-  animations: [ zoomModalAnimation ]
+  animations: [zoomModalAnimation]
 })
 export class PlayerModalComponent {
   @Input() startPos!: { top: number, left: number, width: number, height: number };
@@ -43,6 +43,12 @@ export class PlayerModalComponent {
       background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
       color: '#fff'
     };
+  }
+  getHeightFeetInches(height: number): string {
+    if (!height) return '';
+    const feet = Math.floor(height / 12);
+    const inches = height % 12;
+    return `${feet}'${inches}"`;
   }
 }
 

@@ -19,7 +19,7 @@
     <!-- Player Stats Grid -->
     <div class="player-stats-grid">
       <div class="stat-box"><strong>Age:</strong> {{ player.getAge() }}</div>
-      <div class="stat-box"><strong>Height:</strong> {{ player.height }}"</div>
+      <div class="stat-box"><strong>Height:</strong> {{ getHeightFeetInches(player.height) }} </div>
       <div class="stat-box"><strong>Weight:</strong> {{ player.weight }} lbs</div>
       <div class="stat-box"><strong>College:</strong> {{ player.getCollege() }}</div>
       <div class="stat-box"><strong>Experience:</strong> {{ player.years_exp }} yrs</div>
