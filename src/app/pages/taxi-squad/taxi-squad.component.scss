@@ -1,0 +1,154 @@
+.taxi-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // take full height of parent (.content)
+  padding: 0 16px;
+}
+
+.taxi-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto; // scrollable
+  padding-top: 0;   // no extra gap
+}
+
+.taxi-header {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  .taxi-header-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* allow wrapping on smaller screens */
+    gap: 20px;
+  }
+
+  .taxi-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #bf0a0a;
+  }
+
+  .taxi-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .taxi-record {
+    font-weight: bold;
+    color: #fff;
+  }
+
+  .taxi-streak {
+    font-weight: bold;
+    &.win-streak { color: #4caf50; }
+    &.loss-streak { color: #f44336; }
+  }
+
+  .taxi-place {
+    background-color: #2a2a2a;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #bbb;
+  }
+}
+
+.player-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.roster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.player-card {
+  background-color: #282828;
+  border-radius: 10px;
+  padding: 20px;
+  width: 280px;
+  min-height: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+
+  .player-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .player-pic {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #bf0a0a;
+      margin-right: 12px;
+    }
+
+    .player-info {
+      flex: 1;
+
+      .name-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .player-name {
+          font-size: 18px;
+          font-weight: bold;
+          margin: 0;
+        }
+
+        .team-logo {
+          width: 36px;
+          height: 36px;
+          margin-left: 8px;
+        }
+      }
+
+      .player-meta {
+        font-size: 14px;
+        color: #aaa;
+        margin-top: 4px;
+        text-align: left;
+      }
+    }
+  }
+
+  .view-more-btn:hover {
+    background-color: var(--secondary-color);
+  }
+
+  .player-details {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #ddd;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+
+  &:hover {
+    color: #0056b3;
+  }
+}

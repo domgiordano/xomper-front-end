@@ -12,6 +12,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { MyTeamComponent } from './pages/my-team/my-team.component';
 import { SelectedTeamComponent } from './pages/selected-team/selected-team.component';
+import { TaxiSquadComponent } from './pages/taxi-squad/taxi-squad.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // default entry
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'selected-profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'selected-league', component: LeagueComponent, canActivate: [AuthGuard] },
   { path: 'selected-team', component: SelectedTeamComponent, canActivate: [AuthGuard] },
+  { path: 'taxi-squad', component: TaxiSquadComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/search' }, // Redirect all other paths to /search
 ];
 

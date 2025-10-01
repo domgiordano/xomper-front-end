@@ -1,0 +1,200 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.matchup-modal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1e1e1e;
+  color: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90%;
+  overflow-y: auto;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.teams-header {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+  align-items: stretch; // stretch team headers to match height
+}
+
+.team-header {
+  position: relative; // for the overlay to position correctly
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &.neutral { background: #2a2a2a; }
+  &.winner { background: linear-gradient(145deg, #4caf50, #2e7d32); }
+  &.loser { background: linear-gradient(145deg, #f44336, #b71c1c); }
+
+  .team-logo-header {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    position: relative; // overlay uses absolute
+
+    // Overlay for W/L
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: bold;
+      color: rgba(0,0,0,0.5);
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+      pointer-events: none; // let clicks pass through
+    }
+
+    // Winner
+    .winner &::after {
+      content: 'W';
+      color: rgba(0,100,0,0.6); // dark green overlay
+    }
+
+    // Loser
+    .loser &::after {
+      content: 'L';
+      color: rgba(139,0,0,0.6); // dark red overlay
+    }
+  }
+}
+
+
+.mid-divider {
+  width: 2px;
+  background-color: #444;
+}
+
+.thick-divider {
+  border: none;
+  height: 4px;
+  background: #555;
+  margin: 24px 0;
+}
+
+.player-group {
+  margin-top: 16px;
+
+  .group-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+}
+
+.roster.two-col {
+  display: flex;
+  gap: 16px;
+
+  .roster-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // center player cards horizontally
+    flex: 1; // take full column width
+  }
+
+  .player-card {
+    width: 100%; // stretch card to column width
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // logo on right
+    padding: 12px;
+    margin-bottom: 12px;
+    background-color: #282828;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    .player-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+    }
+
+    .player-pic {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #bf0a0a;
+    }
+
+    .player-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .player-name {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+        color: #fff;
+      }
+
+      .player-meta {
+        font-size: 13px;
+        color: #aaa;
+        margin-top: 2px;
+      }
+    }
+
+    .team-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+  }
+}
+
+.player-details {
+  margin-top: auto; // pushes details down for consistency
+  font-size: 14px;
+  line-height: 1.4;
+  color: #ddd;
+}

@@ -21,6 +21,7 @@ export class LeagueModel implements League {
     avatar: string | null;
     divisions: string[] = [];
     divisionAvatars: string[] = [];
+    taxiSquadIds: string[] = [];
 
     settings: {
         daily_waivers?: number;
@@ -103,5 +104,13 @@ export class LeagueModel implements League {
     }
     getRosters(): RosterModel[] {
         return this.rosters;
+    }
+
+    // Taxi Squad
+    setTaxiSquadIds(ids: string[]): void {
+        this.taxiSquadIds = ids;
+    }
+    getTaxiSquadIds(): string[] {
+        return this.taxiSquadIds;
     }
 }

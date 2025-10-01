@@ -17,7 +17,7 @@ export interface Player {
   fantasy_data_id: number;
   injury_status: string | null;
   player_id: string;
-  height: string;
+  height: number;
   search_full_name: string;
   age: number;
   stats_id: string;

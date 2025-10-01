@@ -32,6 +32,7 @@ export class TeamComponent implements OnInit {
   loading = false;
   selectedPlayer: PlayerModel | null = null;
   modalStart!: { top: number; left: number; width: number; height: number } | null;
+  POSITION_ORDER = ['QB', 'RB', 'WR', 'TE', 'K', 'DEF'];
 
   constructor(
     private ToastService: ToastService,
@@ -54,13 +55,10 @@ export class TeamComponent implements OnInit {
     this.teamRoster = this.team.getRoster();
     this.teamLeague = this.team.getLeague();
     this.teamPlayers = this.team.getPlayers();
-    if (this.teamPlayers.length == 0) {
-      console.log("Need the roster rq.")
-      this.loadRosters();
-    }
-    else {
-      console.log("You been here before - we got that roster.")
-    }
+    // Always load roster
+    console.log("Need the roster rq.")
+    this.loadRosters();
+
   }
 
   loadRosters(): void {
@@ -112,6 +110,16 @@ export class TeamComponent implements OnInit {
         this.bench.push(player);
       }
     });
+
+    // Sort each group by position
+    const sortByPosition = (a: PlayerModel, b: PlayerModel) => {
+      const aIndex = this.POSITION_ORDER.indexOf(a.position) >= 0 ? this.POSITION_ORDER.indexOf(a.position) : 99;
+      const bIndex = this.POSITION_ORDER.indexOf(b.position) >= 0 ? this.POSITION_ORDER.indexOf(b.position) : 99;
+      return aIndex - bIndex;
+    };
+    this.starters.sort(sortByPosition);
+    this.bench.sort(sortByPosition);
+    this.taxi.sort(sortByPosition);
   }
   //////////////////////
   ////// ROUTING //////
