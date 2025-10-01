@@ -50,7 +50,7 @@
   align-items: center;
   padding: 10px 15px;
 
-  span, 
+  span,
   .team-info,
   .team-name,
   .user-name {
@@ -83,9 +83,15 @@
     font-weight: bold;
     font-size: 16px;
 
-    &.gold { color: gold; }
-    &.silver { color: silver; }
-    &.bronze { color: #cd7f32; }
+    &.gold {
+      color: gold;
+    }
+    &.silver {
+      color: silver;
+    }
+    &.bronze {
+      color: #cd7f32;
+    }
     color: white;
   }
 }
@@ -226,15 +232,15 @@
 
 .division-header {
   display: flex;
-  align-items: center;     
-  justify-content: center;  
-  gap: 10px;                 
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 
 .division-pic {
-  width: 50px;              
+  width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
@@ -291,28 +297,28 @@
 .matchup-card {
   display: flex;
   align-items: center;
-  justify-content: space-between; // spread the teams + vs evenly
+  justify-content: space-between;
   background-color: #1e1e1e;
   border-radius: 12px;
   padding: 20px;
   width: 360px;
-  height: 180px; // fixed height
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  height: 180px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, background-color 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);
-    background-color: #2a2a2a; // highlight on hover
+    background-color: #2a2a2a;
   }
 
   .team-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between; // top: name/user, bottom: points
+    justify-content: space-between;
     text-align: center;
     width: 120px;
-    height: 100%; // full card height
+    height: 100%;
 
     .team-top {
       display: flex;
@@ -393,14 +399,13 @@
   }
 }
 
-
 .team-card.win {
-  border: 2px solid #4caf50; /* green */
+  border: 2px solid #4caf50;
   background-color: rgba(76, 175, 80, 0.1);
 }
 
 .team-card.loss {
-  border: 2px solid #f44336; /* red */
+  border: 2px solid #f44336;
   background-color: rgba(244, 67, 54, 0.1);
 }
 
@@ -414,13 +419,27 @@
 
     .team-card {
       width: 100px;
-      .team-pic { width: 50px; height: 50px; }
-      .team-name { font-size: 12px; }
-      .team-user { font-size: 11px; }
-      .team-record { font-size: 11px; }
-      .team-points { font-size: 16px; }
+      .team-pic {
+        width: 50px;
+        height: 50px;
+      }
+      .team-name {
+        font-size: 12px;
+      }
+      .team-user {
+        font-size: 11px;
+      }
+      .team-record {
+        font-size: 11px;
+      }
+      .team-points {
+        font-size: 16px;
+      }
     }
 
-    .vs { font-size: 16px; margin: 0 10px; }
+    .vs {
+      font-size: 16px;
+      margin: 0 10px;
+    }
   }
 }

@@ -1,84 +1,82 @@
 .toolbar {
   background-color: #333;
   color: #fff;
-  padding: 10px; // You can adjust this to reduce space
+  padding: 10px;
   width: 100%;
   display: flex;
-  align-items: center; // Center items vertically
-  position: relative; // Positioning context for dropdown
+  align-items: center;
+  position: relative;
 }
 
 .app-title {
-  margin-right: auto; // Keep logo on the left
+  margin-right: auto;
 }
 
-// Centering the tabs for the full web version
 .tabs {
-  display: flex; // Make tabs a flex container
-  justify-content: left; // Center tabs within the toolbar
-  flex-grow: 1; // Allow tabs to take available space
+  display: flex;
+  justify-content: left;
+  flex-grow: 1;
 }
 
 .dropdown-button {
-  display: none; // Hide by default
+  display: none;
   cursor: pointer;
-  margin-left: 10px; // Space from tabs
+  margin-left: 10px;
 }
 
-// Show dropdown button only on mobile
 @media (max-width: 768px) {
   .dropdown-button {
-    display: block; // Show on mobile
-    margin-left: auto; // Push it to the right
-    margin-right: 10px; // Add some spacing from the right
-    font-size: 24px; // Adjust font size for better visibility
+    display: block;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 24px;
   }
 
   .tabs {
-    display: none; // Hide tabs when dropdown is visible
+    display: none;
   }
 
   .hidden {
-    display: none; // Hide tabs when dropdown is visible
+    display: none;
   }
 
   .dropdown {
-    position: absolute; // Position dropdown correctly
-    top: 100%; // Position below the toolbar
-    left: 0; // Align left
-    right: 0; // Full width
-    background-color: #333; // Match toolbar background
-    z-index: 1000; // Ensure dropdown is above other content
-    display: block; // Show the dropdown when visible
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Add shadow for better visibility
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    z-index: 1000;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 }
 
 .dropdown {
-  display: none; // Hidden by default
-  flex-direction: column; // Stack items vertically
+  display: none;
+  flex-direction: column;
 }
 
 .show-dropdown .dropdown {
-  display: block; // Show dropdown when visible
+  display: block;
 }
 
 .tabs a,
 .dropdown a {
   color: #fff;
   text-decoration: none;
-  padding: 5px 10px; // Padding for spacing
-  margin: 5px 10px; // Add margin to dropdown items
-  border-radius: 5px; // Rounded corners
+  padding: 5px 10px;
+  margin: 5px 10px;
+  border-radius: 5px;
 }
 
 .dropdown a {
-  display: block; // Stack items vertically
+  display: block;
 }
 
 .tabs a:hover,
 .dropdown a:hover {
-  background-color: #555; // Hover effect
+  background-color: #555;
 }
 
 .tabs a.active,
