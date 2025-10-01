@@ -52,15 +52,15 @@
 
 .login-buttons {
   display: flex;
-  flex-direction: column; // stack vertically
+  flex-direction: column;
   width: 100%;
-  gap: 15px; // spacing between buttons
-  align-items: center; // center the buttons
+  gap: 15px;
+  align-items: center;
 }
 
 .login-buttons button {
-  width: 80%; // slightly smaller than full width
-  max-width: 250px; // optional limit for large screens
+  width: 80%;
+  max-width: 250px;
   border: none;
   border-radius: 25px;
   padding: 12px;

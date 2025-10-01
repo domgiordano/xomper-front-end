@@ -4,18 +4,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #bf0a0a, #1b8edc); /* Gradient from purple to green */
+  background: linear-gradient(135deg, #bf0a0a, #1b8edc);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Ensure it appears on top */
+  z-index: 9999;
 }
 
 .spinner {
   border: 8px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #bf0a0a; /* Top of spinner in purple */
-  border-right-color: #1b8edc; /* Right side of spinner in green */
+  border-top-color: #bf0a0a;
+  border-right-color: #1b8edc;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -23,12 +23,16 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 p {
   margin-top: 10px;
   font-size: 16px;
-  color: white; /* Change text color to white for better visibility */
+  color: white;
 }

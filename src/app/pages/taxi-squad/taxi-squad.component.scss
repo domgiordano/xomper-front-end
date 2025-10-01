@@ -1,7 +1,7 @@
 .taxi-page {
   display: flex;
   flex-direction: column;
-  height: 100%; // take full height of parent (.content)
+  height: 100%;
   padding: 0 16px;
 }
 
@@ -9,8 +9,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow-y: auto; // scrollable
-  padding-top: 0;   // no extra gap
+  overflow-y: auto;
+  padding-top: 0;
 }
 
 .taxi-header {
@@ -23,7 +23,7 @@
   .taxi-header-row {
     display: flex;
     align-items: center;
-    flex-wrap: wrap; /* allow wrapping on smaller screens */
+    flex-wrap: wrap;
     gap: 20px;
   }
 
@@ -48,8 +48,12 @@
 
   .taxi-streak {
     font-weight: bold;
-    &.win-streak { color: #4caf50; }
-    &.loss-streak { color: #f44336; }
+    &.win-streak {
+      color: #4caf50;
+    }
+    &.loss-streak {
+      color: #f44336;
+    }
   }
 
   .taxi-place {
