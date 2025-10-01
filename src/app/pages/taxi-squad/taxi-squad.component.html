@@ -2,43 +2,192 @@
   <app-loader [loading]="loading"></app-loader>
 
   <div class="taxi-container" *ngIf="!loading && taxiPlayers.length > 0">
-    <h2 class="group-title">Taxi Squad</h2>
-    <div class="roster">
-      <div class="player-card" *ngFor="let player of taxiPlayers" [ngStyle]="getTeamStyle(player.team)">
-        <div class="player-header">
-          <img [src]="'https://sleepercdn.com/content/nfl/players/thumb/' + player.player_id + '.jpg'"
-               (error)="player.photoError = true" alt="{{ player.full_name }}" class="player-pic">
+    <!-- Page title -->
+    <h2 class="group-title">Available Taxi Squad</h2>
 
-          <div class="player-info">
-            <div class="name-row">
-              <h2 class="player-name">{{ player.full_name }}</h2>
-              <img [src]="'https://sleepercdn.com/images/team_logos/nfl/' + (player.team?.toLowerCase() || 'nfl') + '.png'"
-                   alt="{{ player.team || 'FA' }}" class="team-logo">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button
+        *ngFor="let tab of tabs"
+        (click)="selectedTab = tab.key"
+        [class.active]="selectedTab === tab.key"
+      >
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <!-- Players grouped based on selected tab -->
+    <div class="player-groups">
+      <ng-container [ngSwitch]="selectedTab">
+        <!-- Tab: All (default) -->
+        <ng-container *ngSwitchCase="'all'">
+          <div class="roster">
+            <div
+              class="player-card"
+              *ngFor="let player of taxiPlayers"
+              [ngStyle]="getTeamStyle(player.team)"
+            >
+              <ng-container
+                *ngTemplateOutlet="
+                  playerCardTemplate;
+                  context: { player: player }
+                "
+              ></ng-container>
             </div>
-            <p class="player-meta">
-              {{ player.team || 'FA' }} • {{ player.position }} • {{ player.number }}
-            </p>
           </div>
-        </div>
+        </ng-container>
 
-        <button class="view-more-btn" [ngStyle]="getTeamButtonStyle(player.team)"
-                (click)="openPlayerModal(player, $event)">
-          {{ player.showDetails ? 'Hide Details' : 'View More' }}
-        </button>
+        <!-- Tab: Round -->
+        <ng-container *ngSwitchCase="'round'">
+          <ng-container *ngFor="let group of getPlayersGroupedByRound()">
+            <h3 class="group-header">
+              {{ group.round === -1 ? 'Undrafted' : 'Round ' + group.round }}
+            </h3>
+            <div class="roster">
+              <div
+                class="player-card"
+                *ngFor="let player of group.players"
+                [ngStyle]="getTeamStyle(player.team)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    playerCardTemplate;
+                    context: { player: player }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
 
-        <div class="player-details" *ngIf="player.showDetails">
-          <p><strong>Age:</strong> {{ player.age }}</p>
-          <p><strong>Height / Weight:</strong> {{ player.height }}" / {{ player.weight }} lbs</p>
-          <p><strong>College:</strong> {{ player.college }}</p>
-          <p><strong>Experience:</strong> {{ player.years_exp }} years</p>
-          <p><strong>Status:</strong> {{ player.status }}</p>
-          <p><strong>Depth Chart:</strong> {{ player.depth_chart_position }} ({{ player.depth_chart_order }})</p>
-        </div>
-      </div>
+        <!-- Tab: Position -->
+        <ng-container *ngSwitchCase="'position'">
+          <ng-container *ngFor="let group of getPlayersGroupedByPosition()">
+            <h3 class="group-header">{{ group.position }}</h3>
+            <div class="roster">
+              <div
+                class="player-card"
+                *ngFor="let player of group.players"
+                [ngStyle]="getTeamStyle(player.team)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    playerCardTemplate;
+                    context: { player: player }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <!-- Tab: Owner -->
+        <ng-container *ngSwitchCase="'owner'">
+          <ng-container *ngFor="let group of getPlayersGroupedByOwner()">
+            <h3 class="group-header">
+              {{ group.ownerDisplayName }}
+              <small>({{ group.ownerTeamName }})</small>
+            </h3>
+            <div class="roster">
+              <div
+                class="player-card"
+                *ngFor="let player of group.players"
+                [ngStyle]="getTeamStyle(player.team)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    playerCardTemplate;
+                    context: { player: player }
+                  "
+                ></ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </div>
   </div>
 </div>
 
-<app-player-modal *ngIf="selectedPlayer" [player]="selectedPlayer" [startPos]="modalStart"
-                  (close)="closePlayerModal()">
-</app-player-modal>
+<!-- Player card template -->
+<ng-template #playerCardTemplate let-player="player">
+  <div class="player-header">
+    <img
+      [src]="
+        player.photoError
+          ? 'assets/img/luke.PNG'
+          : 'https://sleepercdn.com/content/nfl/players/thumb/' +
+            player.player_id +
+            '.jpg'
+      "
+      (error)="player.photoError = true"
+      alt="{{ player.full_name }}"
+      class="player-pic"
+    />
+    <div class="player-info">
+      <div class="name-row">
+        <h2 class="player-name">{{ player.full_name }}</h2>
+        <img
+          [src]="
+            !player.team || player.team.toUpperCase() === 'FA'
+              ? 'assets/img/nfl.png'
+              : 'https://sleepercdn.com/images/team_logos/nfl/' +
+                player.team.toLowerCase() +
+                '.png'
+          "
+          alt="{{ player.team || 'FA' }}"
+          class="team-logo"
+        />
+      </div>
+      <p class="player-meta">
+        {{ player.team || 'FA' }} • {{ player.position }} • {{ player.number }}
+      </p>
+      <p class="owner-meta">
+        <strong>Owner:</strong> {{ player.ownerDisplayName }}
+      </p>
+      <p class="owner-meta">
+        <strong>Team:</strong> {{ player.ownerTeamName }}
+      </p>
+      <p class="draft-meta" *ngIf="player.draftRound">
+        <strong>Drafted:</strong>
+        {{
+          player.draftRound === -1
+            ? 'Undrafted'
+            : 'Round ' + player.draftRound + ', Pick ' + player.draftPickNo
+        }}
+      </p>
+    </div>
+  </div>
+
+  <button
+    class="view-more-btn"
+    [ngStyle]="getTeamButtonStyle(player.team)"
+    (click)="openPlayerModal(player, $event)"
+  >
+    {{ player.showDetails ? 'Hide Details' : 'View More' }}
+  </button>
+
+  <div class="player-details" *ngIf="player.showDetails">
+    <p><strong>Age:</strong> {{ player.age }}</p>
+    <p>
+      <strong>Height / Weight:</strong> {{ player.height }}" /
+      {{ player.weight }} lbs
+    </p>
+    <p><strong>College:</strong> {{ player.college }}</p>
+    <p><strong>Experience:</strong> {{ player.years_exp }} years</p>
+    <p><strong>Status:</strong> {{ player.status }}</p>
+    <p>
+      <strong>Depth Chart:</strong> {{ player.depth_chart_position }} ({{
+        player.depth_chart_order
+      }})
+    </p>
+  </div>
+</ng-template>
+
+<app-taxi-squad-player-modal
+  *ngIf="selectedPlayer"
+  [player]="selectedPlayer"
+  [startPos]="modalStart"
+  (close)="closePlayerModal()"
+>
+</app-taxi-squad-player-modal>

@@ -251,6 +251,7 @@ export class LeagueComponent implements OnInit {
         complete: () => {
           // Sort league
           this.standings = this.StandingsService.buildStandings(this.standings)
+          this.league.setStandingsTeams(this.standings)
 
           if (this.mode == 'my') {
             console.log('Setting My Team.')
@@ -259,8 +260,10 @@ export class LeagueComponent implements OnInit {
             const myTeam = this.standings.find(
               (team) => team.userName === myUserName
             )
+            this.LeagueService.setMyLeague(this.league)
             this.TeamService.setMyTeam(myTeam)
           } else {
+            this.LeagueService.setCurrentLeague(this.league)
             console.log('Not my league bro.')
           }
 

@@ -3,6 +3,8 @@
   flex-direction: column;
   height: 100%;
   padding: 0 16px;
+  background-color: #121212;
+  color: #fff;
 }
 
 .taxi-container {
@@ -65,12 +67,55 @@
   }
 }
 
+.group-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Tabs like league page */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  button {
+    background: #1e1e1e;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    margin: 0 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+
+    &.active {
+      background: #ff0033;
+    }
+
+    &:hover {
+      background: #333;
+    }
+  }
+}
+
 .player-groups {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
+.group-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+}
+
+/* Roster grid */
 .roster {
   display: flex;
   flex-wrap: wrap;
@@ -126,17 +171,38 @@
         }
       }
 
-      .player-meta {
+      .player-meta,
+      .owner-meta,
+      .draft-meta {
         font-size: 14px;
         color: #aaa;
         margin-top: 4px;
         text-align: left;
       }
+
+      .owner-meta {
+        color: #fff;
+      }
+
+      .draft-meta {
+        color: #f0ad4e;
+      }
     }
   }
 
-  .view-more-btn:hover {
-    background-color: var(--secondary-color);
+  .view-more-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 8px 0;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+
+    &:hover {
+      opacity: 0.85;
+    }
   }
 
   .player-details {
@@ -144,6 +210,9 @@
     font-size: 14px;
     line-height: 1.4;
     color: #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 }
 
