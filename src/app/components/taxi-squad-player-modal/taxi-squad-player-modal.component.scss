@@ -60,9 +60,9 @@
 
 .player-header {
   display: flex;
-  align-items: center;
-  gap: 25px;
+  gap: 25px; /* space between profile picture and right content */
   margin-bottom: 30px;
+  text-align: left;
 
   .player-pic {
     width: 140px;
@@ -70,32 +70,47 @@
     border-radius: 12px;
     object-fit: cover;
     border: 3px solid #000;
+    flex-shrink: 0;
   }
 
   .player-basic {
     flex: 1;
-    text-align: left;
+    display: flex;
+    flex-direction: column;
 
-    .player-name {
+    h1 {
       font-size: 36px;
       font-weight: bold;
       margin: 0 0 10px 0;
-      text-align: left;
     }
 
-    .player-meta {
+    .player-top-meta {
       display: flex;
-      align-items: center;
-      gap: 16px;
+      align-items: center; /* vertically center logo and text */
+      gap: 8px;
 
       .team-logo {
-        width: 50px;
+        width: 50px; /* same vertical size as text */
         height: 50px;
+        object-fit: contain;
       }
 
-      p {
+      .position-number {
         font-size: 20px;
-        margin: 0;
+        line-height: 24px; /* match team-logo height */
+      }
+    }
+
+    .player-bottom-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 18px;
+      color: #ccc;
+      margin-top: 6px;
+      flex-wrap: wrap; /* keep content from overflowing */
+
+      span {
+        white-space: nowrap;
       }
     }
   }
@@ -115,5 +130,23 @@
     font-weight: 500;
     text-align: left;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  }
+}
+/* STEAL BUTTON */
+.steal-btn {
+  margin-top: 25px;
+  align-self: center;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #4caf50; // match your other buttons
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #3e8e41;
   }
 }

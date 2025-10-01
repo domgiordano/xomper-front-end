@@ -4,17 +4,29 @@
   <!-- League Card -->
   <div class="league-container">
     <div class="league-header">
-      <img [src]="leaguePicture ? leaguePicture : 'assets/img/nfl.png'" (error)="leaguePicture='assets/img/nfl.png'"
-        alt="League Picture" class="league-pic">
+      <img
+        [src]="leaguePicture ? leaguePicture : 'assets/img/sleeper.jpeg'"
+        (error)="leaguePicture = 'assets/img/sleeper.jpeg'"
+        alt="League Picture"
+        class="league-pic"
+      />
       <h1 class="league-name">{{ leagueName }}</h1>
     </div>
 
     <!-- Tabs -->
     <div class="tab-container">
-      <button class="tab-button" [ngClass]="{ 'active': activeTab === 'standings' }" (click)="setTab('standings')">
+      <button
+        class="tab-button"
+        [ngClass]="{ active: activeTab === 'standings' }"
+        (click)="setTab('standings')"
+      >
         Standings
       </button>
-      <button class="tab-button" [ngClass]="{ 'active': activeTab === 'matchups' }" (click)="setTab('matchups')">
+      <button
+        class="tab-button"
+        [ngClass]="{ active: activeTab === 'matchups' }"
+        (click)="setTab('matchups')"
+      >
         Matchups
       </button>
     </div>
@@ -24,12 +36,20 @@
       <!-- Toggle Buttons (League vs Divisions) -->
       <div class="switch-container">
         <div class="view-buttons">
-          <button class="view-button" [ngClass]="{'selected': viewMode === 'league'}" (click)="viewMode = 'league'">
+          <button
+            class="view-button"
+            [ngClass]="{ selected: viewMode === 'league' }"
+            (click)="viewMode = 'league'"
+          >
             League
           </button>
           <!-- Only show Divisions button if league has divisions -->
-          <button *ngIf="standings[0].hasDivision()" class="view-button"
-            [ngClass]="{'selected': viewMode === 'division'}" (click)="viewMode = 'division'">
+          <button
+            *ngIf="standings[0].hasDivision()"
+            class="view-button"
+            [ngClass]="{ selected: viewMode === 'division' }"
+            (click)="viewMode = 'division'"
+          >
             Divisions
           </button>
         </div>
@@ -37,7 +57,6 @@
 
       <!-- Standings -->
       <div class="standings">
-
         <!-- League View -->
         <ng-container *ngIf="viewMode === 'league'">
           <div class="standings-header">
@@ -49,29 +68,48 @@
             <span>Streak</span>
             <span>FPTS For</span>
             <span>FPTS Against</span>
-            <span></span> <!-- Empty column for button -->
+            <span></span>
+            <!-- Empty column for button -->
           </div>
 
-          <div class="standings-row" *ngFor="let team of standings; let i = index"
-            [ngClass]="{ 'playoff-divider': i + 1 === leaguePlayoffTeams }">
-            <span class="rank-number" [ngClass]="{'gold': i === 0, 'silver': i === 1, 'bronze': i === 2}">
+          <div
+            class="standings-row"
+            *ngFor="let team of standings; let i = index"
+            [ngClass]="{ 'playoff-divider': i + 1 === leaguePlayoffTeams }"
+          >
+            <span
+              class="rank-number"
+              [ngClass]="{ gold: i === 0, silver: i === 1, bronze: i === 2 }"
+            >
               {{ i + 1 }}
             </span>
             <div class="team-info">
-              <img [src]="team.avatar" class="team-pic" alt="Team Avatar">
+              <img [src]="team.avatar" class="team-pic" alt="Team Avatar" />
               <span class="team-name">{{ team.teamName }}</span>
             </div>
-            <span class="user-name clickable" title="View Profile" (click)="goToUserProfile(team.user.user_id)">
+            <span
+              class="user-name clickable"
+              title="View Profile"
+              (click)="goToUserProfile(team.user.user_id)"
+            >
               {{ team.userName }}
             </span>
             <span>{{ team.wins }}</span>
             <span>{{ team.losses }}</span>
-            <span [ngClass]="{'win-streak': team.streak.type==='win', 'loss-streak': team.streak.type==='loss'}">
-              {{ team.streak.type==='win' ? 'W' : 'L' }}{{ team.streak.total }}
+            <span
+              [ngClass]="{
+                'win-streak': team.streak.type === 'win',
+                'loss-streak': team.streak.type === 'loss'
+              }"
+            >
+              {{ team.streak.type === 'win' ? 'W' : 'L'
+              }}{{ team.streak.total }}
             </span>
             <span>{{ team.fpts.toFixed(2) }}</span>
             <span>{{ team.fptsAgainst.toFixed(2) }}</span>
-            <button class="team-more-btn" (click)="selectCurrentTeam(team)">More</button>
+            <button class="team-more-btn" (click)="selectCurrentTeam(team)">
+              More
+            </button>
           </div>
         </ng-container>
 
@@ -79,8 +117,11 @@
         <ng-container *ngIf="viewMode === 'division'">
           <div *ngFor="let division of standingsByDivision | keyvalue">
             <div class="division-header">
-              <img [src]="division.value[0].divisionAvatar || 'assets/img/nfl.png'" class="division-pic"
-                alt="{{ division.key }}">
+              <img
+                [src]="division.value[0].divisionAvatar || 'assets/img/nfl.png'"
+                class="division-pic"
+                alt="{{ division.key }}"
+              />
               <h2 class="division-title">{{ division.key }}</h2>
             </div>
 
@@ -93,28 +134,47 @@
               <span>Streak</span>
               <span>FPTS For</span>
               <span>FPTS Against</span>
-              <span></span> <!-- Empty column for button -->
+              <span></span>
+              <!-- Empty column for button -->
             </div>
 
-            <div class="standings-row" *ngFor="let team of division.value; let i = index">
-              <span class="rank-number" [ngClass]="{'gold': i === 0, 'silver': i === 1, 'bronze': i === 2}">
+            <div
+              class="standings-row"
+              *ngFor="let team of division.value; let i = index"
+            >
+              <span
+                class="rank-number"
+                [ngClass]="{ gold: i === 0, silver: i === 1, bronze: i === 2 }"
+              >
                 {{ i + 1 }}
               </span>
               <div class="team-info">
-                <img [src]="team.avatar" class="team-pic" alt="Team Avatar">
+                <img [src]="team.avatar" class="team-pic" alt="Team Avatar" />
                 <span class="team-name">{{ team.teamName }}</span>
               </div>
-              <span class="user-name clickable" title="View Profile" (click)="goToUserProfile(team.user.user_id)">
+              <span
+                class="user-name clickable"
+                title="View Profile"
+                (click)="goToUserProfile(team.user.user_id)"
+              >
                 {{ team.userName }}
               </span>
               <span>{{ team.wins }}</span>
               <span>{{ team.losses }}</span>
-              <span [ngClass]="{'win-streak': team.streak.type==='win', 'loss-streak': team.streak.type==='loss'}">
-                {{ team.streak.type==='win' ? 'W' : 'L' }}{{ team.streak.total }}
+              <span
+                [ngClass]="{
+                  'win-streak': team.streak.type === 'win',
+                  'loss-streak': team.streak.type === 'loss'
+                }"
+              >
+                {{ team.streak.type === 'win' ? 'W' : 'L'
+                }}{{ team.streak.total }}
               </span>
               <span>{{ team.fpts.toFixed(2) }}</span>
               <span>{{ team.fptsAgainst.toFixed(2) }}</span>
-              <button class="team-more-btn" (click)="selectCurrentTeam(team)">More</button>
+              <button class="team-more-btn" (click)="selectCurrentTeam(team)">
+                More
+              </button>
             </div>
           </div>
         </ng-container>
@@ -125,20 +185,33 @@
     <ng-container *ngIf="activeTab === 'matchups'">
       <!-- Week Selector -->
       <div class="week-selector">
-        <button *ngFor="let week of weeks" class="week-bubble" [ngClass]="{ 'selected': week === selectedWeek }"
-          (click)="setWeek(week)">
+        <button
+          *ngFor="let week of weeks"
+          class="week-bubble"
+          [ngClass]="{ selected: week === selectedWeek }"
+          (click)="setWeek(week)"
+        >
           {{ week }}
         </button>
       </div>
       <div class="matchups-grid">
-        <div *ngFor="let matchup of matchupsGrouped" class="matchup-card" (click)="openMatchupModal(matchup, $event)">
-
+        <div
+          *ngFor="let matchup of matchupsGrouped"
+          class="matchup-card"
+          (click)="openMatchupModal(matchup, $event)"
+        >
           <!-- Team A -->
           <div class="team-card" [ngClass]="matchup.teamA.highlight">
-            <img class="team-pic" [src]="matchup.teamA.avatar" alt="{{ matchup.teamA.teamName }}">
+            <img
+              class="team-pic"
+              [src]="matchup.teamA.avatar"
+              alt="{{ matchup.teamA.teamName }}"
+            />
             <div class="team-name">{{ matchup.teamA.teamName }}</div>
             <div class="team-user">{{ matchup.teamA.userName }}</div>
-            <div class="team-record">{{ matchup.teamA.wins }}-{{ matchup.teamA.losses }}</div>
+            <div class="team-record">
+              {{ matchup.teamA.wins }}-{{ matchup.teamA.losses }}
+            </div>
             <div class="team-points">{{ matchup.teamA.points }} pts</div>
           </div>
 
@@ -146,23 +219,29 @@
 
           <!-- Team B -->
           <div class="team-card" [ngClass]="matchup.teamB.highlight">
-            <img class="team-pic" [src]="matchup.teamB.avatar" alt="{{ matchup.teamB.teamName }}">
+            <img
+              class="team-pic"
+              [src]="matchup.teamB.avatar"
+              alt="{{ matchup.teamB.teamName }}"
+            />
             <div class="team-name">{{ matchup.teamB.teamName }}</div>
             <div class="team-user">{{ matchup.teamB.userName }}</div>
-            <div class="team-record">{{ matchup.teamB.wins }}-{{ matchup.teamB.losses }}</div>
+            <div class="team-record">
+              {{ matchup.teamB.wins }}-{{ matchup.teamB.losses }}
+            </div>
             <div class="team-points">{{ matchup.teamB.points }} pts</div>
           </div>
-
         </div>
       </div>
     </ng-container>
   </div>
 </div>
 
-<app-matchup-modal 
+<app-matchup-modal
   *ngIf="selectedMatchup"
   [matchup]="selectedMatchup"
   [week]="selectedWeek"
   [startPos]="modalStart"
-  (close)="selectedMatchup = null">
+  (close)="selectedMatchup = null"
+>
 </app-matchup-modal>
