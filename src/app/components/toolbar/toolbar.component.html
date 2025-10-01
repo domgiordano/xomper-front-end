@@ -1,24 +1,52 @@
-<div class="toolbar" [ngClass]="{'show-dropdown': dropdownVisible}">
+<div class="toolbar" [ngClass]="{ 'show-dropdown': dropdownVisible }">
   <h2 class="app-title">
-    <img class="banner-icon" src="assets/img/xomper-banner.jpg" alt="spotify image" >
+    <img
+      class="banner-icon"
+      src="assets/img/xomper-banner.jpg"
+      alt="spotify image"
+    />
   </h2>
 
-  <div class="tabs" [ngClass]="{'hidden': dropdownVisible}">
+  <div class="tabs" [ngClass]="{ hidden: dropdownVisible }">
     <div>
-      <a routerLink="/home" routerLinkActive="active" [ngClass]="{'selected': isSelected('/home')}">
+      <a
+        routerLink="/home"
+        routerLinkActive="active"
+        [ngClass]="{ selected: isSelected('/home') }"
+      >
         Home
       </a>
       <ng-container *ngIf="isLoggedIn()">
-        <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-profile')}">
+        <a
+          routerLink="/my-profile"
+          [queryParams]="{ userId: userId }"
+          routerLinkActive="active"
+          [ngClass]="{ selected: isSelected('/my-profile') }"
+        >
           My Profile
         </a>
-        <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId, view: 'league' }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-league')}">
+        <a
+          routerLink="/my-league"
+          [queryParams]="{ leagueId: leagueId, view: 'league' }"
+          routerLinkActive="active"
+          [ngClass]="{ selected: isSelected('/my-league') }"
+        >
           My League
         </a>
-        <a routerLink="/taxi-squad" [queryParams]="{ user: teamUserName, league: teamLeagueId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/my-team')}">
+        <a
+          routerLink="/my-team"
+          [queryParams]="{ user: teamUserName, league: teamLeagueId }"
+          routerLinkActive="active"
+          [ngClass]="{ selected: isSelected('/my-team') }"
+        >
           My Team
         </a>
-        <a routerLink="/taxi-squad" [queryParams]="{ league: leagueId }" routerLinkActive="active" [ngClass]="{'selected': isSelected('/taxi-squad')}">
+        <a
+          routerLink="/taxi-squad"
+          [queryParams]="{ league: leagueId }"
+          routerLinkActive="active"
+          [ngClass]="{ selected: isSelected('/taxi-squad') }"
+        >
           Taxi Squad
         </a>
       </ng-container>
@@ -26,17 +54,44 @@
   </div>
 
   <!-- Dropdown Button -->
-  <div class="dropdown-button" (click)="toggleDropdown()">
-    ☰
-  </div>
+  <div class="dropdown-button" (click)="toggleDropdown()">☰</div>
 
   <div class="dropdown" *ngIf="dropdownVisible">
-    <a routerLink="/home" routerLinkActive="active" (click)="selectItem('/home')">Home</a>
+    <a
+      routerLink="/home"
+      routerLinkActive="active"
+      (click)="selectItem('/home')"
+      >Home</a
+    >
     <ng-container *ngIf="isLoggedIn()">
-      <a routerLink="/my-profile" [queryParams]="{ userId: userId }" routerLinkActive="active" (click)="selectItem('/my-profile')">My Profile</a>
-      <a routerLink="/my-league" [queryParams]="{ leagueId: leagueId, view: 'league' }" routerLinkActive="active" (click)="selectItem('/my-league')">My League</a>
-      <a routerLink="/my-team" [queryParams]="{ user: teamUserName, league: teamLeagueId }" routerLinkActive="active" (click)="selectItem('/my-team')">My Team</a>
-      <a routerLink="/taxi-squad" [queryParams]="{ league: leagueId }" routerLinkActive="active" (click)="selectItem('/taxi-squad')">Taxi Squad</a>
+      <a
+        routerLink="/my-profile"
+        [queryParams]="{ userId: userId }"
+        routerLinkActive="active"
+        (click)="selectItem('/my-profile')"
+        >My Profile</a
+      >
+      <a
+        routerLink="/my-league"
+        [queryParams]="{ leagueId: leagueId, view: 'league' }"
+        routerLinkActive="active"
+        (click)="selectItem('/my-league')"
+        >My League</a
+      >
+      <a
+        routerLink="/my-team"
+        [queryParams]="{ user: teamUserName, league: teamLeagueId }"
+        routerLinkActive="active"
+        (click)="selectItem('/my-team')"
+        >My Team</a
+      >
+      <a
+        routerLink="/taxi-squad"
+        [queryParams]="{ league: leagueId }"
+        routerLinkActive="active"
+        (click)="selectItem('/taxi-squad')"
+        >Taxi Squad</a
+      >
     </ng-container>
   </div>
 </div>
