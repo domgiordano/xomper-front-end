@@ -14,6 +14,7 @@ function candidate(name: string, position = 'RB'): DraftCandidate {
     name,
     position,
     value: 100,
+    surplus: 100,
     score: 100,
     reason: '',
     liked: false,

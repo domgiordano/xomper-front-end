@@ -115,7 +115,10 @@ describe('DraftAssistantService', () => {
     const board = service.suggest([], PLAYERS, book(), prefs({ preset: 'rb-heavy' }), 'me')
 
     expect(board[0].playerId).toBe('rb1')
-    expect(board.find((c) => c.playerId === 'wr1')?.reason).toBe('Best available')
+    // Roster awareness applies to every preset now, not only "fill my
+    // needs" -- a board that ignores your roster is a ranking, not a
+    // recommendation.
+    expect(board.find((c) => c.playerId === 'wr1')?.reason).toBe('No WR yet')
   })
 
   it('counts only my own picks when working out needs', () => {
@@ -129,7 +132,7 @@ describe('DraftAssistantService', () => {
   it('weights positions I am short of under the needs preset', () => {
     const board = service.suggest([], PLAYERS, book(), prefs({ preset: 'needs' }), 'me')
 
-    expect(board[0].reason).toBe('You need RB')
+    expect(board[0].reason).toBe('No RB yet')
   })
 
   it('stops weighting a position once I have enough', () => {
@@ -276,5 +279,224 @@ describe('DraftAssistantService availability in a keeper league', () => {
     const board = service.suggest([], playerMap, book, prefs, null, 25, new Set())
 
     expect(board.map((c) => c.playerId)).toEqual(['p1', 'p2', 'p3'])
+  })
+})
+
+/**
+ * "it also kept recommending qbs when i already had one. thats not helpful."
+ *
+ * Two independent causes: TARGET_COUNTS hardcoded two QBs regardless of the
+ * lineup, and only the "needs" preset applied any positional weighting at
+ * all, so the default board was roster-blind.
+ *
+ * The fix is the standard one -- value over replacement, where replacement is
+ * the best player left once every team has filled its starting slots.
+ */
+import { leagueShape } from './draft-assistant.service'
+
+describe('leagueShape', () => {
+  it('counts the starters a league actually uses', () => {
+    const shape = leagueShape(['QB', 'RB', 'RB', 'WR', 'WR', 'TE', 'BN', 'BN'], 12)
+
+    expect(shape.starters['QB']).toBe(1)
+    expect(shape.starters['RB']).toBe(2)
+    expect(shape.teams).toBe(12)
+  })
+
+  it('ignores bench, IR and taxi slots', () => {
+    const shape = leagueShape(['QB', 'BN', 'BN', 'IR', 'TAXI'], 10)
+
+    expect(shape.starters['QB']).toBe(1)
+    expect(shape.starters['RB']).toBe(0)
+  })
+
+  it('shares a flex across the positions that can fill it', () => {
+    const shape = leagueShape(['FLEX'], 12)
+
+    // One flex is a third of an RB, WR and TE slot each -- which is how it
+    // moves replacement level.
+    expect(shape.starters['RB']).toBeCloseTo(1 / 3)
+    expect(shape.starters['WR']).toBeCloseTo(1 / 3)
+    expect(shape.starters['QB']).toBe(0)
+  })
+
+  it('gives superflex a share of QB', () => {
+    const shape = leagueShape(['SUPER_FLEX'], 12)
+
+    // The whole reason superflex prices quarterbacks differently.
+    expect(shape.starters['QB']).toBeGreaterThan(0)
+  })
+
+  it('survives a league with no roster positions', () => {
+    const shape = leagueShape(null, 12)
+
+    expect(shape.starters['QB']).toBe(0)
+    expect(shape.teams).toBe(12)
+  })
+
+  it('never reports zero teams', () => {
+    expect(leagueShape(['QB'], 0).teams).toBe(1)
+  })
+
+  it('handles the real CLIT lineup', () => {
+    const shape = leagueShape(
+      ['QB','RB','RB','WR','WR','TE','FLEX','FLEX','K','DEF','BN','BN','BN','BN','BN','BN'],
+      12,
+    )
+
+    // One QB started, so the second quarterback is a bench player.
+    expect(shape.starters['QB']).toBe(1)
+    expect(shape.starters['RB']).toBeCloseTo(2 + 2 / 3)
+  })
+})
+
+describe('DraftAssistantService roster awareness', () => {
+  const ONE_QB = leagueShape(['QB', 'RB', 'RB', 'WR', 'WR', 'TE', 'FLEX'], 12)
+
+  /** A pool deep enough for replacement level to mean something. */
+  function deepBook() {
+    const ids: string[] = []
+    const values: Record<string, number> = {}
+    const positions: Record<string, string> = {}
+    for (const [pos, top] of [['QB', 100], ['RB', 96], ['WR', 94], ['TE', 80]] as const) {
+      for (let i = 1; i <= 40; i++) {
+        const id = `${pos}${i}`
+        ids.push(id)
+        // QBs stay bunched, the rest fall away -- the actual shape of the
+        // positions, and the whole reason replacement level differs.
+        values[id] = pos === 'QB' ? top - i * 1.2 : top - i * 1.9
+        positions[id] = pos
+      }
+    }
+    return {
+      playerIds: ids,
+      value: (id: string) => ({ known: values[id] !== undefined, value: values[id] ?? 0 }),
+      position: (id: string) => positions[id],
+    }
+  }
+
+  function meta() {
+    const out: Record<string, { position: string; first_name: string; last_name: string }> = {}
+    for (const [pos] of [['QB'], ['RB'], ['WR'], ['TE']] as const) {
+      for (let i = 1; i <= 40; i++) {
+        out[`${pos}${i}`] = { position: pos, first_name: pos, last_name: String(i) }
+      }
+    }
+    return out
+  }
+
+  function pick(playerId: string, userId: string) {
+    return { player_id: playerId, picked_by: userId } as never
+  }
+
+  const prefs = { preset: 'bpa' as const, likes: new Set<string>(), dislikes: new Set<string>() }
+  let service: DraftAssistantService
+
+  beforeEach(() => (service = new DraftAssistantService()))
+
+  it('stops pushing QBs once the one starting slot is filled', () => {
+    const board = service.suggest(
+      [pick('QB1', 'me')] as never,
+      meta() as never,
+      deepBook() as never,
+      prefs,
+      'me',
+      10,
+      new Set(),
+      ONE_QB,
+    )
+
+    // The exact complaint: one QB rostered in a one-QB league, and the board
+    // kept leading with another.
+    expect(board[0].position).not.toBe('QB')
+  })
+
+  it('says why a filled position dropped', () => {
+    const board = service.suggest(
+      [pick('QB1', 'me')] as never,
+      meta() as never,
+      deepBook() as never,
+      prefs,
+      'me',
+      160,
+      new Set(),
+      ONE_QB,
+    )
+
+    expect(board.find((c) => c.position === 'QB')?.reason).toBe('QB done')
+  })
+
+  it('still recommends a QB when you have none', () => {
+    const board = service.suggest([], meta() as never, deepBook() as never, prefs, 'me', 160, new Set(), ONE_QB)
+
+    expect(board.some((c) => c.position === 'QB')).toBe(true)
+  })
+
+  it('ranks a second QB below anything you would start', () => {
+    const board = service.suggest(
+      [pick('QB1', 'me')] as never,
+      meta() as never,
+      deepBook() as never,
+      prefs,
+      'me',
+      160,
+      new Set(),
+      ONE_QB,
+    )
+    const bestQb = board.find((c) => c.position === 'QB')!
+    // Startable means worth more than the last man your league starts at his
+    // position; below that you are choosing between waiver bodies.
+    const startable = board.filter((c) => c.position !== 'QB' && c.surplus > 0)
+
+    // "2nd qb shouldnt outrank anythign really. maybe defense or kciker"
+    expect(startable.length).toBeGreaterThan(20)
+    expect(bestQb.score).toBeLessThan(Math.min(...startable.map((c) => c.score)))
+  })
+
+  it('does not bury a position entirely', () => {
+    const board = service.suggest(
+      [pick('QB1', 'me')] as never,
+      meta() as never,
+      deepBook() as never,
+      prefs,
+      'me',
+      160,
+      new Set(),
+      ONE_QB,
+    )
+
+    // Injuries happen and an elite one is still worth taking; "you have a QB"
+    // must not become "never take a QB".
+    expect(board.some((c) => c.position === 'QB')).toBe(true)
+  })
+
+  it('prices a bunched position below a scarce one', () => {
+    const board = service.suggest([], meta() as never, deepBook() as never, prefs, 'me', 5, new Set(), ONE_QB)
+
+    // QBs are bunched, so the best one is worth little over the twelfth. RBs
+    // fall away, so the best one is worth a lot over his replacement.
+    expect(board[0].position).not.toBe('QB')
+  })
+
+  it('reports surplus over replacement, not raw value', () => {
+    const board = service.suggest([], meta() as never, deepBook() as never, prefs, 'me', 160, new Set(), ONE_QB)
+    const qb = board.find((c) => c.position === 'QB')!
+
+    expect(qb.surplus).toBeLessThan(qb.value)
+  })
+
+  it('counts only my own picks toward my roster', () => {
+    const board = service.suggest(
+      [pick('QB1', 'someone-else')] as never,
+      meta() as never,
+      deepBook() as never,
+      prefs,
+      'me',
+      160,
+      new Set(),
+      ONE_QB,
+    )
+
+    expect(board.find((c) => c.position === 'QB')?.reason).toBe('No QB yet')
   })
 })
