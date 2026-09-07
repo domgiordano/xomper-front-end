@@ -39,6 +39,8 @@ import {
   DraftAssistantService,
   DraftCandidate,
   emptyPrefs,
+  leagueShape,
+  LeagueShape,
   STRATEGY_LABELS,
   StrategyPreset,
 } from 'src/app/services/draft-assistant.service'
@@ -441,6 +443,20 @@ export class DraftLiveComponent implements OnInit {
       .map(([position, teams]) => `${teams} need ${position}`)
   }
 
+  /**
+   * The lineup this league starts, which sets replacement level.
+   *
+   * Read from the league rather than assumed: a one-QB league and a superflex
+   * price quarterbacks completely differently.
+   */
+  private get leagueShape(): LeagueShape {
+    const league = this.leagueService.getMyLeague()
+    return leagueShape(
+      league?.getRosterPositions?.() ?? null,
+      league?.total_rosters ?? 12,
+    )
+  }
+
   /** Re-rank against the picks seen so far. Cheap enough to run per poll. */
   private refreshBoard(): void {
     if (!this.book) return
@@ -452,6 +468,7 @@ export class DraftLiveComponent implements OnInit {
       this.mySleeperUserId,
       25,
       this.assistant.rosteredIds(this.rosters),
+      this.leagueShape,
     )
   }
 
